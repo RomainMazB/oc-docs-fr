@@ -1,29 +1,30 @@
 # AJAX Extra features
 
-- [Loading indicator](#loader-stripe)
-- [Form validation](#ajax-validation)
-    - [Throwing a validation error](#throw-validation-exception)
-    - [Displaying error messages](#error-messages)
-    - [Displaying errors with fields](#field-errors)
-- [Loading button](#loader-button)
-- [Flash messages](#ajax-flash)
-- [Usage example](#usage-example)
+- [Indicateur de chargement](#loader-stripe)
+- [Validation de formulaire](#ajax-validation)
+    - [Émettre une erreur de validation](#throw-validation-exception)
+    - [Afficher les messages d'erreurs](#error-messages)
+    - [Afficher les erreurs avec les champs](#field-errors)
+- [Bouton de chargement](#loader-button)
+- [Message Flash](#ajax-flash)
+- [Exemples d'utilisation](#usage-example)
 
-When using the AJAX framework, you have the option to specify the **extras** suffix which includes additional StyleSheet and JavaScript files. These features are useful when working with AJAX requests in front-end CMS pages.
+Lorsque vous utiliser le framework AJAX, vous devez définir le suffixe d'option **extras** qui intègre les feuilles de styles et scripts additionnels. Ces fonctionnalités sont très utiles lorsque vous utilisez AJAX sur la partie frontend du site.
 
     {% framework extras %}
 
 <a name="loader-stripe"></a>
-## Loading indicator
+## Indicateur de chargement
 
-The first feature you should notice is a loading indicator that is displayed on the top of the page when an AJAX request runs. The indicator hooks in to [global events](../ajax/javascript-api#global-events) used by the AJAX framework.
+La première fonctionnalité que vous devriez remarquer est l'indicateur de chargement affiché en haut de la page lorsqu'une requête AJAX est en attente. L'indicateur observent les [évènement globaux](../ajax/javascript-api#global-events) utilisé par le framework AJAX.
+The first feature you should notice is a loading indicator that is displayed on the top of the page when an AJAX request runs. The indicator hooks in to [global events used by the AJAX framework.
 
-When an AJAX request starts the `ajaxPromise` event is fired that displays the indicator and puts the mouse cursor in a loading state. The `ajaxFail` and `ajaxDone` events are used to detect when the request finishes, where the indicator is hidden again.
+Lorsqu'une requête AJAX est envoyé, l'évènement `ajaxPromise` est émis, ce qui affiche l'indicateur de chargement et met le curseur de la souris en état de chargement. Les évènements `ajaxFail` et `ajaxDone` sont utilisés pour détecter la fin de la requête, c'est à ce moment que l'indicateur disparaît.
 
 <a name="ajax-validation"></a>
-## Form validation
+## Validation de formulaire
 
-You may specify the `data-request-validate` attribute on a form to enable validation features.
+Vous devez définir l'attribut `data-request-validate` sur un formulaire pour activer la fonctionnalité de validation.
 
     <form
         data-request="onSubmit"
@@ -32,31 +33,30 @@ You may specify the `data-request-validate` attribute on a form to enable valida
     </form>
 
 <a name="throw-validation-exception"></a>
-### Throwing a validation error
+### Émettre une erreur de validation
 
-In the server side AJAX handler you may throw a [validation exception](../services/error-log#validation-exception) using the `ValidationException` class to make a field invalid, where the first argument is an array. The array should use field names for the keys and the error messages for the values.
+Dans la méthode PHP qui reçois la requête AJAX, vous devez émettre une [exception de validation](../services/error-log#validation-exception) en utilisant la classe `ValidationException` pour déterminer qu'un champs est invalide, dans laquelle le premier argument est un tableau. Le tableau doit utiliser le nom des champs en tant que clé, et les messages d'errurs pour valeurs.
 
     function onSubmit()
     {
-        throw new ValidationException(['name' => 'You must give a name!']);
+        throw new ValidationException(['name' => 'Vous devez saisir un nom!']);
     }
 
-> **Note**: You can also pass an instance of the [validation service](../services/validation) as the first argument of the exception.
+> **Note**: Vous pouvez aussi passer une instance du [service de validation](../services/validation) comme premier paramètre de l'exception.
 
 <a name="error-messages"></a>
-### Displaying error messages
+### Afficher les messages d'erreurs
 
-Inside the form, you may display the first error message by using the `data-validate-error` attribute on a container element. The content inside the container will be set to the error message and the element will be made visible.
+Dans un formulaire, vous pouvez afficher le premier message d'erreur en utilisant l'attribut ` data-validate-error` sur un élément conteneur. Le contenu de l'élément sera rempli par le message d'erreur et l'élément sera rendu visible.
 
     <div data-validate-error></div>
-
-To display multiple error messages, include an element with the `data-message` attribute. In this example the paragraph tag will be duplicated and set with content for each message that exists.
+Pour afficher plusieurs messages d'erreur, intégrez un élément avec l'attribut `data-message`. Dans cette exemple, le paragraphe sera dupliqué et remplis à chaque message d'erreur retourné.
 
     <div class="alert alert-danger" data-validate-error>
         <p data-message></p>
     </div>
 
-To add custom classes on AJAX invalidation, hook into the `ajaxInvalidField` and `ajaxPromise` JS events.
+Pour ajouter des classes CSS lorsqu'une erreur de validation est retournée par AJAX, écoutez les évènements JavaScript `ajaxInvalidField` et `ajaxPromise`.
 
     $(window).on('ajaxInvalidField', function(event, fieldElement, fieldName, errorMsg, isFirst) {
         $(fieldElement).closest('.form-group').addClass('has-error');
@@ -67,30 +67,30 @@ To add custom classes on AJAX invalidation, hook into the `ajaxInvalidField` and
     });
 
 <a name="field-errors"></a>
-### Displaying errors with fields
+### Afficher les messages d'erreur avec les champs
 
-Alternatively, you can show validation messages for individual fields by defining an element that uses the `data-validate-for` attribute, passing the field name as the value.
+Vous pouvez aussi afficher des messages d'erreur individuel pour chaque champs en créant un élément qui utilise l'attribut `data-validate-for` et en renseignant le nom du champs comme valeur.
 
-    <!-- Input field -->
+    <!-- Champs de saisie -->
     <input name="phone" />
 
-    <!-- Validation message for the field -->
+    <!-- Message de validation du champs de saisie -->
     <div data-validate-for="phone"></div>
 
-If the element is left empty, it will be populated with the validation text from the server. Otherwise you can specify any text you like and it will be displayed instead.
+Si l'élément est laissé vide, il sera remplis par le message d'erreur retourné par le serveur. Sinon vous pouvez définir directement un texte de votre choix qui sera affiché.
 
     <div data-validate-for="phone">
-        Oops.. phone number is invalid!
+        Oops.. Le numéro de téléphone est incorrect!
     </div>
 
 <a name="loader-button"></a>
-## Loading button
+## Bouton de chargement
 
-When any element contains the `data-attach-loading` attribute, the CSS class `oc-loading` will be added to it during the AJAX request. This class will spawn a *loading spinner* on button and anchor elements using the `:after` CSS selector.
+Lorsque n'importe quel élément a l'attribut `data-attach-loading`, la classe CSS `oc-loading` lui sera ajouté durant la requête AJAX. Cette classe ajoutes un *logo de chargement* et verrouille le bouton à l'aide du pseudo élément CSS `:after`.
 
     <form data-request="onSubmit">
         <button data-attach-loading>
-            Submit
+            Envoyer
         </button>
     </form>
 
@@ -98,13 +98,13 @@ When any element contains the `data-attach-loading` attribute, the CSS class `oc
         href="#"
         data-request="onDoSomething"
         data-attach-loading>
-        Do something
+        Faire quelque chose
     </a>
 
 <a name="ajax-flash"></a>
-## Flash messages
+## Messages Flash
 
-Specify the `data-request-flash` attribute on a form to enable the use of flash messages on successful AJAX requests.
+Définissez l'attribut `data-request-flash` sur un formulaire pour activer l'utilisation de messages Flash au succès des requêtes AJAX. 
 
     <form
         data-request="onSuccess"
@@ -112,14 +112,14 @@ Specify the `data-request-flash` attribute on a form to enable the use of flash 
         <!-- ... -->
     </form>
 
-Combined with use of the `Flash` facade in the event handler, a flash message will appear after the request finishes.
+Combiné à l'utilisation de la façade `Flash` dans la méthode PHP, un message flash apparaîtras lorsque la requête est terminée.
 
     function onSuccess()
     {
-        Flash::success('You did it!');
+        Flash::success('Vous avez réussi!');
     }
 
-To remain consistent with AJAX based flash messages, you can render a [standard flash message](../markup/tag-flash) when the page loads by placing this code in your page or layout.
+Pour conserver un aspect similaire sur tout le site pour vos messages flash, vous pouvez afficher un [message flash standard](../markup/tag-flash) en plaçant simplement ce code sur votre page, ou layout.
 
     {% flash %}
         <p
@@ -131,9 +131,9 @@ To remain consistent with AJAX based flash messages, you can render a [standard 
     {% endflash %}
 
 <a name="usage-example"></a>
-## Usage example
+## Exemples d'utilisation
 
-Below is a complete example of form validation. It calls the `onDoSomething` event handler that triggers a loading submit button, performs validation on the form fields, then displays a successful flash message.
+Ci-dessous un exemple complet de validation de formulaire. Il appelle la méthode `onDoSomething` qui active l'état de chargement du bouton, effectue la validation des champs du formulaire, puis retourne et affiche un message flash.
 
     <form
         data-request="onDoSomething"
@@ -160,7 +160,7 @@ Below is a complete example of form validation. It calls the `onDoSomething` eve
 
     </form>
 
-The AJAX event handler looks at the POST data sent by the client and applies some rules to the validator. If the validation fails, a `ValidationException` is thrown, otherwise a `Flash::success` message is returned.
+La méthode PHP regarde les données `POST` transmise par le navigateur et vérifies les règles du validateur. Si la validation échoues, une exception `ValidationException` est émise, sinon un message `Flash::success` est retourné. 
 
     function onDoSomething()
     {
