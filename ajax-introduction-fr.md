@@ -1,74 +1,88 @@
-# AJAX Getting Started
+# Débuter avec AJAX
 
 - [Introduction](#introduction)
-- [Including the framework](#framework-script)
-- [How AJAX requests work](#how-ajax-works)
-- [Usage example](#usage-example)
+
+- [Intégrer le framework](#framework-script)
+
+- [Comment fonctionne les requêtes AJAX](#how-ajax-works)
+
+- [Exemples d'utilisation](#usage-example)
 
 <a name="introduction"></a>
+
 ## Introduction
 
-October includes a framework that brings a full suite of AJAX capabilities which allow you to load data from the server without a browser page refresh. The same library can be used in [CMS themes](../cms/themes) and anywhere in the [back-end administration area](../backend/controllers-ajax#ajax).
+October intègre un framework qui apporte une suite complète de fonctionnalités AJAX qui vous permet de charger des données depuis le serveur sans rafraîchissement de la page. La même libraire peut être utilisée depuis depuis un [theme](../cms/themes) et n'importe où dans le [panneau d'administration](../backend/controllers-ajax#ajax).
 
-The AJAX framework comes in two flavors, you may either use [the JavaScript API](../ajax/javascript-api) or [the data attributes API](../ajax/attributes-api). The data attributes API doesn't require any JavaScript knowledge to use AJAX with October.
+Le framework AJAX existe en deux versions, vous pouvez autant utiliser [L'API JavaScript](../ajax/javascript-api) out [l'API des attributs de données](../ajax/attributes-api). L'API des attributs de données ne nécessite aucune connaissance JavaScript pour utiliser AJAX avec OctoberCMS.
 
 <a name="framework-script"></a>
-## Including the framework
 
-The AJAX framework is optional in your [CMS theme](../cms/themes), to use the library you should include it by placing the `{% framework %}` tag anywhere inside your [page](../cms/pages) or [layout](../cms/layouts). This adds a reference to the October front-end JavaScript library. The library requires jQuery so it should be loaded first, for example:
+## Intégrer le framework
+Le framework AJAX est optionnel dans votre [theme](../cms/themes), pour utiliser la librairie, vous devez l'intégrer en plaçant la syntaxe `{% framework %}` n'importe où dans votre [page](../cms/pages) ou [layout](../cms/layouts). Cela intègres la librairie JavaScript front-end. La librairie requiert jQuery, vous devez donc l'intégrer avant, par exemple :
+```html
+<script src="{{ 'assets/javascript/jquery.js'|theme }}"></script>
 
-    <script src="{{ 'assets/javascript/jquery.js'|theme }}"></script>
-
-    {% framework %}
-
-The `{% framework %}` tag supports the optional **extras** parameter. If this parameter is specified, the tag adds StyleSheet and JavaScript files for [extra features](../ajax/extras), including form validation and loading indicators.
-
-    {% framework extras %}
-
+{% framework %}
+```
+La syntaxe `{% framework %}` supportes le paramètre **extras**. Si ce paramètre est mentionné, cela integreras les feuilles de styles et fichiers JavaScript pour les [fonctionnalités supplémentaires](../ajax/extras), comme la validation de formulaire ou l'indicateur de chargement.
+```html
+{% framework extras %}
+```
 <a name="how-ajax-works"></a>
-## How AJAX requests work
 
-A page can issue an AJAX request either prompted by data attributes or by using JavaScript. Each request invokes an **event handler** -- also called an [AJAX handler](../ajax/handlers) -- on the server and can update page elements using partials. AJAX requests work best with forms, since the form data is automatically sent to the server. Here is request workflow:
+## Comment fonctionnent les requêtes AJAX
 
-1. The client browser issues an AJAX request by providing the handler name and other optional parameters.
-2. The server finds the [AJAX handler](../ajax/handlers) and executes it.
-3. The handler executes the required business logic and updates the environment by injecting page variables.
-4. The server [renders partials](../ajax/update-partials) requested by the client with the `update` option.
-5. The server sends the response, containing the rendered partials markup.
-6. The client-side framework updates page elements with the partials data received from the server.
+Une page peut émettre une requête AJAX autant depuis L'API des attributs de données qu'en utilisant JavaScript. Chaque requête invoque un **écouteur d'événement** -- aussi appelé un [écouteur AJAX](../ajax/handlers) -- depuis le serveur et peut mettre à jour des éléments de la page en utilisant des partiels. Les requêtes AJAX fonctionnent à son plein potentiel lorsqu'il est utilisé dans un formulaire puis les données du formulaire sont automatiquement envoyé au serveur. Voici le fonctionnement d'une requête :
 
-> **Note**: Depending on the page context a [CMS partial](../cms/partials) or [backend partial](../backend/views-partials) view will be rendered.
+1. Le navigateur client émet une requête AJAX en fournissant le nom de l'écouteur et d'éventuels autres paramètres optionnels.
+2. Le serveur retrouve [l'écouteur AJAX](../ajax/handlers) et l'exécute.
+3. L'écouteur exécuté la logique nécessaire et met à jour l'environnement en insérant des variables de page.
+4. Le serveur [généres les partiels](../ajax/update-partials) requis par le client avec l'option `update`.
+5. Le serveur retourne la réponse, qui contient la syntaxe des partiels générés.
+6. Le framework du côté du client met à jour les éléments de la page avec les données des partiels reçu du serveur.
+
+> **Note**: Selon le contexte de la page, la vue d'[un partiel du CMS](../cms/partials) ou d'[un partiel back-end](../backend/views-partials) sera générée.
 
 <a name="usage-example"></a>
-## Usage example
 
-Below is a simple example that uses the data attributes API to define an AJAX enabled form. The form will issue an AJAX request to the **onTest** handler and requests that the result container be updated with the **mypartial** partial markup.
+## Exemple d'utilisation
 
-    <!-- AJAX enabled form -->
-    <form data-request="onTest" data-request-update="mypartial: '#myDiv'">
+Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour créer un formulaire utilisant AJAX. Le formulaire va émettre une requête AJAX vers l'écouteur **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe de la partiel **monpartiel**.
+```html
+<!-- Formulaire utilisant AJAX -->
 
-        <!-- Input two values -->
-        <input name="value1"> + <input name="value2">
+<form data-request="onTest" data-request-update="monpartiel: '#monDiv'">
 
-        <!-- Action button -->
-        <button type="submit">Calculate</button>
+<!-- Insérer deux valeurs -->
 
-    </form>
+<input name="valeur1"> + <input name="valeur2">
 
-    <!-- Result container -->
-    <div id="myDiv"></div>
+<!-- Bouton d'action -->
 
-> **Note**: The form data for `value1` and `value2` are automatically sent with the AJAX request.
+<button type="submit">Calculer</button>
 
-The **mypartial** partial contains markup that reads the `result` variable.
+</form>
 
-    The result is {{ result }}
+<!-- Result container -->
 
-The **onTest** handler method accessed the form data using the `input` [helper method](../services/helper#method-input) and the result is passed to the `result` page variable.
+<div id="monDiv"></div>
+```
+> **Note**: Les données `valeur1` et `valeur2` sont automatiquement envoyé avec la requête AJAX.
 
-    function onTest()
-    {
-        $this->page['result'] = input('value1') + input('value2');
-    }
+Le partiel **monpartiel** contiens la syntaxe qui lis le résultat de la variable `resultat`.
+```html
+Le résultat est {{ resultat }}
+```
+La méthode de l'écouteur **onTest** accèdes au données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
+```html
+function onTest()
 
-The example could be read like this: "When the form is submitted, issue an AJAX request to the **onTest** handler. When the handler finishes, render the **mypartial** partial and inject its contents to the **#myDiv** element."
+{
+
+    $this->page['resultat'] = input('valeur1') + input('valeur2');
+
+}
+```
+
+L'exemple peut être lu ainsi: "Quand le formulaire est envoyé, émet une requête AJAX vers l'écouteur **onTest**. Quand l'écouteur as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".
