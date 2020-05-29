@@ -1,4 +1,4 @@
-Setup:
+# Setup:
   icon: "icon-wrench"
   pages:
     setup/installation: "Installation"
