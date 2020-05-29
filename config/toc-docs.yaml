@@ -1,8 +1,8 @@
 # Setup:
-  icon: "icon-wrench"
-  pages:
-    setup/installation: "Installation"
-    setup/configuration: "Configuration"
+#  icon: "icon-wrench"
+#  pages:
+#    setup/installation: "Installation"
+#    setup/configuration: "Configuration"
 
 CMS:
   icon: "icon-magic"
