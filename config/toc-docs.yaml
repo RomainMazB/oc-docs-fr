@@ -101,8 +101,7 @@ Console:
     console/scaffolding: "Scaffolding"
     console/development: "Development"
 
-"API Docs@":
-    page: api
+"API Docs@": api
 
 Extras:
   icon: "icon-question-sign"
