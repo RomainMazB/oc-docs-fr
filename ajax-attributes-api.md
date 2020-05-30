@@ -42,37 +42,38 @@ Element | Event
 
 Appelles la méthode `onCalculate` lorsque le formulaire est envoyé. Met à jour le contenu de l'élément dont l'id est
 "result" avec le partiel **calcresult** :
-
+```html
     <form data-request="onCalculate" data-request-update="calcresult: '#result'">
-
+```
 Demande une confirmation lorsque le bouton "Supprimer" est cliqué, avant d'envoyer la requête
-
+```html
     <form ... >
         ...
         <button data-request="onDelete" data-request-confirm="Êtes vous sûr(e)?">Supprimer</button>
-
+```
 Redirige vers une autre page après le succès de la requête :
-
+```html
     <form data-request="onLogin" data-request-redirect="/admin">
-
+```
 Affiche un popup après le succès de la requête :
-
+```html
     <form data-request="onLogin" data-request-success="alert('Yay!')">
-
+```
 Envoie un paramètre `mode` avec la valeur `update`:
-
+```html
     <form data-request="onUpdate" data-request-data="mode: 'update'">
-
+```
 Envoie un paramètre `id` avec la valeur `7` à travers plusieurs éléments :
-
+```html
     <div data-request-data="id: 7">
         <button data-request="onDelete">Supprimer</button>
         <button data-request="onSave">Mettre à jour</button>
     </div>
-
+```
 Insérer des [fichiers à uploader](../services/request-input#files) avec une requête :
-
+```html
     <form data-request="onSubmit" data-request-files>
         <input type="file" name="photo" accept="image/*" />
         <button type="submit">Envoyer</button>
     </form>
+```
