@@ -36,7 +36,6 @@ Element | Event
 **Liens, boutons** | Lorsque l'élément est cliqué.
 **Champs texte, numérique et mot de passe** | Lorsque sa valeur change et seulement lorsque délai défini par `data-track-input` est dépassé.
 **Liste de sélection, cases à cocher (checkbox et radio)** | Lorsque l'élément est coché.
-
 <a name="data-attribute-examples"></a>
 ## Exemples d'utilisation
 
