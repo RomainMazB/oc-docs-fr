@@ -47,7 +47,7 @@ Appelles la méthode `onCalculate` lorsque le formulaire est envoyé. Met à jou
 ```
 Demande une confirmation lorsque le bouton "Supprimer" est cliqué, avant d'envoyer la requête
 ```html
-    <form ... >
+    <form <!-- Paramètres --> >
         ...
         <button data-request="onDelete" data-request-confirm="Êtes vous sûr(e)?">Supprimer</button>
 ```
