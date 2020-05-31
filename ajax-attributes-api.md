@@ -3,8 +3,8 @@
 - [L'API des attributs de données](#data-attributes)
 - [Exemples d'utilisation](#data-attribute-examples)
 
-<a name="data-attributes"></a>
-## L'API des attributs de données
+
+## <a name="data-attributes"></a>L'API des attributs de données
 L'API des attributs de données vous permets d'émettre des requêtes AJAX sans aucun JavaScript. Dans beaucoup de cas,
 cette interface est beaucoup moins verbeuse que l'interface JavaScript - vous écrivez moins de code pour un résultat
 identique. Les attributs de données supportés sont :
@@ -36,8 +36,8 @@ Element | Event
 **Liens, boutons** | Lorsque l'élément est cliqué.
 **Champs texte, numérique et mot de passe** | Lorsque sa valeur change et seulement lorsque délai défini par `data-track-input` est dépassé.
 **Liste de sélection, cases à cocher (checkbox et radio)** | Lorsque l'élément est coché.
-<a name="data-attribute-examples"></a>
-## Exemples d'utilisation
+
+## <a name="data-attribute-examples"></a>Exemples d'utilisation
 
 Appelles la méthode `onCalculate` lorsque le formulaire est envoyé. Met à jour le contenu de l'élément dont l'id est
 "result" avec le partiel **calcresult** :
