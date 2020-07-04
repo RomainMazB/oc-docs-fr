@@ -1,28 +1,28 @@
 # AJAX Event Handlers
 
-- [AJAX handlers](#ajax-handlers)
-    - [Calling a handler](#calling-handlers)
-- [Redirects in AJAX handlers](#redirects-in-handlers)
-- [Returning data from AJAX handlers](#returning-data-from-handlers)
-- [Throwing an AJAX exception](#throw-ajax-exception)
-- [Running code before handlers](#before-handler)
+- [Écouteurs AJAX](#ajax-handlers)
+    - [Appeler un gestionnaire AJAX](#calling-handlers)
+- [Rediriger dans un gestionnaire AJAX](#redirects-in-handlers)
+- [Retourner des données depuis un gestionnaire AJAX](#returning-data-from-handlers)
+- [Émettre une erreur dans un gestionnaire AJAX](#throw-ajax-exception)
+- [Exécuter du code avant les gestionnaires](#before-handler)
 
 <a name="ajax-handlers"></a>
-## AJAX handlers
+## Écouteurs AJAX
 
-AJAX event handlers are PHP functions that can be defined in the page or layout [PHP section](../cms/themes#php-section) or inside [components](../cms/components). Handler names should have the following pattern: `onName`. All handlers support the use of [updating partials](../ajax/update-partials) as part of the AJAX request.
+Les Écouteurs AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom de l'gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX. @TODO: vérifier la dernière phrase
 
     function onSubmitContactForm()
     {
         // ...
     }
 
-If two handlers with the same name are defined in a page and layout together, the page handler will be executed. The handlers defined in [components](../cms/components) have the lowest priority.
+Si deux gestionnaires avec le même nom sont définis simultanément dans une page et un layout, l'gestionnaire de la page sera exécuté. Les gestionnaires définis dans les [composants](../cms/components) ont la plus petite priorité.
 
 <a name="calling-handlers"></a>
-### Calling a handler
+### Appeler un gestionnaire
 
-Every AJAX request should specify a handler name, either using the [data attributes API](../ajax/attributes-api) or the [JavaScript API](../ajax/javascript-api). When the request is made, the server will search all the registered handlers and locate the first one it finds.
+Toute requête AJAX doit spécifier un nom d'gestionnaire, que vous utilisiez l'[API des attributs de données](../ajax/attributes-api), ou l'[API JavaScript(../ajax/javascript-api). Lorsqu'une requête est faite, le serveur va chercher tous les gestionnaires enregistrés et prendre le premier qu'il trouve.
 
     <!-- Attributes API -->
     <button data-request="onSubmitContactForm">Go</button>
@@ -30,38 +30,38 @@ Every AJAX request should specify a handler name, either using the [data attribu
     <!-- JavaScript API -->
     <script> $.request('onSubmitContactForm') </script>
 
-If two components register the same handler name, it is advised to prefix the handler with the [component short name or alias](../cms/components#aliases). If a component uses an alias of **mycomponent** the handler can be targeted with `mycomponent::onName`.
+Si deux composants ont enregistré un gestionnaire portant le même nom, il est conseillé de préfixer l'gestionnaire avec [l'alias](../cms/components#aliases) du composant. Si un composant utilise un alias **moncomposant**, l'gestionnaire peut être ciblé avec `moncomposant::onQuelquechose`.
 
     <button data-request="mycomponent::onSubmitContactForm">Go</button>
 
-You may want to use the [`__SELF__`](https://octobercms.com/docs/plugin/components#referencing-self) reference variable instead of the hard coded alias in case the user changes the component alias used on the page.
+Vous pouvez utiliser la variable référence [`__SELF__`](https://octobercms.com/docs/plugin/components#referencing-self) à la place d'un alias hardcodé dans le cas ou l'utilisateur change l'alias du composant utilisé sur la page.
 
     <form data-request="{{ __SELF__ }}::onCalculate" data-request-update="'{{ __SELF__ }}::calcresult': '#result'">
 
-#### Generic handler
+#### Écouteur générique
 
-Sometimes you may need to make an AJAX request for the sole purpose of updating page contents, not needing to execute any code. You may use the `onAjax` handler for this purpose. This handler is available everywhere without needing to write any code.
+Parfois vous pourriez avoir besoin d'effectuer une requête AJAX dans le seul but de mettre à jour du contenu sur la page, sans nécessairement exécuter du code. Vous pouvez utiliser l'gestionnaire `onAjax` dans ce but. Cet gestionnaire est disponible partout, sans besoin d'écrire aucun code.
 
     <button data-request="onAjax">Do nothing</button>
 
 <a name="redirects-in-handlers"></a>
-## Redirects in AJAX handlers
+## Rediriger dans un gestionnaire AJAX
 
-If you need to redirect the browser to another location, return the `Redirect` object from the AJAX handler. The framework will redirect the browser as soon as the response is returned from the server. Example AJAX handler:
+Si vous avez besoin de rediriger le navigateur à une autre adresse, retournez l'objet `Redirect` depuis l'gestionnaire AJAX. Le framework redirigeras le navigateur dès que la réponse sera retourné par le serveur :
 
     function onRedirectMe()
     {
-        return Redirect::to('http://google.com');
+        return Redirect::to('https://google.fr');
     }
 
 <a name="returning-data-from-handlers"></a>
-## Returning data from AJAX handlers
+## Retourner des données depuis un gestionnaire AJAX
 
-In advanced cases you may want to return structured data from your AJAX handlers. If an AJAX handler returns an array, you can access its elements in the `success` event handler. Example AJAX handler:
+Dans des cas précis, vous pourriez vouloir retourner des données structurées depuis vos gestionnaires AJAX. Si un gestionnaire AJAX retourne un tableau, vous pourrez y accéder dans la méthode liée à l'évènement `success` :
 
     function onFetchDataFromServer()
     {
-        /* Some server-side code */
+        /* Du code exécuté par le serveur */
 
         return [
             'totalUsers' => 1000,
@@ -69,11 +69,11 @@ In advanced cases you may want to return structured data from your AJAX handlers
         ];
     }
 
-The data can be fetched with the data attributes API:
+Les données peuvent être récupérées avec l'API des attributs de données :
 
     <form data-request="onHandleForm" data-request-success="console.log(data)">
 
-The same with the JavaScript API:
+La même chose avec l'API Javascript :
 
     <form
         onsubmit="$(this).request('onHandleForm', {
@@ -83,30 +83,30 @@ The same with the JavaScript API:
         }); return false;">
 
 <a name="throw-ajax-exception"></a>
-## Throwing an AJAX exception
+## Émettre une erreur AJAX
 
-You may throw an [AJAX exception](../services/error-log#ajax-exception) using the `AjaxException` class to treat the response as an error while retaining the ability to send response contents as normal. Simply pass the response contents as the first argument of the exception.
+Vous pouvez émettre une [erreur AJAX](../services/error-log#ajax-exception) en utilisant la classe `AjaxException` pour traiter la réponse comme une erreur tout en gardant la possibilité de retourner des données comme habituellement. Renseignez simplement le contenu de la réponse en tant que premier argument de l'exception.
 
     throw new AjaxException([
-        'error' => 'Not enough questions',
+        'error' => 'Pas assez de question',
         'questionsNeeded' => 2
     ]);
 
-> **Note**: When throwing this exception type [partials will be updated](../ajax/update-partials) as normal.
+> **Note**: Lorsque vous retourner ce type d'erreur, les [partiels seront mis à jours](../ajax/update-partials) comme habituellement.
 
 <a name="before-handler"></a>
-## Running code before handlers
+## Exécuter du code avant les gestionnaires
 
-Sometimes you may want code to execute before a handler executes. Defining an `onInit` function as part of the [page execution life cycle](../cms/layouts#dynamic-pages) allows code to run before every AJAX handler.
+Vous pourriez vouloir exécuter du code avant l'exécution d'un gestionnaire. En définissant la méthode `onInit` dans [le cycle de vie d'exécution de la page](../cms/layouts#dynamic-pages), cela vous permet d'exécuter du code avant l'exécution de tous les gestionnaires AJAX.
 
     function onInit()
     {
-        // From a page or layout PHP code section
+        // Depuis la section PHP d'une page ou d'un layout
     }
 
-You may define an `init` method inside a [component class](../plugin/components#page-cycle-init) or [backend widget class](../backend/widgets).
+Vous pouvez aussi définir ceci dans la fonction `init` d'une [classe de composant](../plugin/components#page-cycle-init), ou d'une classe de [widget backend](../backend/widgets).
 
     function init()
     {
-        // From a component or widget class
+        // Depuis la classe d'un composant ou d'un widget
     }

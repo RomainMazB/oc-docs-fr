@@ -1,76 +1,78 @@
-# AJAX Data Attributes API
+# AJAX - L'API des atributs de données
 
-- [Data attributes API](#data-attributes)
-- [Usage examples](#data-attribute-examples)
+- [L'API des attributs de données](#data-attributes)
+- [Exemples d'utilisation](#data-attribute-examples)
 
 <a name="data-attributes"></a>
-## Data attributes API
+## L'API des attributs de données
+L'API des attributs de données vous permets d'émettre des requêtes AJAX sans aucun JavaScript. Dans beaucoup de cas,
+cette interface est beaucoup moins verbeuse que l'interface JavaScript - vous écrivez moins de code pour un résultat
+identique. Les attributs de données supportés sont :
 
-The data attributes API lets you issue AJAX requests without any JavaScript. In many cases the data attributes API is less verbose than the JavaScript API - you write less code to get the same result. The supported AJAX data attributes are:
-
-Attribute | Description
+Attribut | Description
 ------------- | -------------
-**data-request** | specifies the AJAX handler name.
-**data-request-confirm** | specifies a confirmation message. The confirmation is displayed before the request is sent. If the user clicks the Cancel button the request isn't sent.
-**data-request-redirect** | specifies a URL to redirect the browser after the successful AJAX request.
-**data-request-url** | specifies a URL to which the request is sent. default: `window.location.href`
-**data-request-update** | specifies a list of partials and page elements (CSS selectors) to update. The format is as follows: `partial: selector, partial: selector`. Usage of quotes is required in some cases, for example: `'my-partial': '#myelement'`. If the selector string is prepended with the `@` symbol, the content received from the server will be appended to the element, instead of replacing the existing content. If the selector string is prepended with the `^` symbol, the content will be prepended instead.
-**data-request-ajax-global** | false by default. Set true to enable jQuery [ajax events](http://api.jquery.com/category/ajax/global-ajax-event-handlers/) globally : `ajaxStart`, `ajaxStop`, `ajaxComplete`, `ajaxError`, `ajaxSuccess` and `ajaxSend`.
-**data-request-data** | specifies additional POST parameters to be sent to the server. The format is following: `var: value, var: value`. Use quotes if needed: `var: 'some string'`. The attribute can be used on the triggering element, for example on the button that also has the `data-request` attribute, on the closest element of the triggering element and on the parent form element. The framework merges values of the `data-request-data` attributes. If the attribute on different elements defines parameters with the same name, the framework uses the following priority: the triggering element `data-request-data`, the closer parent elements `data-request-data`, the form input data.
-**data-request-before-update** | specifies JavaScript code to execute directly before the page contents are updated. Inside the JavaScript code you can access the following variables: `this` (the page element triggered the request), the `context` object, the `data` object received from the server, the `textStatus` text string, and the `jqXHR` object.
-**data-request-success** | specifies JavaScript code to execute after the request is successfully completed. Inside the JavaScript code you can access the following variables: `this` (the page element triggered the request), the `context` object, the `data` object received from the server, the `textStatus` text string, and the `jqXHR` object.
-**data-request-error** | specifies JavaScript code to execute if the request encounters an error. Inside the JavaScript code you can access the following variables: `this` (the page element triggered the request), the `context` object, the `textStatus` text string, and the `jqXHR` object.
-**data-request-complete** | specifies JavaScript code to execute if the request is successfully completed or encounters an error. Inside the JavaScript code you can access the following variables: `this` (the page element triggered the request), the `context` object, the `textStatus` text string, and the `jqXHR` object.
-**data-request-loading** | specifies a CSS selector for an element to be displayed while the request runs. You can use this option to show the AJAX loading indicator. The feature uses jQuery's `show()` and `hide()` functions to manage the element visibility.
-**data-request-form** | explicitly specify a form element to use for sourcing the form data. If this is unspecified, the closest form to the triggering element is used, including if the element itself is a form.
-**data-request-flash** | when specified this option instructs the server to clear and send any flash messages with the response. This option is also used by the [extra features](../ajax/extras#ajax-flash).
-**data-request-files** | when specified the request will accept file uploads, this requires `FormData` interface support by the browser.
-**data-track-input** | can be applied to a text, number, or password input field that also has the `data-request` attribute. When defined, the input field automatically sends an AJAX request when a user types something in the field. The optional attribute value can define the interval, in milliseconds, the framework waits before it sends the requests.
+**data-request** | Détermine le nom de la méthode AJAX.
+**data-request-confirm** | Détermine le message de confirmation. La confirmation est affichée avant l'envoi de la requête. Si l'utilisateur clique sur le bouton "Annuler", la requête n'est pas envoyée.
+**data-request-redirect** | Détermine l'URL de redirection après que la requête AJAX ai réussie.
+**data-request-url** | Détermine l'URL vers laquelle la requête doit être envoyée. Par défaut: `window.location.href`
+**data-request-update** | Détermine une liste de partiels et d'éléments de la page (à l'aide de sélecteur CSS) à mettre à jour. Le format est le suivant: `partiel: sélecteur, partiel: sélecteur`. L'utilisation des guillements peut être nécessaire dans certains cas, par exemple: `'my-partial': '#myelement'`. Si le nom du sélecteur est précédé par un arobase `@`, le contenu retourné par le serveur sera ajouté avant tout contenu du sélecteur, au lieu de remplacer le contenu existant. Si le nom du sélecteur se termine par le symbole `^`, alors le contenu sera ajouté à la fin.
+**data-request-ajax-global** | `false` par défaut. Le mettre à `true` active les [évènements ajax](http://api.jquery.com/category/ajax/global-ajax-event-handlers/) globalement : `ajaxStart`, `ajaxStop`, `ajaxComplete`, `ajaxError`, `ajaxSuccess` et `ajaxSend`.
+**data-request-data** | Détermine des données `POST` additionnelles qui seront envoyé au serveur. Le format est le suivant: `variable: valeur, variable: valeur`. Utilisation des guillemets si nécessaire: `variable: 'une chaîne de caractères'`. L'attribut peut être utilisé sur l'élément déclencheur, par exemple sur le bouton qui as aussi l'attribut `data-request`, sur l'élément parent le plus proche de l'élément déclencheur, ou sur l'élément `form` parent. Le framework fusionnes automatiquement ces paramètres avec ceux de `data-request-data`. Si un paramètre portant le même nom est déterminé sur plusieurs éléments, le framework suivra cette ordre de priorité: l'élément déclencheur avec l'attribut `data-request-data`, l'élément parent le plus proche avec l'attribut `data-request-data`, les données du formulaire `form` parent.
+**data-request-before-update** | Détermine du code JavaScript a exécuter avant la mise à jour du contenu. Dans le code JavaScript, vous avez accès aux données suivantes: `this` (la page ayant émis la requête), l'object `context`, l'objet `data` contenant les données retournées par le serveur, la chaîne de caractère `textStatus`, et l'objet de la requête AJAX `jqXHR`.
+**data-request-success** | Détermine du code JavaScript a exécuter après le succès de la requête. Dans le code JavaScript, vous avez accès aux données suivantes: `this` (la page ayant émis la requête), l'object `context`, l'objet `data` contenant les données retournées par le serveur, la chaîne de caractère `textStatus`, et l'objet de la requête AJAX `jqXHR`.
+**data-request-error** | Détermine du code JavaScript si le serveur retourne une erreur. Dans le code JavaScript, vous avez accès aux données suivantes: `this` (la page ayant émis la requête), l'object `context`, la chaîne de caractère `textStatus`, et l'objet de la requête AJAX `jqXHR`.
+**data-request-complete** | Détermine du code JavaScript a exécuter à la réponse du serveur, peut importe le status (échec ou réussite). Dans le code JavaScript, vous avez accès aux données suivantes: `this` (la page ayant émis la requête), l'object `context`, la chaîne de caractère `textStatus`, et l'objet de la requête AJAX `jqXHR`.
+**data-request-loading** | Détermine le sélecteur CSS d'un élément devant être affiché pendant l'exécution de la requête. Vous pouvez utiliser cette option pour afficher un statut de chargement AJAX pendant la requête. Cette fonctionnalité utilise les méthodes jQuery `show()` et `hide()` pour déterminer la visibilité de l'élément.
+**data-request-form** | Détermine explicitement un élément de formulaire à utiliser en tant que source de données pour la requête. Si non précisé, l'élément `form` le plus proche de l'élément déclencheur est utilisé, valable si l'élément lui-même est un formulaire.
+**data-request-flash** | Quand spécifié, cette option indique au serveur la possibilité de retourner un message flash de tout type. Cette option est aussi utilisée par les [fonctionnalités supplémentaires](../ajax/extras#ajax-flash).
+**data-request-files** | Quand spécifié, la requête acceptes l'envoie de fichier, cela requiert le support par le navigateur de l'interface `FormData`.
+**data-track-input** | Peut être appliquée sur un champs texte, numérique ou mot de passe ayant aussi l'attribut `data-request`. Quand spécifié, le champs envoies automatiquement une requête AJAX request lorsque l'utilisateur y saisi quelquechose. Le paramètre optionnel `value` peut définir un délai interval en millisecondes avant que le framework émettes les requêtes.
 
-When the `data-request` attribute is specified for an element, the element triggers an AJAX request when a user interacts with it. Depending on the type of element, the request is triggered on the following events:
+Lorsque l'attribut `data-request` est spécifié sur un élément, l'élément déclenche une requête AJAX lorsque l'utilisateur interagis avec lui. Selon le type d'élément la requête est envoyée aux évènements suivants :
 
 Element | Event
 ------------- | -------------
-**Forms** | when the form is submitted.
-**Links, buttons** | when the element is clicked.
-**Text, number, and password fields** | when the text is changed and only if the `data-track-input` attribute is presented.
-**Dropdowns, checkboxes, radios** | when the element is selected.
+**Formulaires** | Lorsque le formulaire est envoyé.
+**Liens, boutons** | Lorsque l'élément est cliqué.
+**Champs texte, numérique et mot de passe** | Lorsque sa valeur change et seulement lorsque délai défini par `data-track-input` est dépassé.
+**Liste de sélection, cases à cocher (checkbox et radio)** | Lorsque l'élément est coché.
 
 <a name="data-attribute-examples"></a>
-## Usage examples
+## Exemples d'utilisation
 
-Trigger the `onCalculate` handler when the form is submitted. Update the element with the identifier "result"` with the **calcresult** partial:
+Appelles la méthode `onCalculate` lorsque le formulaire est envoyé. Met à jour le contenu de l'élément dont l'id est
+"result" avec le partiel **calcresult** :
 
     <form data-request="onCalculate" data-request-update="calcresult: '#result'">
 
-Request a confirmation when the Delete button is clicked before the request is sent:
+Demande une confirmation lorsque le bouton "Supprimer" est cliqué, avant d'envoyer la requête
 
     <form ... >
         ...
-        <button data-request="onDelete" data-request-confirm="Are you sure?">Delete</button>
+        <button data-request="onDelete" data-request-confirm="Êtes vous sûr(e)?">Supprimer</button>
 
-Redirect to another page after the successful request:
+Redirige vers une autre page après le succès de la requête :
 
     <form data-request="onLogin" data-request-redirect="/admin">
 
-Show a popup window after the successful request:
+Affiche un popup après le succès de la requête :
 
     <form data-request="onLogin" data-request-success="alert('Yay!')">
 
-Send a POST parameter `mode` with a value `update`:
+Envoie un paramètre `mode` avec la valeur `update`:
 
     <form data-request="onUpdate" data-request-data="mode: 'update'">
 
-Send a POST parameter `id` with value `7` across multiple elements:
+Envoie un paramètre `id` avec la valeur `7` à travers plusieurs éléments :
 
     <div data-request-data="id: 7">
-        <button data-request="onDelete">Delete</button>
-        <button data-request="onSave">Update</button>
+        <button data-request="onDelete">Supprimer</button>
+        <button data-request="onSave">Mettre à jour</button>
     </div>
 
-Including [file uploads](../services/request-input#files) with a request:
+Insérer des [fichiers à uploader](../services/request-input#files) avec une requête :
 
     <form data-request="onSubmit" data-request-files>
         <input type="file" name="photo" accept="image/*" />
-        <button type="submit">Submit</button>
+        <button type="submit">Envoyer</button>
     </form>
