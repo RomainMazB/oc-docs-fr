@@ -1,8 +1,8 @@
-Setup:
-  icon: "icon-wrench"
-  pages:
-    setup/installation: "Installation"
-    setup/configuration: "Configuration"
+# Setup:
+#  icon: "icon-wrench"
+#  pages:
+#    setup/installation: "Installation"
+#    setup/configuration: "Configuration"
 #
 #CMS:
 #  icon: "icon-magic"
@@ -15,17 +15,17 @@ Setup:
 #    cms/components: "Components"
 #    cms/mediamanager: "Media manager"
 #    markup: "Markup guide@"
-
+#
 AJAX:
   icon: "icon-bolt"
   pages:
-#    ajax/introduction: "Introduction"
+    ajax/introduction: "Introduction"
     ajax/handlers: "Event handlers"
-#    ajax/update-partials: "Updating partials"
+    ajax/update-partials: "Updating partials"
     ajax/attributes-api: "Data attributes API"
-#    ajax/javascript-api: "JavaScript API"
+    ajax/javascript-api: "JavaScript API"
     ajax/extras: "Extra features"
-#
+
 #Themes:
 #  icon: "icon-picture"
 #  pages:
@@ -101,8 +101,7 @@ AJAX:
 #    console/scaffolding: "Scaffolding"
 #    console/development: "Development"
 #
-#"API Docs@":
-#    page: api
+#"API Docs@": api
 #
 #Extras:
 #  icon: "icon-question-sign"
@@ -111,3 +110,4 @@ AJAX:
 #    help/using-composer: "Using Composer"
 #    ../help/guidelines/quality: "Quality guidelines@"
 #    ../help/guidelines/developer: "Developer guide@"
+#
