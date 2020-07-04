@@ -16,7 +16,7 @@ Octobre peut être de deux façons, soit à l’aide de [l’installateur (l'ass
 
 ## Configuration minimale requise
 
-Pour faire tourner Octobre CMS, votre serveur/hébergeur devrait supporter
+Pour faire tourner OctoberCMS, votre serveur/hébergeur devrait supporter
 les exigences ci-dessous:
 
 1. Version du PHP 7.2 ou supérieure
@@ -45,10 +45,10 @@ Si vous utilisez le moteur de base de données SQL Server, vous devrez installer
 
 ## L'installeur (l'assistant d'installation)
 
-L’installeur est un moyen recommandé pour installer Octobre. Il est plus simple que l’installation à via la ligne de commande et ne nécessite pas de compétences particulières.
+L’installeur est un moyen recommandé pour installer October. Il est plus simple que l’installation via la ligne de commande et ne nécessite pas de compétences particulières.
 
 1. Préparez un répertoire vide sur votre serveur. Il peut s’agir d’un sous-répertoire, d’une racine de domaine ou d’un sous-domaine.
-2. [Téléchargez l'archive du fichier de l’installateur](http://octobercms.com/download).
+2. [Téléchargez l'archive du fichier de l’installateur](https://octobercms.com/download).
 3. Déballez l’archive de l’installateur dans le répertoire préparé auparavent.
 4. Accordez des autorisations d’écriture sur le répertoire d’installation et tous ses sous-répertoires et fichiers.
 5. Accédez au script install.php dans votre navigateur Web.
@@ -86,7 +86,7 @@ Certaines choses devront être configurer une fois l’installation terminée.
 
 ### Suppression des fichiers d’installation
 
-Si vous avez utilisé [l’installeur (l'assistant de l'installation)](#wizard-installation), vous devez supprimer les fichiers d’installation pour des raisons de sécurité. Le programme d'installation d'Octobre tentera de nettoyer après lui-même, mais vous devez toujours vérifier qu'ils ont bien été supprimés:
+Si vous avez utilisé [l’installeur (l'assistant de l'installation)](#wizard-installation), vous devez supprimer les fichiers d’installation pour des raisons de sécurité. Le programme d'installation d'October tentera de nettoyer après lui-même, mais vous devez toujours vérifier qu'ils ont bien été supprimés:
 
     install_files/      <== Dossier d'installation
     install.php         <== Script d'Installation
@@ -109,7 +109,7 @@ Pour que les _tâches planifiées_ fonctionnent correctement, vous devez ajouter
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
-Assurez-vous de remplacer **/path/to/artisan** par le chemin absolu vers le fichier _artisan_ dans le répertoire racine d’Octobre. Ce Cron appellera le planificateur de commandes chaque minute. Octobre évalue ensuite toutes les tâches planifiées et exécute les tâches qui sont dues.
+Assurez-vous de remplacer **/path/to/artisan** par le chemin absolu vers le fichier _artisan_ dans le répertoire racine d’October. Ce Cron appellera le planificateur de commandes chaque minute. October évalue ensuite toutes les tâches planifiées et exécute les tâches qui sont dues.
 
 > **Remarque:** Si vous ajoutez ceci à `/etc/cron.d` vous devez spécifier un utilisateur immédiatement après `* * * * *`.
 
