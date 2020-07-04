@@ -3,7 +3,7 @@
 - [Configuration du serveur Web](#webserver-configuration)
   - [Configuration Apache](#apache-configuration)
   - [Configuration Nginx](#nginx-configuration)
-  - [Configuration lighttpd](#lighttpd-configuration)
+  - [Configuration Lighttpd](#lighttpd-configuration)
   - [Configuration IIS](#iis-configuration)
 - [Configuration de l’application](#app-configuration)
   - [Mode débogage](#debug-mode)
@@ -17,13 +17,13 @@
   - [Environnement piloté par le domaine](#domain-environment)
   - [Conversion en configuration DotEnv](#dotenv-configuration)
 
-Tous les fichiers de configuration d'Octobre sont stockés dans le répertoire **config/**. Chaque option est documentée, alors n’hésitez pas à se référer aux fichiers et se familiariser avec les réglages possibles.
+Tous les fichiers de configuration d'October sont stockés dans le répertoire **config/**. Chaque option est documentée, alors n’hésitez pas à se référer aux fichiers et se familiariser avec les réglages possibles.
 
 <a name="webserver-configuration"></a>
 
 ## Configuration du serveur Web
 
-Octobre possède une configuration de base qui doit être appliquée à votre serveur web. Les serveurs web communs et leur configuration peuvent être trouvés ci-dessous.
+October possède une configuration de base qui doit être appliquée à votre serveur web. Les serveurs web communs et leur configuration peuvent être trouvés ci-dessous.
 
 <a name="apache-configuration"></a>
 
@@ -54,7 +54,7 @@ De petites modifications sont nécessaires pour configurer votre site dans Nginx
 
 `nano /etc/nginx/sites-available/default`
 
-Utilisez le code suivant dans la section **server**. Si vous avez installé octobre dans un sous-répertoire, remplacez les premières `/` des directives du chemin par le répertoire d'installation d'Octobre:
+Utilisez le code suivant dans la section **server**. Si vous avez installé octobre dans un sous-répertoire, remplacez les premières `/` des directives du chemin par le répertoire d'installation d'October:
 
     location / {
         # Let OctoberCMS handle everything by default.
@@ -108,7 +108,7 @@ Utilisez le code suivant dans la section **server**. Si vous avez installé octo
 
 <a name="lighttpd-configuration"></a>
 
-### Configuration lighttpd
+### Configuration Lighttpd
 
 Si votre serveur Web exécute Lighttpd, vous pouvez utiliser la configuration suivante pour exécuter OctoberCMS. Ouvrez le fichier de configuration du site `sites.conf` avec votre éditeur préféré.
 
@@ -169,7 +169,7 @@ Si votre serveur Web exécute Internet Information Services (IIS), vous pouvez u
 
 Le paramètre de débogage `debug` se trouvant dans le fichier de configuration `config/app.php` est activé par défaut.
 
-Ce paramètre activé affiche des messages d’erreur détaillés lorsqu’ils se produisent avec d’autres fonctionnalités de débogage. Bien qu’utile pendant le développement, le mode débogage doit toujours être désactivé dans un environnement de production live. Cela empêche l’affichage d’informations potentiellement sensibles à l’utilisateur final.
+Lorsque ce paramètre est activé, October affiche des messages d’erreur détaillés lorsqu’ils se produisent avec d’autres fonctionnalités de débogage. Bien qu’utile pendant le développement, le mode débogage doit toujours être désactivé dans un environnement de production. Cela empêche l’affichage d’informations potentiellement sensibles à l’utilisateur final.
 
 Le mode débogage utilise les fonctionnalités suivantes lorsqu’il est activé:
 
@@ -184,7 +184,7 @@ Le mode débogage utilise les fonctionnalités suivantes lorsqu’il est activé
 
 ### Mode sans échec
 
-Le paramètre `enableSafeMode` du réglage du mode sans échec se trouve dans le fichier de configuration `config/cms.php`, La valeur par défaut est réglée sur `null`.
+Le paramètre `enableSafeMode` du réglage du mode sans échec se trouve dans le fichier de configuration `config/cms.php`. La valeur par défaut est réglée sur `null`.
 
 Si le mode sans échec est activé, la section code PHP est désactivée dans les modèles CMS pour des raisons de sécurité. S'il est réglé sur `null`, le mode sans échec est activé lorsque le [mode de débogage](#debug-mode) est désactivé.
 
@@ -192,17 +192,15 @@ Si le mode sans échec est activé, la section code PHP est désactivée dans le
 
 ### Protection CSRF
 
-Octobre fournit une méthode facile pour protéger votre application contre les attaques "cross-site request forgeries". Tout d’abord, un jeton aléatoire est placé dans la session de votre utilisateur. Ensuite, lorsqu’une [balise d’ouverture de formulaire est utilisée](../services/html#form-tokens), le jeton est ajouté à la page et renvoyé à chaque demande.
+October fournit une méthode simple pour protéger votre application contre les attaques "cross-site request forgeries". Tout d’abord, un jeton aléatoire est placé dans la session de votre utilisateur. Ensuite, lorsqu’une [balise d’ouverture de formulaire est utilisée](../services/html#form-tokens), le jeton est ajouté à la page et renvoyé à chaque demande.
 
 Bien que la protection CSRF soit activée par défaut, vous pouvez la désactiver avec le paramètre `enableCsrfProtection` dans fichier de configuration `config/cms.php`.
 
 <a name="edge-updates"></a>
 
-<!-- TODO trouver une bonne traduction de  'Bleeding edge updates' -->
-
 ### Mises à jour de pointe
 
-OoctobreCMS et certains plugins du marketplace implémenteront des changements en deux étapes afin d’assurer la stabilité globale et l’intégrité de la plate-forme. Cela signifie qu’ils ont une _build test_ en plus de la _build stable_ par défaut.
+OctoberCMS et certains plugins de la marketplace implémenteront des changements en deux étapes afin d’assurer la stabilité globale et l’intégrité de la plate-forme. Cela signifie qu’ils ont une _build test_ en plus de la _build stable_ par défaut.
 
 Vous pouvez demander à la plate-forme de préférer les builds de test à partir du marketplace en modifiant le paramètre `edgeUpdates` dans le fichier de configuration `config/cms.php`.
 
@@ -221,7 +219,7 @@ Vous pouvez demander à la plate-forme de préférer les builds de test à parti
 
 > **Remarque** : Pour les développeurs de plugins, nous vous recommandons d’activer les **Test updates** pour vos plugins répertoriés sur le marketplace, via la page Paramètres plugin.
 
-> **Remarque** : Si vous utilisez [Composer](../console/commands#console-install-composer) pour gérer les mises à jour, remplacez les exigences par défaut d’OctobreCMS dans votre fichier `composer.json` par les éléments suivants afin de télécharger les mises à jour directement à partir de la _branche develop_.
+> **Remarque** : Si vous utilisez [Composer](../console/commands#console-install-composer) pour gérer les mises à jour, remplacez les exigences par défaut d’OctoberCMS dans votre fichier `composer.json` par les éléments suivants afin de télécharger les mises à jour directement à partir de la _branche develop_.
 
     "october/rain": "dev-develop as 1.0",
     "october/system": "dev-develop",
@@ -304,9 +302,9 @@ Par exemple, pour utiliser une base de données MySQL différente pour l’envir
 
 ### Environnement piloté par le domaine
 
-Octobre prend en charge l’utilisation d’un environnement détecté par un nom d’hôte spécifique. Vous pouvez placer ces noms d’hôte dans un fichier de configuration d’environnement, par exemple **config/environment.php**.
+October prend en charge l’utilisation d’un environnement détecté par un nom d’hôte spécifique. Vous pouvez placer ces noms d’hôte dans un fichier de configuration d’environnement, par exemple **config/environment.php**.
 
-En utilisant le contenu ci-dessous dans le fichier **config/environment.php**, l’environnement sera défini sur `global` quand l’application est accessible via **global.website.tld**, de même pour **local.website.tld**, l’environnement sera défini sur `local`.
+En utilisant le contenu ci-dessous dans le fichier **config/environment.php**, l’environnement sera défini sur `global` lorsque l'on accède à l’application via **global.website.tld**, et ainsi de suite pour les autres.
 
     <?php
 
@@ -331,4 +329,4 @@ Cela créera un fichier **.env** dans le répertoire racine du projet et modifie
 
 Votre fichier `.env` ne doit pas être enregistrer dans le dépôt de votre application (git), puisque chaque développeur ou serveur utilisant votre application peut nécessiter une configuration d’environnement différente.
 
-Il est également important que votre fichier `.env` ne soit pas accessible au public en production. Pour ce faire, vous devez envisager d’utiliser un [dossier public](#public-folder).
+Il est également important que votre fichier `.env` ne soit pas être accessible au public en production. Pour ce faire, vous devez envisager d’utiliser un [dossier public](#public-folder).
