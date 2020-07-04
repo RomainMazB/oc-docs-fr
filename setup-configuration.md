@@ -1,38 +1,40 @@
 # App configuration
 
-- [Webserver configuration](#webserver-configuration)
-    - [Apache configuration](#apache-configuration)
-    - [Nginx configuration](#nginx-configuration)
-    - [Lighttpd configuration](#lighttpd-configuration)
-    - [IIS configuration](#iis-configuration)
-- [Application configuration](#app-configuration)
-    - [Debug mode](#debug-mode)
-    - [Safe mode](#safe-mode)
-    - [CSRF protection](#csrf-protection)
-    - [Bleeding edge updates](#edge-updates)
-    - [Using a public folder](#public-folder)
-    - [Using a shared hosting](#shared-hosting)
-- [Environment configuration](#environment-config)
-    - [Defining a base environment](#base-environment)
-    - [Domain driven environment](#domain-environment)
-    - [Converting to DotEnv configuration](#dotenv-configuration)
+- [Configuration du serveur Web](#webserver-configuration)
+  - [Configuration Apache](#apache-configuration)
+  - [Configuration Nginx](#nginx-configuration)
+  - [Configuration Lighttpd](#lighttpd-configuration)
+  - [Configuration IIS](#iis-configuration)
+- [Configuration de l’application](#app-configuration)
+  - [Mode débogage](#debug-mode)
+  - [Mode sans échec](#safe-mode)
+  - [Protection CSRF](#csrf-protection)
+  - [Mises à jour de pointe](#edge-updates)
+  - [Utilisation d’un dossier public](#public-folder)
+  - [Utilisation d'un hébergement mutualisé](#shared-hosting)
+- [Configuration de l’environnement](#environment-config)
+  - [Définition d’un environnement de base](#base-environment)
+  - [Environnement piloté par le domaine](#domain-environment)
+  - [Conversion en configuration DotEnv](#dotenv-configuration)
 
-All of the configuration files for October are stored in the **config/** directory. Each option is documented, so feel free to look through the files and get familiar with the options available to you.
+Tous les fichiers de configuration d'October sont stockés dans le répertoire **config/**. Chaque option est documentée, alors n’hésitez pas à se référer aux fichiers et se familiariser avec les réglages possibles.
 
 <a name="webserver-configuration"></a>
-## Web server configuration
 
-October has basic configuration that should be applied to your webserver. Common webservers and their configuration can be found below.
+## Configuration du serveur Web
+
+October possède une configuration de base qui doit être appliquée à votre serveur web. Les serveurs web communs et leur configuration peuvent être trouvés ci-dessous.
 
 <a name="apache-configuration"></a>
-### Apache configuration
 
-If your webserver is running Apache there are some extra system requirements:
+### Configuration Apache
 
-1. mod_rewrite should be installed
-1. AllowOverride option should be switched on
+Si votre serveur Web exécute Apache, des exigences système supplémentaires sont nécessaires:
 
-In some cases you may need to uncomment this line in the `.htaccess` file:
+1. mod_rewrite doit être installés
+1. L’option `AllowOverride` doit être activée
+
+Dans certains cas, vous devrez peut-être décommenter cette ligne dans le fichier `.htaccess`:
 
     ##
     ## You may need to uncomment the following line for some hosting environments,
@@ -40,18 +42,19 @@ In some cases you may need to uncomment this line in the `.htaccess` file:
     ##
     # RewriteBase /
 
-If you have installed to a subdirectory, you should add the name of the subdirectory also:
+Si vous avez effectué votre installation dans un sous-répertoire, vous devez également ajouter le nom du sous-répertoire:
 
     RewriteBase /mysubdirectory/
 
 <a name="nginx-configuration"></a>
-### Nginx configuration
 
-There are small changes required to configure your site in Nginx.
+### Configuration Nginx
+
+De petites modifications sont nécessaires pour configurer votre site dans Nginx.
 
 `nano /etc/nginx/sites-available/default`
 
-Use the following code in **server** section. If you have installed October into a subdirectory, replace the first `/` in location directives with the directory October was installed under:
+Utilisez le code suivant dans la section **server**. Si vous avez installé octobre dans un sous-répertoire, remplacez les premières `/` des directives du chemin par le répertoire d'installation d'October:
 
     location / {
         # Let OctoberCMS handle everything by default.
@@ -104,13 +107,14 @@ Use the following code in **server** section. If you have installed October into
     location ~ ^/themes/.*/resources { try_files $uri 404; }
 
 <a name="lighttpd-configuration"></a>
-### Lighttpd configuration
 
-If your webserver is running Lighttpd you can use the following configuration to run OctoberCMS. Open your site configuration file with your favorite editor.
+### Configuration Lighttpd
+
+Si votre serveur Web exécute Lighttpd, vous pouvez utiliser la configuration suivante pour exécuter OctoberCMS. Ouvrez le fichier de configuration du site `sites.conf` avec votre éditeur préféré.
 
 `nano /etc/lighttpd/conf-enabled/sites.conf`
 
-Paste the following code in the editor and change the **host address** and  **server.document-root** to match your project.
+Collez y le code suivant et modifiez **host address** et **server.document-root** pour qu’ils correspondent à votre application.
 
     $HTTP["host"] =~ "domain.example.com" {
         server.document-root = "/var/www/example/"
@@ -126,9 +130,10 @@ Paste the following code in the editor and change the **host address** and  **se
     }
 
 <a name="iis-configuration"></a>
-### IIS configuration
 
-If your webserver is running Internet Information Services (IIS) you can use the following in your **web.config** configuration file to run OctoberCMS.
+### Configuration IIS
+
+Si votre serveur Web exécute Internet Information Services (IIS), vous pouvez utiliser la configuration ci-dessous dans le fichier **web.config** pour exécuter OctoberCMS.
 
     <?xml version="1.0" encoding="UTF-8"?>
     <configuration>
@@ -155,44 +160,49 @@ If your webserver is running Internet Information Services (IIS) you can use the
     </configuration>
 
 <a name="app-configuration"></a>
-## Application configuration
+
+## Configuration de l’application
 
 <a name="debug-mode"></a>
-### Debug mode
 
-The debug setting is found in the `config/app.php` configuration file with the `debug` parameter and is enabled by default.
+### Mode débogage
 
-When enabled, this setting will show detailed error messages when they occur along with other debugging features. While useful during development, debug mode should always be disabled when used in a live production site. This prevents potentially sensitive information from being displayed to the end-user.
+Le paramètre de débogage `debug` se trouvant dans le fichier de configuration `config/app.php` est activé par défaut.
 
-The debug mode uses the following features when enabled:
+Lorsque ce paramètre est activé, October affiche des messages d’erreur détaillés lorsqu’ils se produisent avec d’autres fonctionnalités de débogage. Bien qu’utile pendant le développement, le mode débogage doit toujours être désactivé dans un environnement de production. Cela empêche l’affichage d’informations potentiellement sensibles à l’utilisateur final.
 
-1. [Detailed error pages](../cms/pages#error-page) are displayed.
-1. Failed user authentication provides a specific reason.
-1. [Combined assets](../markup/filter-theme) are not minified by default.
-1. [Safe mode](#safe-mode) is disabled by default.
+Le mode débogage utilise les fonctionnalités suivantes lorsqu’il est activé:
 
-> **Important**: Always set the `app.debug` setting to `false` for production environments.
+1. Les [pages d’erreur détaillées](../cms/pages#error-page) s’affichent.
+1. L’authentification non reussie d'un utilisateur fournit la raison de l'échec
+1. Les [assets combinées](../markup/filter-theme) ne sont pas minifiés par défaut.
+1. [Le mode sans échec](#safe-mode) est désactivé par défaut.
+
+> **Important**: Définissez toujours le paramètre `app.debug` pour les environnements de production sur `false`.
 
 <a name="safe-mode"></a>
-### Safe mode
 
-The safe mode setting is found in the `config/cms.php` configuration file with the `enableSafeMode` parameter. The default value is `null`.
+### Mode sans échec
 
-If safe mode is enabled, the PHP code section is disabled in CMS templates for security reasons. If set to `null`, safe mode is on when [debug mode](#debug-mode) is disabled.
+Le paramètre `enableSafeMode` du réglage du mode sans échec se trouve dans le fichier de configuration `config/cms.php`. La valeur par défaut est réglée sur `null`.
 
-<a name="csrf-protection"></a>
-### CSRF protection
+Si le mode sans échec est activé, la section code PHP est désactivée dans les modèles CMS pour des raisons de sécurité. S'il est réglé sur `null`, le mode sans échec est activé lorsque le [mode de débogage](#debug-mode) est désactivé.
 
-October provides an easy method of protecting your application from cross-site request forgeries. First a random token is placed in your user's session. Then when a [opening form tag is used](../services/html#form-tokens) the token is added to the page and submitted back with each request.
+<a name="safe-mode"></a>
 
-While CSRF protection is enabled by default, you can disable it with the `enableCsrfProtection` parameter in the `config/cms.php` configuration file.
+### Protection CSRF
+
+October fournit une méthode simple pour protéger votre application contre les attaques "cross-site request forgeries". Tout d’abord, un jeton aléatoire est placé dans la session de votre utilisateur. Ensuite, lorsqu’une [balise d’ouverture de formulaire est utilisée](../services/html#form-tokens), le jeton est ajouté à la page et renvoyé à chaque demande.
+
+Bien que la protection CSRF soit activée par défaut, vous pouvez la désactiver avec le paramètre `enableCsrfProtection` dans fichier de configuration `config/cms.php`.
 
 <a name="edge-updates"></a>
-### Bleeding edge updates
 
-The October platform and some marketplace plugins will implement changes in two stages to ensure overall stability and integrity of the platform. This means they have a *test build* in addition to the default *stable build*.
+### Mises à jour de pointe
 
-You can instruct the platform to prefer test builds from the marketplace by changing the `edgeUpdates` parameter in the `config/cms.php` configuration file.
+OctoberCMS et certains plugins de la marketplace implémenteront des changements en deux étapes afin d’assurer la stabilité globale et l’intégrité de la plate-forme. Cela signifie qu’ils ont une _build test_ en plus de la _build stable_ par défaut.
+
+Vous pouvez demander à la plate-forme de préférer les builds de test à partir du marketplace en modifiant le paramètre `edgeUpdates` dans le fichier de configuration `config/cms.php`.
 
     /*
     |--------------------------------------------------------------------------
@@ -207,9 +217,9 @@ You can instruct the platform to prefer test builds from the marketplace by chan
 
     'edgeUpdates' => false,
 
-> **Note:** For plugin developers we recommend enabling **Test updates** for your plugins listed on the marketplace, via the Plugin Settings page.
+> **Remarque** : Pour les développeurs de plugins, nous vous recommandons d’activer les **Test updates** pour vos plugins répertoriés sur le marketplace, via la page Paramètres plugin.
 
-> **Note:** If using [Composer](../console/commands#console-install-composer) to manage updates, then replace the default OctoberCMS requirements in your `composer.json` file with the following in order to download updates directly from the develop branch.
+> **Remarque** : Si vous utilisez [Composer](../console/commands#console-install-composer) pour gérer les mises à jour, remplacez les exigences par défaut d’OctoberCMS dans votre fichier `composer.json` par les éléments suivants afin de télécharger les mises à jour directement à partir de la _branche develop_.
 
     "october/rain": "dev-develop as 1.0",
     "october/system": "dev-develop",
@@ -218,22 +228,24 @@ You can instruct the platform to prefer test builds from the marketplace by chan
     "laravel/framework": "5.5.*@dev",
 
 <a name="public-folder"></a>
-### Using a public folder
 
-For ultimate security in production environments you may configure your web server to use a **public/** folder to ensure only public files can be accessed. First you will need to spawn a public folder using the `october:mirror` command.
+### Utilisation d’un dossier public
+
+Pour une sécurité ultime dans les environnements de production, vous pouvez configurer votre serveur Web pour utiliser un dossier **public/** pour vous assurer que seuls les fichiers publics peuvent être consultés. Tout d’abord, vous devrez créer un dossier public à l’aide de la commande.`october:mirror`
 
     php artisan october:mirror public/
 
-This will create a new directory called **public/** in the project's base directory, from here you should modify the webserver configuration to use this new path as the home directory, also known as *wwwroot*.
+Cela créera un nouveau répertoire appelé **public/** dans le répertoire de base du projet, à partir de là, vous devez modifier la configuration du serveur web pour utiliser ce nouveau chemin d’accès comme répertoire d’accueil, également connu sous le nom _wwwroot_.
 
-> **Note**: The above command may need to be performed with System Administrator or *sudo* privileges. It should also be performed after each system update or when a new plugin is installed.
+> **Remarque**: La commande ci-dessus peut demander des privilèges Administrateur système ou _sudo_ pour s'executer. Il doit également être effectué après chaque mise à jour du système ou suite à l'installation d'un nouveau plugin.
 
 <a name="shared-hosting"></a>
-### Using a shared hosting
 
-If you share a server with other users, you should act as if your neighbor's site was compromised. Make sure all files with passwords (e.g. CMS configuration files like `config/database.php`) cannot be read from other user accounts, even if they figure out absolute paths of your files. Setting permissions of such important files to 600 (read and write only to the owner and nothing to anyone else) is a good idea.
+### Utilisation d'un hébergement mutualisé
 
-You can setup this protection in the file location `config/cms.php` in the section titled **Default permission mask**.
+Si vous partagez un serveur avec d'autres utilisateurs, vous devez agir comme si le site de votre voisin était compromis. Assurez-vous que tous les fichiers contenant des mots de passe (par exemple les fichiers de configuration du CMS comme `config/database.php`) ne peuvent pas être lus à partir d'autres comptes d'utilisateurs, même s'ils déterminent les chemins absolus de vos fichiers. Définir les autorisations de ces fichiers importants sur 600 (lecture et écriture uniquement pour le propriétaire et rien pour quiconque) est une bonne idée.
+
+Vous pouvez configurer cette protection dans le fichier `config / cms.php` dans la section **Default permission mask**.
 
     /*
     |--------------------------------------------------------------------------
@@ -246,29 +258,31 @@ You can setup this protection in the file location `config/cms.php` in the secti
 
     'defaultMask' => ['file' => '644', 'folder' => '755'],
 
-> **Note**: Don't forget to manually check to see if the files are already set to 644, as you may need to go into your cPanel and set them.
+> **Remarque**: N'oubliez pas de vérifier manuellement si les fichiers sont déjà définis sur 644, vous pourriez avoir besoin d'accéder à votre cPanel et les définir.
 
 <a name="environment-config"></a>
-## Environment configuration
+
+## Configuration de l’environnement
 
 <a name="base-environment"></a>
-### Defining a base environment
 
-It is often helpful to have different configuration values based on the environment the application is running in. You can do this by setting the `APP_ENV` environment variable which by default it is set to **production**. There are two common ways to change this value:
+### Définition d’un environnement de base
 
-1. Set `APP_ENV` value directly with your webserver.
+Il est souvent utile d’avoir des paramètres de configuration différentes en fonction de l’environnement dans lequel l’application s’exécute. Vous pouvez le faire en définissant la variable d’environnement `APP_ENV` qui, par défaut, définie sur **production**. Il existe deux façons courantes pour modifier cette valeur:
 
-    For example, in Apache this line can be added to the `.htaccess` or `httpd.config` file:
+1.  Définissez la valeur `APP_ENV` directement dans votre serveur Web.
+
+    Par exemple, dans Apache, cette ligne peut être ajoutée aux fichiers `.htaccess` ou `httpd.config`:
 
         SetEnv APP_ENV "dev"
 
-2. Create a **.env** file in the root directory with the following content:
+1.  Créez un fichier .env dans le répertoire racine avec le contenu suivant:
 
         APP_ENV=dev
 
-In both of the above examples, the environment is set to the new value `dev`. Configuration files can now be created in the path **config/dev** and will override the application's base configuration.
+Dans les deux exemples ci-dessus, l’environnement est défini sur la nouvelle valeur `dev`. Les fichiers de configuration peuvent maintenant être créés dans le répertoire **config/dev** et remplaceront la configuration de base de l’application.
 
-For example, to use a different MySQL database for the `dev` environment only, create a file called **config/dev/database.php** using this content:
+Par exemple, pour utiliser une base de données MySQL différente pour l’environnement `dev` seulement, créez un fichier appelé **config/dev/database.php** avec le contenu suivant:
 
     <?php
 
@@ -285,11 +299,12 @@ For example, to use a different MySQL database for the `dev` environment only, c
     ];
 
 <a name="domain-environment"></a>
-### Domain driven environment
 
-October supports using an environment detected by a specific hostname. You may place these hostnames in an environment configuration file, for example, **config/environment.php**.
+### Environnement piloté par le domaine
 
-Using this file contents below, when the application is accessed via **global.website.tld** the environment will be set to `global` and likewise for the others.
+October prend en charge l’utilisation d’un environnement détecté par un nom d’hôte spécifique. Vous pouvez placer ces noms d’hôte dans un fichier de configuration d’environnement, par exemple **config/environment.php**.
+
+En utilisant le contenu ci-dessous dans le fichier **config/environment.php**, l’environnement sera défini sur `global` lorsque l'on accède à l’application via **global.website.tld**, et ainsi de suite pour les autres.
 
     <?php
 
@@ -301,16 +316,17 @@ Using this file contents below, when the application is accessed via **global.we
     ];
 
 <a name="dotenv-configuration"></a>
-### Converting to DotEnv configuration
 
-As an alternative to the [base environment configuration](#base-environment) you may place common values in the environment instead of using configuration files. The config is then accessed using [DotEnv](https://github.com/vlucas/phpdotenv) syntax. Run the `october:env` command to move common config values to the environment:
+### Conversion en configuration DotEnv
+
+En tant qu’alternative à [la configuration de l’environnement de base](#base-environment), vous pouvez placer des valeurs courantes dans l’environnement au lieu d’utiliser des fichiers de configuration. La configuration est ensuite accessible à l’aide de la syntaxe [DotEnv](https://github.com/vlucas/phpdotenv). Exécutez la commande `october:env` pour déplacer les valeurs de configuration courantes vers l’environnement
 
     php artisan october:env
 
-This will create an **.env** file in project root directory and modify configuration files to use `env` helper function. The first argument contains the key name found in the environment, the second argument contains an optional default value.
+Cela créera un fichier **.env** dans le répertoire racine du projet et modifiera les fichiers de configuration pour utiliser la fonction d’assistance (helper) `env`. Le premier argument contient le nom clé trouvé dans l’environnement, le deuxième argument contient une valeur par défaut facultative.
 
     'debug' => env('APP_DEBUG', true),
 
-Your `.env` file should not be committed to your application's source control, since each developer or server using your application could require a different environment configuration.
+Votre fichier `.env` ne doit pas être enregistrer dans le dépôt de votre application (git), puisque chaque développeur ou serveur utilisant votre application peut nécessiter une configuration d’environnement différente.
 
-It is also important that your `.env` file is not accessible to the public in production. To accomplish this, you should consider using a [public folder](#public-folder).
+Il est également important que votre fichier `.env` ne soit pas être accessible au public en production. Pour ce faire, vous devez envisager d’utiliser un [dossier public](#public-folder).
