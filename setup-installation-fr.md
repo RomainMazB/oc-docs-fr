@@ -10,7 +10,7 @@
   - [Configuration du planificateur](#crontab-setup)
   - [Configuration des tâches en file d’attente](#queue-setup)
 
-Octobre peut être de deux façons, soit à l’aide de [l’installateur (l'assistant d'installation)](#wizard-installation) ou [via la ligne de commande](../console/commands#console-install). Avant de procéder, vous devez vérifier que votre serveur/hebergeur remplit les conditions minimales requises du système.
+Octobre peut être installé de deux façons, soit à l’aide de [l’installateur (l'assistant d'installation)](#wizard-installation) ou [via la ligne de commande](../console/commands#console-install). Avant de procéder, vous devez vérifier que votre serveur/hebergeur remplit les conditions minimales requises du système.
 
 <a name="system-requirements"></a>
 
