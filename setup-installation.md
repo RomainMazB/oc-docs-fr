@@ -1,111 +1,122 @@
 # Installation
 
-- [Minimum system requirements](#system-requirements)
-- [Wizard installation](#wizard-installation)
-    - [Troubleshooting installation](#troubleshoot-installation)
-- [Command-line installation](#command-line-installation)
-- [Post-installation steps](#post-install-steps)
-    - [Delete installation files](#delete-install-files)
-    - [Review configuration](#config-review)
-    - [Setting up the scheduler](#crontab-setup)
-    - [Setting up queue workers](#queue-setup)
+- [Configuration minimale requise](#system-requirements)
+- [L'installeur (l'assistant d'installation)](#wizard-installation)
+  - [Problèmes d’installation courants](#troubleshoot-installation)
+- [Installation via la ligne de commande](#command-line-installation)
+- [Taches post-installation](#post-install-steps)
+  - [Suppression des fichiers d’installation](#delete-install-files)
+  - [Revoir la configuration](#config-review)
+  - [Configuration du planificateur](#crontab-setup)
+  - [Configuration des tâches en file d’attente](#queue-setup)
 
-There are two ways you can install October, either using the [Wizard installer](#wizard-installation) or [Command-line installation](../console/commands#console-install) instructions. Before you proceed, you should check that your server meets the minimum system requirements.
+Octobre peut être installé de deux façons, soit à l’aide de [l’installateur (l'assistant d'installation)](#wizard-installation) ou [via la ligne de commande](../console/commands#console-install). Avant de procéder, vous devez vérifier que votre serveur/hebergeur remplit les conditions minimales requises du système.
 
 <a name="system-requirements"></a>
-## Minimum system requirements
 
-October CMS has some server requirements for web hosting:
+## Configuration minimale requise
 
-1. PHP version 7.2 or higher
-1. PDO PHP Extension (and relevant driver for the database you want to connect to)
-1. cURL PHP Extension
-1. OpenSSL PHP Extension
-1. Mbstring PHP Extension
-1. ZipArchive PHP Extension
-1. GD PHP Extension
-1. SimpleXML PHP Extension
+Pour faire tourner OctoberCMS, votre serveur/hébergeur devrait supporter
+les exigences ci-dessous:
 
-Some OS distributions may require you to manually install some of the required PHP extensions.
+1. Version du PHP 7.2 ou supérieure
+1. Extension PHP PDO (et driver approprié pour la base de données à laquelle vous souhaitez vous connecter)
+1. Extension PHP cURL
+1. Extension PHP OpenSSL
+1. Extension PHP mbstring
+1. Extension PHP ZipArchive
+1. Extension PHP GD
+1. Extension PHP SimpleXML
 
-When using Ubuntu, the following command can be run to install all required extensions:
+Certaines distributions d’OS peuvent necessiter l'installation manuelle de certaines extensions requises,
+
+Si vous utilisez Ubuntu, l'execution de la commande suivante installera toutes les extensions requises:
 
 ```bash
 sudo apt-get update &&
 sudo apt-get install php php-ctype php-curl php-xml php-fileinfo php-gd php-json php-mbstring php-mysql php-sqlite3 php-zip
 ```
 
+<!-- TODO revoir cette phrase -->
 
-When using the SQL Server database engine, you will need to install the [group concatenation](https://groupconcat.codeplex.com/) user-defined aggregate.
+Si vous utilisez le moteur de base de données SQL Server, vous devrez installer les fonctions d'agrégation définies par l'utilisateur [concaténation de groupe](https://groupconcat.codeplex.com/)
 
 <a name="wizard-installation"></a>
-## Wizard installation
 
-The wizard installation is a recommended way to install October. It is simpler than the command-line installation and doesn't require any special skills.
+## L'installeur (l'assistant d'installation)
 
-1. Prepare a directory on your server that is empty. It can be a sub-directory, domain root or a sub-domain.
-1. [Download the installer archive file](http://octobercms.com/download).
-1. Unpack the installer archive to the prepared directory.
-1. Grant writing permissions on the installation directory and all its subdirectories and files.
-1. Navigate to the install.php script in your web browser.
-1. Follow the installation instructions.
+L’installeur est un moyen recommandé pour installer October. Il est plus simple que l’installation via la ligne de commande et ne nécessite pas de compétences particulières.
+
+1. Préparez un répertoire vide sur votre serveur. Il peut s’agir d’un sous-répertoire, d’une racine de domaine ou d’un sous-domaine.
+2. [Téléchargez l'archive du fichier de l’installateur](https://octobercms.com/download).
+3. Déballez l’archive de l’installateur dans le répertoire préparé auparavent.
+4. Accordez des autorisations d’écriture sur le répertoire d’installation et tous ses sous-répertoires et fichiers.
+5. Accédez au script install.php dans votre navigateur Web.
+6. Suivez les instructions d’installation.
 
 ![image](https://github.com/octobercms/docs/blob/master/images/wizard-installer.png?raw=true) {.img-responsive .frame}
 
 <a name="troubleshoot-installation"></a>
-### Troubleshooting installation
 
-1. **An error 500 is displayed when downloading the application files**: You may need to increase or disable the timeout limit on your webserver. For example, Apache's FastCGI sometimes has the `-idle-timeout` option set to 30 seconds.
+### Problèmes d’installation courants
 
-1. **A blank screen is displayed when opening the application**: Check the permissions are set correctly on the `/storage` files and folders, they should be writable for the web server.
+1. **Une erreur 500 s’affiche lors du téléchargement des fichiers de l’application**: vous devrez peut-être augmenter ou désactiver la limite du délai d’attente sur votre serveur Web. Par exemple, le FastCGI d’Apache a parfois l’option `-idle-timeout` définie sur 30 secondes.
 
-1. **An error code "liveConnection" is displayed**: The installer will test a connection to the installation server using port 80. Check that your webserver can create outgoing connections on port 80 via PHP. Contact your hosting provider or this is often found in the server firewall settings.
+1. **Un écran vide s’affiche lors de l’ouverture de l’application**: vérifiez les autorisations définies pour les fichiers et les dossiers du repertoire `/storage`, elles doivent être configurés en écriture pour le serveur Web
 
-1. **The back-end area displays "Page not found" (404)**: If the application cannot find the database then a 404 page will be shown for the back-end. Try enabling [debug mode](../setup/configuration#debug-mode) to see the underlying error message.
+1. **Un code d’erreur "liveConnection" s’affiche**: l’installateur testera une connexion au serveur d’installation à l’aide du port 80. Vérifiez que votre serveur web peut créer des connexions sortantes sur le port 80 via PHP. Contactez votre fournisseur d’hébergement, se problème souvent causé par les paramètres du pare-feu du serveur.
 
-> **Note:** A detailed installation log can be found in the `install_files/install.log` file.
+1. **La zone back-end affiche "Page introuvable" (404)**: Si l’application ne trouve pas la base de données, une page 404 s’affichera pour le back-end. Essayez d’activer le mode débogage pour afficher le message d’erreur sous-jacent.
+
+> **Remarque:** Un journal d’installation détaillé peut être trouvé dans le fichier `install_files/install.log`
 
 <a name="command-line-installation"></a>
-## Command-line installation
 
-If you feel more comfortable with a command-line or want to use composer, there is a CLI install process on the [Console interface page](../console/commands#console-install).
+## Installation via la ligne de commande
+
+Si vous vous sentez plus à l’aise avec la ligne de commande ou si vous souhaitez utiliser Composer, il existe un processus d’installation par CLI sur la [page de l’interface console](../console/commands#console-install).
 
 <a name="post-install-steps"></a>
-## Post-installation steps
 
-There are some things you may need to set up after the installation is complete.
+## Taches post-installation
+
+Certaines choses devront être configurer une fois l’installation terminée.
 
 <a name="delete-install-files"></a>
-### Delete installation files
 
-If you have used the [Wizard installer](#wizard-installation), for security reasons you should verify the installation files have been deleted. The October installer attempts to cleanup after itself, but you should always verify that they have been successfullly removed:
+### Suppression des fichiers d’installation
 
-    install_files/      <== Installation directory
-    install.php         <== Installation script
+Si vous avez utilisé [l’installeur (l'assistant de l'installation)](#wizard-installation), vous devez supprimer les fichiers d’installation pour des raisons de sécurité. Le programme d'installation d'October tentera de nettoyer après lui-même, mais vous devez toujours vérifier qu'ils ont bien été supprimés:
+
+    install_files/      <== Dossier d'installation
+    install.php         <== Script d'Installation
 
 <a name="config-review"></a>
-### Review configuration
 
-Configuration files are stored in the **config** directory of the application. While each file contains descriptions for each setting, it is important to review the [common configuration options](../setup/configuration) available for your circumstances.
+### Revoir/Examiner la configuration
 
-For example, in production environments you may want to enable [CSRF protection](../setup/configuration#csrf-protection). While in development environments, you may want to enable [bleeding edge updates](../setup/configuration#edge-updates).
+Les fichiers de configuration sont stockés dans le répertoire **config** de l’application. Bien que chaque fichier contient une description pour chaque paramètre, il est important de [revoir les options de configuration communes](../setup/configuration) disponibles pour votre situation.
 
-While most configuration is optional, we strongly recommend disabling [debug mode](../setup/configuration#debug-mode) for production environments. You may also want to use a [public folder](../setup/configuration#public-folder) for additional security.
+Par exemple, pour les environnements de production, vous pouvez activer la [protection CSRF](../setup/configuration#csrf-protection) alors qu'en développement, vous aimeriez activer [les mises à jour de pointe](../setup/configuration#edge-updates).<!-- TODO Traduction correcte de 'bleeding edge updates' -->
+
+Bien que la plupart des configurations sont facultatives, nous recommandons fortement de désactiver le [mode débogage](../setup/configuration#debug-mode) pour les environnements de production. Vous pouvez également utiliser un [dossier public](../setup/configuration#public-folder) pour obtenir une sécurité supplémentaire.
 
 <a name="crontab-setup"></a>
-### Setting up the scheduler
 
-For *scheduled tasks* to operate correctly, you should add the following Cron entry to your server. Editing the crontab is commonly performed with the command `crontab -e`.
+### Configuration du planificateur
+
+Pour que les _tâches planifiées_ fonctionnent correctement, vous devez ajouter l’entrée Cron suivante à votre serveur. L’édition du crontab est généralement effectuée avec la commande `crontab -e`
 
     * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
 
-Be sure to replace **/path/to/artisan** with the absolute path to the *artisan* file in the root directory of October. This Cron will call the command scheduler every minute. Then October evaluates any scheduled tasks and runs the tasks that are due.
+Assurez-vous de remplacer **/path/to/artisan** par le chemin absolu vers le fichier _artisan_ dans le répertoire racine d’October. Ce Cron appellera le planificateur de commandes chaque minute. October évalue ensuite toutes les tâches planifiées et exécute les tâches qui sont dues.
 
-> **Note**: If you are adding this to `/etc/cron.d` you'll need to specify a user immediately after `* * * * *`.
+> **Remarque:** Si vous ajoutez ceci à `/etc/cron.d` vous devez spécifier un utilisateur immédiatement après `* * * * *`.
 
 <a name="queue-setup"></a>
-### Setting up queue workers
 
-You may optionally set up an external queue for processing *queued jobs*, by default these will be handled asynchronously by the platform. This behavior can be changed by setting the `default` parameter in the `config/queue.php`.
+### Configuration des tâches en file d’attente
 
-If you decide to use the `database` queue driver, it is a good idea to add a Crontab entry for the command `php artisan queue:work --once` to process the first available job in the queue.
+Vous pouvez éventuellement configurer une file d’attente externe pour le traitement des _tâches en file d’attente_, par défaut, celles-ci seront traitées de manière asynchrone par la plate-forme. Ce comportement peut être modifié en définissant le paramètre `default` dans le fichier `config/queue.php`
+
+Si vous décidez d’utiliser le pilote de la file d’attente de la `database`, il est préférable d’ajouter une entrée Crontab pour la commande `php artisan queue:work --once` afin de traiter le premier travail disponible dans la file d’attente.
