@@ -1,12 +1,12 @@
-# Backend Controls
+# Contrôles Back-end
 
 - [Tableau de score](#scoreboards)
 
-- [Indicators](#indicators)
+- [Indicateurs](#indicators)
 
-- [Pie chart](#pie-chart)
+- [Graphique en fromage](#pie-chart)
 
-- [Bar chart](#bar-chart)
+- [Graphique en barres](#bar-chart)
 
 L'interface utilisateur back-end intègres un nom d'afficheur HTML que vous pouvez utiliser sur vos pages.
 
