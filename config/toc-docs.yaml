@@ -20,11 +20,11 @@ AJAX:
   icon: "icon-bolt"
   pages:
     ajax/introduction: "Introduction"
-    ajax/handlers: "Event handlers"
-    ajax/update-partials: "Updating partials"
-    ajax/attributes-api: "Data attributes API"
+    ajax/handlers: "Gestionnaire d'évènements"
+    ajax/update-partials: "Mises à jours de partiels"
+    ajax/attributes-api: "API des attributs de données"
 #    ajax/javascript-api: "JavaScript API"
-    ajax/extras: "Extra features"
+    ajax/extras: "Fonctionnalités supplémentaires"
 
 #Themes:
 #  icon: "icon-picture"
