@@ -23,7 +23,7 @@ AJAX:
     ajax/handlers: "Gestionnaire d'évènements"
     ajax/update-partials: "Mises à jours de partiels"
     ajax/attributes-api: "API des attributs de données"
-#    ajax/javascript-api: "JavaScript API"
+    ajax/javascript-api: "API JavaScript"
     ajax/extras: "Fonctionnalités supplémentaires"
 
 #Themes:
