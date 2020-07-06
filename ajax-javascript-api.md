@@ -11,23 +11,17 @@
 <a name="javascript-api"></a>
 
 ## L'API JavaScript
-L'API JavaScript est plus puissante que l'API des attributs de données. La fonction `request` peut être utilisée sur n'importe quel élément à l'intérieur d'un formulaire, ou sur un formulaire. Lorsque la fonction est utilisé sur un élément à l'intérieur d'un formulaire, elle est renvoyé au formulaire.
-
-The JavaScript API is more powerful than the data attributes API. The `request` method can be used with any element that is inside a form, or on a form element. When the method is used with an element inside a form, it is forwarded to the form.
+L'API JavaScript est plus puissante que l'API des attributs de données. La fonction `request` peut être utilisée sur n'importe quel élément à l'intérieur d'un formulaire, ou sur un formulaire. Lorsque la fonction est utilisée sur un élément à l'intérieur d'un formulaire, elle est renvoyée au formulaire.
 
 La fonction `request` n'as qu'un seul argument obligatoire : le nom de l'écouteur AJAX. Exemple:
 
-The `request` method has a single required argument - the AJAX handler name. Example:
-```js
-<form onsubmit="$(this).request('onLogin'); return false;">
-```
+    <form onsubmit="$(this).request('onLogin'); return false;">
+
 ...
 Le second argument de la fonction `request` est l'objet options. Vous pouvez utiliser toutes les options compatible avec la [fonction AJAX de jQuery](http://api.jquery.com/jQuery.ajax/). Les options suivantes sont spécifiques au framework d'October:
 
 Option | Description
-
 ------------- | -------------
-
 **update** | un objet, défini une liste de partiels et d'éléments de page (sous forme de sélecteur CSS) à mettre à jour: `{'partiel': '#select'}`. Si le sélecteur est précédé du signe `@`, le contenu retourné par le serveur sera insérer avant le contenu actuel de l'élément au lieu de le remplacer.
 **confirm** | une chaîne de caractères. Si défini, ce texte sera affiché avant l'envoi de la requête. Si l'utilisateur cliques sur le bouton Annuler, la requête ne sera pas envoyé.
 **data** | un objet, détermine des données additionnelles à envoyer avec ceux du formulaire : `{variable : 'valeur'}`. Lorsque l'option `files` est définie à true, vous pouvez aussi intégrer des fichiers a charger dans cet objet en utilisant des [objets Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob). Pour spécifier le nom du fichier d'un objet `Blob`, définissez simplement la propriété `filename` de l'objet `Blob` lui-même.  (Ex. `var blob = new Blob(variable); blob.filename = 'test.txt'; var data = {'uploaded_file': blob};`)
