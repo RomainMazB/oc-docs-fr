@@ -10,19 +10,19 @@
 <a name="ajax-handlers"></a>
 ## Écouteurs AJAX
 
-Les Écouteurs AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom de l'gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX. @TODO: vérifier la dernière phrase
+Les gestionnaires AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom du gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX. @TODO: vérifier la dernière phrase
 
     function onSubmitContactForm()
     {
         // ...
     }
 
-Si deux gestionnaires avec le même nom sont définis simultanément dans une page et un layout, l'gestionnaire de la page sera exécuté. Les gestionnaires définis dans les [composants](../cms/components) ont la plus petite priorité.
+Si deux gestionnaires avec le même nom sont définis simultanément dans une page et un layout, le gestionnaire de la page sera exécuté. Les gestionnaires définis dans les [composants](../cms/components) ont la plus petite priorité.
 
 <a name="calling-handlers"></a>
 ### Appeler un gestionnaire
 
-Toute requête AJAX doit spécifier un nom d'gestionnaire, que vous utilisiez l'[API des attributs de données](../ajax/attributes-api), ou l'[API JavaScript(../ajax/javascript-api). Lorsqu'une requête est faite, le serveur va chercher tous les gestionnaires enregistrés et prendre le premier qu'il trouve.
+Toute requête AJAX doit spécifier un nom d'un gestionnaire, que vous utilisiez l'[API des attributs de données](../ajax/attributes-api), ou l'[API JavaScript(../ajax/javascript-api). Lorsqu'une requête est faite, le serveur va chercher tous les gestionnaires enregistrés et prendre le premier qu'il trouve.
 
     <!-- Attributes API -->
     <button data-request="onSubmitContactForm">Go</button>
@@ -30,24 +30,24 @@ Toute requête AJAX doit spécifier un nom d'gestionnaire, que vous utilisiez l'
     <!-- JavaScript API -->
     <script> $.request('onSubmitContactForm') </script>
 
-Si deux composants ont enregistré un gestionnaire portant le même nom, il est conseillé de préfixer l'gestionnaire avec [l'alias](../cms/components#aliases) du composant. Si un composant utilise un alias **moncomposant**, l'gestionnaire peut être ciblé avec `moncomposant::onQuelquechose`.
+Si deux composants ont enregistré un gestionnaire portant le même nom, il est conseillé de préfixer le gestionnaire avec [l'alias](../cms/components#aliases) du composant. Si un composant utilise un alias **moncomposant**, le gestionnaire peut être ciblé avec `moncomposant::onQuelquechose`.
 
     <button data-request="mycomponent::onSubmitContactForm">Go</button>
 
-Vous pouvez utiliser la variable référence [`__SELF__`](https://octobercms.com/docs/plugin/components#referencing-self) à la place d'un alias hardcodé dans le cas ou l'utilisateur change l'alias du composant utilisé sur la page.
+Vous pouvez utiliser la variable référence [`__SELF__`](https://octobercms.com/docs/plugin/components#referencing-self) à la place d'un alias codé en dur dans le cas ou l'utilisateur change l'alias du composant utilisé sur la page.
 
     <form data-request="{{ __SELF__ }}::onCalculate" data-request-update="'{{ __SELF__ }}::calcresult': '#result'">
 
-#### Écouteur générique
+#### Gestionnaire générique
 
-Parfois vous pourriez avoir besoin d'effectuer une requête AJAX dans le seul but de mettre à jour du contenu sur la page, sans nécessairement exécuter du code. Vous pouvez utiliser l'gestionnaire `onAjax` dans ce but. Cet gestionnaire est disponible partout, sans besoin d'écrire aucun code.
+Parfois vous pourriez avoir besoin d'effectuer une requête AJAX dans le seul but de mettre à jour du contenu sur la page, sans nécessairement exécuter du code. Vous pouvez utiliser le gestionnaire `onAjax` dans ce but. Cet gestionnaire est disponible partout, sans besoin d'écrire aucun code.
 
     <button data-request="onAjax">Do nothing</button>
 
 <a name="redirects-in-handlers"></a>
 ## Rediriger dans un gestionnaire AJAX
 
-Si vous avez besoin de rediriger le navigateur à une autre adresse, retournez l'objet `Redirect` depuis l'gestionnaire AJAX. Le framework redirigeras le navigateur dès que la réponse sera retourné par le serveur :
+Si vous avez besoin de rediriger le navigateur à une autre adresse, retournez l'objet `Redirect` depuis le gestionnaire AJAX. Le framework redirigera le navigateur dès que la réponse sera retourné par le serveur :
 
     function onRedirectMe()
     {
