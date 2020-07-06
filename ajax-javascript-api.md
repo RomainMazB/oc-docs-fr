@@ -1,133 +1,142 @@
-# AJAX JavaScript API
+# AJAX JavaScript
 
-- [JavaScript API](#javascript-api)
-- [Usage examples](#javascript-examples)
-- [Global AJAX events](#global-events)
-- [Usage examples](#global-events-examples)
+- [L'API JavaScript](#javascript-api)
+
+- [Exemples d'utilisation](#javascript-examples)
+
+- [Gestionnaire AJAX globaux](#global-events)
+
+- [Exemples d'utilisation](#global-events-examples)
 
 <a name="javascript-api"></a>
-## JavaScript API
+
+## L'API JavaScript
+L'API JavaScript est plus puissante que l'API des attributs de données. La fonction `request` peut être utilisée sur n'importe quel élément à l'intérieur d'un formulaire, ou sur un formulaire. Lorsque la fonction est utilisé sur un élément à l'intérieur d'un formulaire, elle est renvoyé au formulaire.
 
 The JavaScript API is more powerful than the data attributes API. The `request` method can be used with any element that is inside a form, or on a form element. When the method is used with an element inside a form, it is forwarded to the form.
 
+La fonction `request` n'as qu'un seul argument obligatoire : le nom de l'écouteur AJAX. Exemple:
+
 The `request` method has a single required argument - the AJAX handler name. Example:
-
-    <form onsubmit="$(this).request('onProcess'); return false;">
-        ...
-
-The second argument of the `request` method is the options object. You can use any option and method compatible with the [jQuery AJAX function](http://api.jquery.com/jQuery.ajax/). The following options are specific for the October framework:
+```js
+<form onsubmit="$(this).request('onLogin'); return false;">
+```
+...
+Le second argument de la fonction `request` est l'objet options. Vous pouvez utiliser toutes les options compatible avec la [fonction AJAX de jQuery](http://api.jquery.com/jQuery.ajax/). Les options suivantes sont spécifiques au framework d'October:
 
 Option | Description
-------------- | -------------
-**update** | an object, specifies a list partials and page elements (as CSS selectors) to update: {'partial': '#select'}. If the selector string is prepended with the `@` symbol, the content received from the server will be appended to the element, instead of replacing the existing content.
-**confirm** | the confirmation string. If set, the confirmation is displayed before the request is sent. If the user clicks the Cancel button, the request cancels.
-**data** | an optional object specifying data to be sent to the server along with the form data: {var: 'value'}. When `files` is true, you may also include files to be uploaded in this object by using [`Blob` objects](https://developer.mozilla.org/en-US/docs/Web/API/Blob). To specify the filename of any `Blob` objects, simply set the `filename` property on the `Blob` object. (Ex. `var blob = new Blob(variable); blob.filename = 'test.txt'; var data = {'uploaded_file': blob};`)
-**redirect** | string specifying an URL to redirect the browser to after the successful request.
-**beforeUpdate** | a callback function to execute before page elements are updated. The function gets 3 parameters: the data object received from the server, text status string, and the jqXHR object. The `this` variable inside the function resolves to the request content - an object containing 2 properties: `handler` and `options` representing the original request() parameters.
-**success** | a callback function to execute in case of a successful request. If this option is supplied it overrides the default framework's functionality: the elements are not updated, the `beforeUpdate` event is not triggered, the `ajaxUpdate` and `ajaxUpdateComplete` events are not triggered. The event handler gets 3 arguments: the data object received from the server, the text status string and the jqXHR object. However, you can still call the default framework functionality calling `this.success(...)` inside your function.
-**error** | a callback function execute in case of an error. By default the alert message is displayed. If this option is overridden the alert message won't be displayed. The handler gets 3 parameters: the jqXHR object, the text status string and the error object - see [jQuery AJAX function](http://api.jquery.com/jQuery.ajax/).
-**complete** | a callback function execute in case of a success or an error.
-**form** | a form element to use for sourcing the form data sent with the request, either passed as a selector string or a form element.
-**flash** | when true, instructs the server to clear and send any flash messages with the response. default: false
-**files** | when true, the request will accept file uploads, this requires `FormData` interface support by the browser. default: false
-**loading** | an optional string or object to be displayed when a request runs. The string should be a CSS selector for an element, the object should support the `show()` and `hide()` functions to manage the visibility. You may pass the global object `$.oc.stripeLoadIndicator` when using the [framework extras](../ajax/extras).
 
-You may also override some of the request logic by passing new functions as options. These logic handlers are available.
-
-Handler | Description
 ------------- | -------------
-**handleConfirmMessage(message)** | called when requesting confirmation from the user.
-**handleErrorMessage(message)** | called when an error message should be displayed.
-**handleValidationMessage(message, fields)** | focuses the first invalid field when validation is used.
-**handleFlashMessage(message, type)** | called when a flash message is provided using the **flash** option (see above).
-**handleRedirectResponse(url)** | called when the browser should redirect to another location.
+
+**update** | un objet, défini une liste de partiels et d'éléments de page (sous forme de sélecteur CSS) à mettre à jour: `{'partiel': '#select'}`. Si le sélecteur est précédé du signe `@`, le contenu retourné par le serveur sera insérer avant le contenu actuel de l'élément au lieu de le remplacer.
+**confirm** | une chaîne de caractères. Si défini, ce texte sera affiché avant l'envoi de la requête. Si l'utilisateur cliques sur le bouton Annuler, la requête ne sera pas envoyé.
+**data** | un objet, détermine des données additionnelles à envoyer avec ceux du formulaire : `{variable : 'valeur'}`. Lorsque l'option `files` est définie à true, vous pouvez aussi intégrer des fichiers a charger dans cet objet en utilisant des [objets Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob). Pour spécifier le nom du fichier d'un objet `Blob`, définissez simplement la propriété `filename` de l'objet `Blob` lui-même.  (Ex. `var blob = new Blob(variable); blob.filename = 'test.txt'; var data = {'uploaded_file': blob};`)
+**redirect** | une chaîne de caractères qui détermine l'URL vers laquelle rediriger le navigateur après le succès de la requête.
+**beforeUpdate** | une fonction callback à exécuter avant de mettre à jour la page. La fonction prends trois paramètres : l'objet data retourné par le serveur, une chaîne de caractère correspondant à l'état de la requête et l'objet jqXHR. La variable `this` à l'intérieur de la fonction retourne le contenu de la requête - un objet avec deux paramètres: `handler` et `options` qui sont les paramètres initiaux de la requête.
+**success** | une fonction callback à exécuter lorsque la requête as été exécutée avec succès. Si elle est définie, elle remplacera la fonctionnalité par défaut du framework : les partiels ne seront pas mis à jour et les évènements `beforeUpdate`,  `ajaxUpdate` et `ajaxUpdateComplete` ne seront pas émis. Vous pouvez toutefois appelé ces fonctionnalités en faisant un appel de la méthode `this.success(...)` à l'intérieur de votre fonction. La fonction reçois trois paramètres : l'objet data retourné par le serveur, une chaîne de caractère correspondant à l'état de la requête et l'objet jqXHR.
+**error** | une fonction callback à exécuter lorsque la requête as échouée. Si cette option est définie, le message d'alerte par défaut ne sera pas affiché. La fonction reçois trois paramètres :  l'objet jqXHR, une chaîne de caractère correspondant à l'état de la requête et l'objet erreur - voir la [fonction jQuery AJAX](http://api.jquery.com/jQuery.ajax/).
+**complete** | une fonction callback à exécuter lorsque la requête as été exécutée, peu importe son état de retour.
+**form** | un élément `form` à utiliser en tant que source de données de la requête, défini en tant que sélecteur CSS ou d'élément DOM.
+**flash** | quand défini à true, indique au serveur de vider et la possibilité de renvoyer un message "toast". Par défaut à false.
+**files** | quand défini à true, la requête accepte les chargement de fichiers, cela requiert le support par le navigateur de l'interface `FormData`. Par défaut à false.
+**loading** | optionnel: une chaîne de caractère ou un objet à afficher lorsque la requête est en cours. La chaîne de caractère doit être le sélecteur CSS d'un élément, l'objet doit supporter les fonctions `show()` et `hide()` pour gérer sa visibilité. Vous pouvez passer l'objet global `$.oc.stripeLoadIndicator` lorsque vous utilisé les [fonctionnalités supplémentaires](../ajax/extras).
+
+Vous pouvez aussi certaines parties de la logique de la requête en passant les nouvelles méthodes comme options. Ces méthodes de la logique sont disponibles.
+
+Méthodes | Description
+------------- | -------------
+**handleConfirmMessage(message)** | appelée lorsque vous demandez la confirmation de l'utilisateur.
+**handleErrorMessage(message)** | appelée lorsqu'un message d'erreur doit apparaître.
+**handleValidationMessage(message, fields)** | donnes le focus au premier champs invalide lorsque la validation est utilisée.
+**handleFlashMessage(message, type)** | appelée lorsqu'un message flash est fournis en utilisant l'option **flash** (voir ci-dessus).
+**handleRedirectResponse(url)** | appelée lorsque le navigateur doit redirigé vers une autre page.
 
 <a name="javascript-examples"></a>
-## Usage examples
+## Exemples d'utilisation
 
-Request a confirmation before the onDelete request is sent:
+Demande la confirmation de l'utilisateur avant l'envoi de la requête onDelete:
 
     $('form').request('onDelete', {
-        confirm: 'Are you sure?',
+        confirm: 'Êtes-vous sûr?',
         redirect: '/dashboard'
     })
 
-Run `onCalculate` handler and inject the rendered **calcresult** partial into the page element with the **result** CSS class:
+Exécute le gestionnaire `onCalculate` et inject le partiel **calcresult** à l'intérieur de l'élément de la page avec la classe CSS **result**:
 
     $('form').request('onCalculate', {
         update: {calcresult: '.result'}
     })
 
-Run `onCalculate` handler with some extra data:
+Exécute le gestionnaire `onCalculate` avec des données additionnelles:
 
     $('form').request('onCalculate', {data: {value: 55}})
 
-Run `onCalculate` handler and run some custom code before the page elements update:
+Exécute le gestionnaire `onCalculate` et exécutes un code avant que les éléments de la page ne soit mise à jour:
 
     $('form').request('onCalculate', {
         update: {calcresult: '.result'},
-        beforeUpdate: function() { /* do something */ }
+        beforeUpdate: function() { /* fait quelque-chose */ }
     })
 
-Run `onCalculate` handler and if successful, run some custom code and the default `success` function:
+Exécute le gestionnaire `onCalculate` et s’il retourne un succès, exécutes du code puis la méthode `success` par défaut:
 
     $('form').request('onCalculate', {success: function(data) {
-        //... do something ...
+        //... fait quelque-chose ...
         this.success(data);
     }})
 
-Execute a request without a FORM element:
+Exécute une requête sans élément FORM:
 
     $.request('onCalculate', {
         success: function() {
-            console.log('Finished!');
+            console.log('Fini!');
         }
     })
 
-Run `onCalculate` handler and if successful, run some custom code after the default `success` function is done:
+Exécute le gestionnaire `onCalculate` et s’il retourne un succès, exécutes du code après que la méthode `success` par défaut ai terminée:
 
     $('form').request('onCalculate', {success: function(data) {
         this.success(data).done(function() {
-            //... do something after parent success() is finished ...
+            //... fait quelque-chose après que la méthode success() ai été exécutée ...
         });
     }})
 
 <a name="global-events"></a>
-## Global AJAX events
+## Gestionnaire AJAX globaux
 
-The AJAX framework triggers several events on the updated elements, triggering element, form, and the window object. The events are triggered regardless on which API was used - the data attributes API or the JavaScript API.
+Le framework ajax émets certains évènements sur les éléments mis à jours, les éléments déclencheurs, le formulaire et l'objet window. Les évènements sont émis peu importe l'API utilisée - l'API des attributs de données ou l'API JavaScript.
 
-Event | Description
+Évènements | Description
 ------------- | -------------
-**ajaxBeforeSend** | triggered on the window object before sending the request.
-**ajaxBeforeUpdate** | triggered on the form object directly after the request is complete, but before the page is updated. The handler gets 5 parameters: the event object, the context object, the data object received from the server, the status text string, and the jqXHR object.
-**ajaxUpdate** | triggered on a page element after it has been updated with the framework. The handler gets 5 parameters: the event object, the context object, the data object received from the server, the status text string, and the jqXHR object.
-**ajaxUpdateComplete** | triggered on the window object after all elements are updated by the framework. The handler gets 5 parameters: the event object, the context object, the data object received from the server, the status text string, and the jqXHR object.
-**ajaxSuccess** | triggered on the form object after the request is successfully completed. The handler gets 5 parameters: the event object, the context object, the data object received from the server, the status text string, and the jqXHR object.
-**ajaxError** | triggered on the form object if the request encounters an error. The handler gets 5 parameters: the event object, the context object, the error message, the status text string, and the jqXHR object.
-**ajaxErrorMessage** | triggered on the window object if the request encounters an error. The handler gets 2 parameters: the event object and error message returned from the server.
-**ajaxConfirmMessage** | triggered on the window object when `confirm` option is given. The handler gets 2 parameters: the event object and text message assigned to the handler as part of `confirm` option. This is useful for implementing custom confirm logic/interface instead of native javascript confirm box.
+**ajaxBeforeSend** | émis sur l'objet window avant que la requête ne soit envoyée
+**ajaxBeforeUpdate** | émis sur l'objet `form` juste après que la requête ai été terminée mais avant la mise à jour de la page. La méthode prends 5 paramètres: l'objet de l'évènement, l'objet contexte, l'objets des données reçu du serveur, le status de la requête au format texte, l'objet jqXHR.
+**ajaxUpdate** | émis sur un élément de la page après qu'il ai été mis à jour par le framework. La méthode prends 5 paramètres: l'objet de l'évènement, l'objet contexte, l'objets des données reçu du serveur, le status de la requête au format texte, l'objet jqXHR.
+**ajaxUpdateComplete** | émis sur l'objet `window` après que tous les éléments ai été mis à jours par le framwork. La méthode prends 5 paramètres: l'objet de l'évènement, l'objet contexte, l'objets des données reçu du serveur, le status de la requête au format texte, l'objet jqXHR.
+**ajaxSuccess** | émis sur l'objet `form` après que la requête ai été exécuté __avec succès__. La méthode prends 5 paramètres: l'objet de l'évènement, l'objet contexte, l'objets des données reçu du serveur, le status de la requête au format texte, l'objet jqXHR.
+**ajaxError** | émis sur l'objet `form` si la requête as échouée. La méthode prends 5 paramètres: l'objet de l'évènement, l'objet contexte, le message d'erreur, le status de la requête au format texte, l'objet jqXHR.
+**ajaxErrorMessage** | émis sur l'objet `window` si la requête as échouée. La méthode prends 2 paramètres: l'objet de l'évènement, le message d'erreur retourné par le serveur.
+**ajaxConfirmMessage** | émis sur l'objet `window` lorsque l'option `confirm` est demandée. La méthode prends 2 paramètres: l'objet de l'évènement, le message de confirmation comme indiqué dans l'option `confirm`. Cela est utile pour implémenter une interface customisée de confirmation au lieu de celle fournie nativement par JavaScript. 
 
-These events are fired on the triggering element:
+Ces évènements sont émis sur l'éléments déclencheur:
 
-Event | Description
+Évènements | Description
 ------------- | -------------
-**ajaxSetup** | triggered before the request is formed, allowing options to be modified via the `context.options` object.
-**ajaxPromise** | triggered directly before the AJAX request is sent.
-**ajaxFail** | triggered finally if the AJAX request fails.
-**ajaxDone** | triggered finally if the AJAX request was successful.
-**ajaxAlways** | triggered regardless if the AJAX request fails or was successful.
+**ajaxSetup** | émis avant que la requête ne soit formée, permets aux options d'être modifiés via l'objet `context.options`.
+**ajaxPromise** | émis juste avant que la requête AJAX ne soit émise.
+**ajaxFail** | émis seulement si la requête échoue.
+**ajaxDone** | émis seulement si la requête est réussie.
+**ajaxAlways** | émis peu importe si la requête échoue ou est réussie.
 
 <a name="global-events-examples"></a>
-## Usage examples
+## Exemples d'utilisation
 
-Executes JavaScript code when the `ajaxUpdate` event is triggered on an element.
+Exécute du code JavaScript lorsque l'évènement `ajaxUpdate` est émis sur un élément.
 
     $('.calcresult').on('ajaxUpdate', function() {
-        console.log('Updated!');
+        console.log('Mis à jour!');
     })
 
-Execute a single request that shows a Flash Message using logic handler.
+Exécute une seule requête qui affiche un message Flash utilisant une logique customisée.
 
     $.request('onDoSomething', {
         flash: 1,
@@ -136,21 +145,21 @@ Execute a single request that shows a Flash Message using logic handler.
         }
     })
 
-Applies configurations to all AJAX requests globally.
+Applique une configuration globale à toutes les requêtes AJAX.
 
     $(document).on('ajaxSetup', function(event, context) {
-        // Enable AJAX handling of Flash messages on all AJAX requests
+        // Active la gestion de message Flash sur toutes les requêtes AJAX
         context.options.flash = true
 
-        // Enable the StripeLoadIndicator on all AJAX requests
+        // Active l'indicateur de chargement StripeLoadIndicator sur toutes les requêtes AJAX
         context.options.loading = $.oc.stripeLoadIndicator
 
-        // Handle Error Messages by triggering a flashMsg of type error
+        // Gères les messages d'erreurs en émétant un message flash de type "erreur"
         context.options.handleErrorMessage = function(message) {
             $.oc.flashMsg({ text: message, class: 'error' })
         }
 
-        // Handle Flash Messages by triggering a flashMsg of the message type
+        // Gères les messages d'erreurs en émétant un message flash selon le type retourné
         context.options.handleFlashMessage = function(message, type) {
             $.oc.flashMsg({ text: message, class: type })
         }
