@@ -50,6 +50,7 @@ Dans la méthode PHP qui reçois la requête AJAX, vous devez émettre une [exce
 Dans un formulaire, vous pouvez afficher le premier message d'erreur en utilisant l'attribut ` data-validate-error` sur un élément conteneur. Le contenu de l'élément sera rempli par le message d'erreur et l'élément sera rendu visible.
 
     <div data-validate-error></div>
+    
 Pour afficher plusieurs messages d'erreur, intégrez un élément avec l'attribut `data-message`. Dans cette exemple, le paragraphe sera dupliqué et remplis à chaque message d'erreur retourné.
 
     <div class="alert alert-danger" data-validate-error>

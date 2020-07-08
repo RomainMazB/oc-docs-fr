@@ -20,15 +20,15 @@ Le framework AJAX existe en deux versions, vous pouvez autant utiliser [L'API Ja
 
 ## Intégrer le framework
 Le framework AJAX est optionnel dans votre [theme](../cms/themes), pour utiliser la librairie, vous devez l'intégrer en plaçant la syntaxe `{% framework %}` n'importe où dans votre [page](../cms/pages) ou [layout](../cms/layouts). Cela intègres la librairie JavaScript front-end. La librairie requiert jQuery, vous devez donc l'intégrer avant, par exemple :
-```html
-<script src="{{ 'assets/javascript/jquery.js'|theme }}"></script>
 
-{% framework %}
-```
-La syntaxe `{% framework %}` supportes le paramètre **extras**. Si ce paramètre est mentionné, cela integreras les feuilles de styles et fichiers JavaScript pour les [fonctionnalités supplémentaires](../ajax/extras), comme la validation de formulaire ou l'indicateur de chargement.
-```html
-{% framework extras %}
-```
+    <script src="{{ 'assets/javascript/jquery.js'|theme }}"></script>
+    
+    {% framework %}
+    
+    La syntaxe `{% framework %}` supportes le paramètre **extras**. Si ce paramètre est mentionné, cela integreras les feuilles de styles et fichiers JavaScript pour les [fonctionnalités supplémentaires](../ajax/extras), comme la validation de formulaire ou l'indicateur de chargement.
+    
+    {% framework extras %}
+
 <a name="how-ajax-works"></a>
 
 ## Comment fonctionnent les requêtes AJAX
@@ -49,40 +49,39 @@ Une page peut émettre une requête AJAX autant depuis L'API des attributs de do
 ## Exemple d'utilisation
 
 Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour créer un formulaire utilisant AJAX. Le formulaire va émettre une requête AJAX vers l'écouteur **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe de la partiel **monpartiel**.
-```html
-<!-- Formulaire utilisant AJAX -->
 
-<form data-request="onTest" data-request-update="monpartiel: '#monDiv'">
+    <!-- Formulaire utilisant AJAX -->
+    
+    <form data-request="onTest" data-request-update="monpartiel: '#monDiv'">
+    
+    <!-- Insérer deux valeurs -->
+    
+    <input name="valeur1"> + <input name="valeur2">
+    
+    <!-- Bouton d'action -->
+    
+    <button type="submit">Calculer</button>
+    
+    </form>
 
-<!-- Insérer deux valeurs -->
+    <!-- Conteneur du résultat -->
 
-<input name="valeur1"> + <input name="valeur2">
+    <div id="monDiv"></div>
 
-<!-- Bouton d'action -->
-
-<button type="submit">Calculer</button>
-
-</form>
-
-<!-- Result container -->
-
-<div id="monDiv"></div>
-```
 > **Note**: Les données `valeur1` et `valeur2` sont automatiquement envoyé avec la requête AJAX.
 
 Le partiel **monpartiel** contiens la syntaxe qui lis le résultat de la variable `resultat`.
-```html
-Le résultat est {{ resultat }}
-```
+
+    Le résultat est {{ resultat }}
+
 La méthode de l'écouteur **onTest** accèdes au données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
-```html
-function onTest()
 
-{
-
-    $this->page['resultat'] = input('valeur1') + input('valeur2');
-
-}
-```
+    function onTest()
+    
+    {
+    
+        $this->page['resultat'] = input('valeur1') + input('valeur2');
+    
+    }
 
 L'exemple peut être lu ainsi: "Quand le formulaire est envoyé, émet une requête AJAX vers l'écouteur **onTest**. Quand l'écouteur as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".

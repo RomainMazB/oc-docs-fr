@@ -1,113 +1,137 @@
-# AJAX Updating Partials
+# Mettre à jour la page avec AJAX
 
-- [Pulling partial updates](#pulling-updates)
-    - [Update definition](#update-definition)
-    - [Appending and prepending content](#appending-prepending)
-- [Pushing partial updates](#pushing-updates)
-- [Passing variables to partials](#passing-variables)
+- [Demander une mise à jour  depuis la vue](#pulling-updates)
 
-When a handler executes it may prepare partials that are updated on the page, either by pushing or pulling, which can be rendered with some supplied variables.
+- [Définition de la mise à jour](#update-definition)
+
+- [Ajouter du contenu au début ou à la fin](#appending-prepending)
+
+- [Envoyer une mise à jour depuis le contrôleur ou composant](#pushing-updates)
+
+- [Passer des variables au partiel](#passing-variables)
+
+Lorsqu'un écouteur s'exécute, il peut préparer des partiels qui mettrons à jour la page. La mise à jour peut être demandé par la vue ou envoyer depuis le contrôleur ou composant et peut être dynamiquement généré avec des variables.
 
 <a name="pulling-updates"></a>
-## Pulling partial updates
 
-The client browser may request partials to be updated from the server when it performs an AJAX request, which is considered *pulling a content update*. The following code renders the **mytime** partial inside the `#myDiv` element on the page after calling the `onRefreshTime` [event handler](../ajax/handlers).
+## Demander une mise à jour depuis la vue
 
-    <div id="myDiv">{% partial 'mytime' %}</div>
+Le navigateur client peut demander une mise à jour depuis le serveur lorsqu'il émet une requete AJAX, c'est ce que l'on appelera une *demande de mise à jour*. Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [l'écouteur](../ajax/handlers) `onConnexion`.
+```html
+<div id="monDiv">{% partial 'monutilisateur' %}</div>
+```
+L'[API des attributs de données](../ajax/attributes-api) utilise l'attribut `data-request-update`.
+```html
+<!-- API des attributs de données -->
 
-The [data attributes API](../ajax/attributes-api) uses the `data-request-update` attribute.
+<button
 
-    <!-- Attributes API -->
-    <button
-        data-request="onRefreshTime"
-        data-request-update="mytime: '#myDiv'">
-        Go
-    </button>
+data-request="onConnexion"
 
-The [JavaScript API](../ajax/javascript-api) uses the `update` configuration option:
+data-request-update="monutilisateur: '#monDiv'">
 
-    <!-- JavaScript API -->
-    $.request('onRefreshTime', {
-        update: { mytime: '#myDiv' }
-    })
+Go
 
+</button>
+```
+- L'[API JavaScript](../ajax/javascript-api) utilise l'option de configuration `update`:
+```js
+// API JavaScript
+
+$.request('onConnexion', {
+
+update: { monutilisateur: '#monDiv' }
+
+})
+```
 <a name="update-definition"></a>
-### Update definition
 
-The definition of what should be updated is specified as a JSON-like object where:
+### Définition de la mise à jour
 
-- the left side (key) is the **partial name**
-- the right side (value) is the **target element** to update
+La définition de ce qui doit être mis à jour utilise une syntaxe similaire à un objet JSON dans laquelle :
 
-The following will request to update the `#myDiv` element with **mypartial** contents.
+- la partie gauche (la clé) est le  **nom du partiel**
 
-    mypartial: '#myDiv'
+- la partie droite (la valeur) est l'**élément visé** à mettre à jour
 
-Multiple partials are separated by commas.
+Ci dessous nous demandons à mettre à jour l'élément `#monDiv` avec le contenu du partiel **monpartiel**.
+```html
+monpartiel: '#monDiv'
+```
+Plusieurs partiels peuvent être mis à jour, dans ce cas il faut les séparer par des virgules.
 
-    firstpartial: '#myDiv', secondpartial: '#otherDiv'
+premierpartiel: '#monDiv', secondpartiel: '#autreDiv'
 
-If the partial name contains a slash or a dash, it is important to 'quote' the left side.
-
-    'folder/mypartial': '#myDiv', 'my-partial': '#myDiv'
-
-The target element will always be on the right side since it can also be a HTML element in JavaScript.
-
-    mypartial: document.getElementById('myDiv')
-
-
+Si le nom du partiel contiens un slash ou un tiret, il faut l'entourer avec des 'apostrophes'.
+```html
+'dossier/monpartiel': '#monDiv', 'mon-partiell': '#autreDiv'
+```
+L'élément visé sera toujours à droite puisqu'il peut aussi être sélectionné à l'aide d'une fonction JavaScript.
+```html
+monpartiel: document.getElementById('monDiv')
+```
 <a name="appending-prepending"></a>
-### Appending and prepending content
 
-If the selector string is prepended with the `@` symbol, the content received from the server will be appended to the element, instead of replacing the existing content.
+### Ajouter du contenu au début ou à la fin
 
+Si le sélecteur est précédé du signe `@`, le contenu reçu du serveur sera ajouté avant le contenu existant de l'élément au lieu de le remplacer.
+```json
+'dossier/debut': '@#monDiv'
+```
+- Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveur sera ajouter après à la fin du contenu de l'élément.
 
-    'folder/append': '@#myDiv'
-
-
-If the selector string is prepended with the `^` symbol, the content will be prepended instead.
-
-
-    'folder/append': '^#myDiv'
-
+'dossier/fin': '^#monDiv'
 
 <a name="pushing-updates"></a>
-## Pushing partial updates
 
-Comparatively, [AJAX handlers](../ajax/handlers) can *push content updates* to the client-side browser from the server-side. To push an update the handler returns an array where the key is a HTML element to update (using a simple CSS selector) and the value is the content to update.
+## Envoyer une mise à jour depuis le contrôleur ou composant
 
-The following example will update an element on the page with the id **myDiv** using the contents found inside the partial **mypartial**. The `onRefreshTime` handler calls the `renderPartial` method to render the partial contents in PHP.
+De la même manière, les [écouteurs AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur. Pour envoyer une mise à jour, l'écouteur AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
 
-    function onRefreshTime()
-    {
-        return [
-            '#myDiv' => $this->renderPartial('mypartial')
-        ];
-    }
+L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la page avec le contenu du partiel **monpartiel**. L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
+```php
+function onConnexion()
 
-> **Note:** The key name must start with an identifier `#` or class `.` character to trigger a content update.
+{
+
+return [
+
+'#monDiv' => $this->renderPartial('monpartiel')
+
+];
+
+}
+```
+> **Note:** Le premier caractère du nom de la clé doit être un `#` ou un `.` pour exécuter une mise à jour de contenu.
 
 <a name="passing-variables"></a>
-## Passing variables to partials
 
-Depending on the execution context, an [AJAX event handler](../ajax/handlers) makes variables available to partials differently.
+## Passer des variables au partiel
 
-- Use `$this[]` inside a page or layout [PHP section](../cms/themes#php-section).
-- Use `$this->page[]` inside a [component class](../plugin/components#ajax-handlers).
-- Use `$this->vars[]` in the [back-end area](../backend/controllers-ajax#ajax).
+Selon le contexte d'exécution de [l'écouteur d'événement](../ajax/handlers), passer des variables au partiel de fait de façons différentes:
 
-These examples will provide the **result** variable to a partial for each context:
+- Utilisez `$this[]` dans la  [section PHP](../cms/themes#php-section) d'une page ou d'un layout.
 
-    // From page or layout PHP code section
-    $this['result'] = 'Hello world!';
+- Utilisez `$this->page[]` dans un [composant de plugin](../plugin/components#ajax-handlers).
 
-    // From a component class
-    $this->page['result'] = 'Hello world!';
+- Utilisez `$this->vars[]` dans la [partie back-end](../backend/controllers-ajax#ajax).
 
-    // From a backend controller or widget
-    $this->vars['result'] = 'Hello world!';
+Les exemples suivants fournissent tous la variable **resultat** selon les contextes différents :
 
-This value can then be accessed using Twig in the partial:
+// Dans la section PHP d'un layout ou d'une page
 
-    <!-- Hello world! -->
-    {{ result }}
+$this['resultat'] = 'Hello world!';
+
+// Depuis un composant de plugin
+
+$this->page['resultat'] = 'Hello world!';
+
+// Depuis un contrôleur ou un widget du back-end
+
+$this->vars['resultat'] = 'Hello world!';
+
+Cette valeur peut être affiché directement avec Twig dans le partiel:
+
+<!-- Hello world! -->
+
+{{ resultat }}
