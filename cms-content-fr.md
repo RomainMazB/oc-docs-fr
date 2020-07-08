@@ -26,7 +26,7 @@ L'extension affectes la façon dont le bloc de contenu est affiché dans l'inter
 
 ## Afficher un bloc de contenu
 
-Utilisez le balise `{% content 'file.htm' %}` pour afficher un bloc de contenu dans une [page](pages), un [partiel](partials)
+Utilisez la balise `{% content 'file.htm' %}` pour afficher un bloc de contenu dans une [page](pages), un [partiel](partials)
 ou une [maquette](layouts). Exemple d'affichage d'un bloc de contenu sur une page :
 
     url = "/contacts"
@@ -43,7 +43,7 @@ Il peut être nécessaire d'avoir besoin de passer des variables à un bloc de c
 
     {% content 'welcome.htm' name='John' %}
 
-À l'intérieur du bloc de contenu, la variable peut être affiché en utilisant des _accolades_ simple:
+À l'intérieur du bloc de contenu, la variable peut être affiché en utilisant des _accolades_ simples:
 
     <h1>Ceci est une démo pour { name }</h1>
 
@@ -55,7 +55,7 @@ Vous trouverez plus d'information dans le [guide de balisage](../markup/tag-cont
 
 ### Variables globales
 
-Vous pouvez définir des variables qui sont globalement accessible à tous les blocs de contenu avec la fonction `View::share`.
+Vous pouvez définir des variables qui sont globalement accessibles à tous les blocs de contenu avec la fonction `View::share`.
 
     View::share('site_name', 'OctoberCMS');
 
