@@ -1,55 +1,57 @@
-# Using Components
+# Utilisation de composants
 
 - [Introduction](#introduction)
-- [Component aliases](#aliases)
-- [Using external property values](#external-property-values)
-- [Passing variables to components](#component-variables)
-- [Customizing default markup](#customizing-default-markup)
-    - [Moving default markup to a partial](#moving-default-markup)
-    - [Overriding component partials](#overriding-partials)
-- [The "View Bag" component](#viewbag-component)
-- [Soft components](#soft-components)
+- [Alias de composants](#aliases)
+- [Utilisation de valeurs de propriétés externes](#external-property-values)
+- [Passer des variables aux composants](#component-variables)
+- [Personnalisation du balisage par défaut](#customizing-default-markup)
+  - [Déplacement du balisage par défaut vers un partiel](#moving-default-markup)
+  - [Remplacement des partiels d'un composant](#overriding-partials)
+- [Le composant "View Bag"](#viewbag-component)
+- [Les composants Soft](#soft-components)
 
-Components are configurable building elements that can be attached to any page, partial or layout. Components are key features of October. Each component implements some functionality that extends your website. Components can output HTML markup on a page, but it is not necessary - other important features of components are handling [AJAX requests](../ajax/introduction), handling form postbacks and handling the page execution cycle, that allows to inject variables to pages or implement the website security.
+Les composants sont des éléments de construction configurables qui peuvent être attachés à n'importe quelle page, partiel ou maquette. Les composants sont une des fonctionnalités majeures d'October. Chaque composant implémente certaines fonctionnalités qui s'ajoutent à votre site Web. Les composants peuvent générer du balisage HTML sur une page, mais ce n'est pas nécessaire, d'autres fonctionnalités importantes des composants sont la gestion des [requête AJAX](../ajax/introduction), la gestion des données de formulaire et la gestion du cycle d'exécution de la page qui permet d'injecter des variables dans les pages ou de mettre en œuvre la sécurité du site Web.
 
-This article describes the components basics and doesn't explain how to use [components with AJAX](../ajax/handlers) or [developing components](../plugin/components) as part of plugins.
+Cet article décrit les bases des composants mais n'explique pas l'utilisation des [composants avec AJAX](../ajax/handlers) ou le développement des composants dans le cadre de plugins.
 
-> **Note:** Using components inside partials has limited functionality, this is described in more detail in the [dynamic partials](partials#dynamic-partials) article.
+> **Remarque:** L'utilisation de composants à l'intérieur des partiels est soumis à certaines limitations, cela est décrit plus en détail dans l'article sur les [partiels dynamiques](partials#dynamic-partials).
 
 <a name="introduction"></a>
+
 ## Introduction
 
-If you use the back-end user interface you can add components to your pages, partials and layouts by clicking the component in the Components panel. If you use a text editor you can attach a component to a page or layout by adding its name to the [Configuration](themes#configuration-section) section of the template file. The next example demonstrates how to add a demo To-do component to a page:
+Si vous utilisez l'interface utilisateur du backend, vous pouvez ajouter des composants à vos pages, partiels et maquettes en cliquant sur le composant dans le panneau Composants. Si vous utilisez un éditeur de texte, vous pouvez attacher un composant à une page ou une maquette en ajoutant son nom à la section [Configuration](themes#configuration-section) du fichier. L'exemple suivant montre comment ajouter un composant de démonstration To-do à une page:
 
-    title = "Components demonstration"
-    url = "/components"
+    title = "Démonstration des composants"
+    url = "/composants"
 
     [demoTodo]
     maxItems = 20
     ==
     ...
 
-This initializes the component with the properties that are defined in the component section. Many components have properties, but it is not a requirement. Some properties are required, and some properties have default values. If you are not sure what properties are supported by a component, refer to the documentation provided by the developer, or use the Inspector in the October back-end. The Inspector opens when you click a component in the page or layout component panel.
+Cela initialise le composant avec les propriétés définies dans la section du composant. De nombreux composants ont des propriétés, mais ce n'est pas une exigence. Certaines propriétés sont obligatoires et certaines propriétés ont des valeurs par défaut. Si vous n'êtes pas sûr des propriétés prises en charge par un composant, reportez-vous dans la documentation fournie par le développeur ou utilisez l'inspecteur dans le backend d'October. L'inspecteur s'ouvre lorsque vous cliquez sur un composant dans le panneau des composants de la page ou la maquette.
 
-When you refer a component, it automatically creates a page variable that matches the component name (`demoTodo` in the previous example). Components that provide HTML markup can be rendered on a page with the `{% component %}` tag, like this:
+Lorsque vous utilisez un composant, cela crée automatiquement une variable de page qui correspond au nom du composant (`demoTodo` dans l'exemple précédent). Les composants qui fournissent un balisage HTML peuvent être rendus sur une page avec la balise `{% component %}`, comme ceci:
 
-    {% component 'demoTodo' %}
+    {% composant 'demoTodo'%}
 
-> **Note:** If two components with the same name are assigned to a page and layout together, the page component overrides any properties of the layout component.
+> **Remarque:** Si deux composants portant le même nom sont attribués simultanément à une page et à une maquette, le composant de page remplace toutes les propriétés du composant de la maquette.
 
 <a name="aliases"></a>
-## Components aliases
 
-If there are two plugins that register components with the same name, you can attach a component by using its fully qualified class name and assigning it an *alias*:
+## Alias de composants
+
+Si deux plugins enregistrent des composants avec le même nom, vous pouvez attacher un composant en utilisant son nom de classe complet et en lui affectant un _alias_:
 
     [October\Demo\Components\Todo demoTodoAlias]
     maxItems = 20
 
-The first parameter in the section is the class name, the second is the component alias name that will be used when attached to the page. If you specified a component alias you should use it everywhere in the page code when you refer to the component. Note that the next example refers to the component alias:
+Le premier paramètre de la section est le nom de la classe, le second est le nom d'alias du composant qui sera utilisé lorsqu'il sera attaché à la page. Si vous avez spécifié un alias de composant, vous devez l'utiliser partout dans le code de page lorsque vous faites référence au composant. Notez que l'exemple suivant fait référence à l'alias du composant:
 
     {% component 'demoTodoAlias' %}
 
-The aliases also allow you to define multiple components of the same class on a same page by using the short name first and an alias second. This lets you to use multiple instances of a same component on a page.
+Les alias vous permettent également de définir plusieurs composants de la même classe sur une même page en utilisant d'abord le nom court et un second alias. Cela vous permet d'utiliser plusieurs instances d'un même composant sur une page.
 
     [demoTodo todoA]
     maxItems = 10
@@ -57,93 +59,98 @@ The aliases also allow you to define multiple components of the same class on a 
     maxItems = 20
 
 <a name="external-property-values"></a>
-## Using external property values
 
-By default property values are initialized in the Configuration section where the component is defined, and the property values are static, like this:
+## Utilisation de valeurs de propriétés externes
+
+Par défaut, les valeurs des propriétés sont initialisées dans la section Configuration où le composant est défini et les valeurs des propriétés sont statiques, comme ceci:
 
     [demoTodo]
     maxItems = 20
     ==
     ...
 
-However there is a way to initialize properties with values loaded from external parameters - URL parameters or [partial](partials) parameters (for components defined in partials). Use the `{{ paramName }}` syntax for values that should be loaded from partial variables:
+Cependant, il existe un moyen d'initialiser les propriétés avec des valeurs chargées à partir de paramètres externes, paramètres de l'URL ou paramètres des [partiels](partials) (pour les composants définis dans les partiels). Utilisez la syntaxe `{{ paramName }}` pour les valeurs qui doivent être chargées à partir des variables des partiels:
 
     [demoTodo]
     maxItems = {{ maxItems }}
     ==
     ...
 
-Assuming that in the example above the component **demoTodo** is defined in a partial, it will be initialized with a value loaded from the **maxItems** partial variable:
+En supposant que dans l'exemple ci-dessus, le composant **demoTodo** est défini dans un partiel **mon-partiel-todo.htm**, il sera initialisé avec une valeur chargée à partir de la variable maxItems du partiels:
 
-    {% partial 'my-todo-partial' maxItems='10' %}
-    
-You may use dot notation to retrieve a deeply nested value from an external parameter:
+    {% partial 'mon-partiel-todo' maxItems='10' %}
+
+Vous pouvez utiliser la notation par points pour récupérer une valeur imbriquée à partir d'un paramètre externe:
 
     [demoTodo]
     maxItems = {{ data.maxItems }}
     ==
     ...
 
-To load a property value from the URL parameter, use the `{{ :paramName }}` syntax, where the name starts with a colon (`:`), for example:
+Pour charger une valeur de propriété à partir du paramètre de l'URL, utilisez la syntaxe `{{ :paramName }}`, où le nom commence par deux points `(:)`, par exemple:
 
     [demoTodo]
     maxItems = {{ :maxItems }}
     ==
     ...
 
-The page, the component belongs to, should have a corresponding [URL parameter](pages#url-syntax) defined:
+La page à laquelle appartient le composant doit définir un [paramètre d'URL](pages#url-syntax) correspondant:
 
     url = "/todo/:maxItems"
 
-In the October back-end you can use the Inspector tool for assigning external values to component properties. In the Inspector you don't need to use the curly brackets to enter the parameter name. Each field in the Inspector has an icon on the right side, which opens the external parameter name editor. Enter the parameter name as `paramName` for partial variables or `:paramName` for URL parameters.
+Dans le backend d'October, vous pouvez utiliser l'outil Inspecteur pour affecter des valeurs externes aux propriétés du composant. Dans l'inspecteur, vous n'avez pas besoin d'utiliser les accolades pour saisir le nom du paramètre. Chaque champ de l'inspecteur a une icône `>_` sur le côté droit, qui ouvre l'éditeur du nom d'un paramètre externe. Entrez le nom du paramètre comme `paramName` pour les variables des partiels ou `:paramName` pour les paramètres de l'URL.
 
 <a name="component-variables"></a>
-## Passing variables to components
 
-Components can be designed to use variables at the time they are rendered, similar to [Partial variables](partials#partial-variables), they can be specified after the component name in the `{% component %}` tag. The specified variables will explicitly override the value of the [component properties](../plugin/components#component-properties), including [external property values](#external-property-values).
+## Passer des variables aux composants
 
-In this example, the **maxItems** property of the component will be set to *7* at the time the component is rendered:
+Les composants peuvent être conçus pour utiliser des variables au moment de leur rendu, similaires aux [variables des partiels](partials#partial-variables), ils peuvent être spécifiés après le nom du composant dans la balise `{% component %}`. Les variables spécifiées remplaceront explicitement la valeur des [propriétés du composant](../plugin/components#component-properties), y compris les [valeurs des propriétés externes](#external-property-values).
+
+Dans cet exemple, la propriété **maxItems** du composant sera définie à **7** au moment du rendu du composant:
 
     {% component 'demoTodoAlias' maxItems='7' %}
 
-> **Note**: Not all components support passing variables when rendering.
+> **Remarque**: Les composants ne prennent pas tous en charge le passage de variables lors du rendu.
 
-<a name="customizing-default-markup"></a>
-## Customizing default markup
+<a name="customizing-default-markup"> </a>
 
-The markup provided by components is generally intended as a usage example for the Component. In some cases you may wish to modify the appearance and output of a component. [Moving the default markup to a theme partial](#moving-default-markup) is suitable to completely overhaul a component. [Overriding the component partials](#overriding-partials) is useful for cherry picking areas to customize.
+## Personnalisation du balisage par défaut
 
-<a name="moving-default-markup"></a>
-### Moving default markup to a partial
+Le balisage fourni par les composants est généralement conçu comme un exemple d'utilisation du composant. Dans certains cas, vous souhaiterez peut-être modifier l'apparence et le rendu d'un composant. [Déplacer le balisage par défaut vers un partiel du thème](#moving-default-markup) convient pour remanier complètement un composant. [Remplacer les partiels des composants](#overriding-partials) est utile pour le choix des parties à personnaliser
 
-Each component can have an entry point partial called **default.htm** that is rendered when the `{% component %}` tag is called, in the following example we will assume the component is called **blogPost**.
+<a name="moving-default-markup"> </a>
 
-    url = "blog/post"
+### Déplacement du balisage par défaut vers un partiel
+
+Chaque composant peut avoir un partiel comme point d'entrée appelé **default.htm** qui est rendu lorsque la balise `{% component %}` est appelée, dans l'exemple suivant, nous supposerons que le composant est appelé **blogPost**.
+
+    url = "blog/article"
 
     [blogPost]
     ==
-    {% component "blogPost" %}
+    {% component "blogPost"%}
 
-The output will be rendered from the plugin directory **components/blogpost/default.htm**. You can copy all the markup from this file and paste it directly in the page or to a new partial, called **blog-post.htm** for example.
+L'affichage sera rendu à partir du répertoire du plugin **components/blogpost/default.htm**. Vous pouvez copier tout le balisage de ce fichier et le coller directement dans la page ou dans un nouveau partiel, appelé **blog-post.htm** par exemple.
 
     <h1>{{ __SELF__.post.title }}</h1>
     <p>{{ __SELF__.post.description }}</p>
 
-Inside the markup you may notice references to a variable called `__SELF__`, this refers to the component object and should be replaced with the component alias used on the page, in this example it is `blogPost`.
+À l'intérieur du balisage, vous pourrez remarquer des références à une variable appelée `__SELF__`, cela fait référence à l'objet composant lui même et doit être remplacé par l'alias de composant utilisé sur la page, dans cet exemple `blogPost`.
 
     <h1>{{ blogPost.post.title }}</h1>
     <p>{{ blogPost.post.description }}</p>
 
-This is the only change needed to allow the default component markup to work anywhere inside the theme. Now the component markup can be customized and rendered using the theme partial.
+Il s'agit de la seule modification nécessaire pour permettre au balisage de composant par défaut de fonctionner n'importe où dans le thème. Maintenant, le balisage du composant peut être personnalisé et rendu à l'aide du partiel du thème.
 
-    {% partial 'blog-post.htm' %}
+    {% partial 'blog-post.htm'%}
 
-This process can be repeated for all other partials found in the component partial directory.
+Ce processus peut être répété pour tous les autres partiels trouvés dans le répertoire des partiel du composant.
 
-<a name="overriding-partials"></a>
-### Overriding component partials
+<a name="overriding-partials"> </a>
 
-All component partials can be overridden using the theme partials. If a component called **channel** uses the **title.htm** partial.
+### Remplacement des partiels des composants
+
+Tous les partiels de composant peuvent être remplacés à l'aide des partiels du thème. Si un composant appelé **channel** utilise le partiel **title.htm**.
 
     url = "mypage"
 
@@ -151,28 +158,29 @@ All component partials can be overridden using the theme partials. If a componen
     ==
     {% component "channel" %}
 
-We can override the partial by creating a file in our theme called **partials/channel/title.htm**.
+Nous pouvons remplacer le partiel en créant un fichier dans notre thème appelé **partials/channel/title.htm**.
 
-The file path segments are broken down like this:
+Les segments du chemin d'accès au fichier sont répartis comme suit:
 
-Segment | Description
-------------- | -------------
-**partials** | the theme partials directory
-**channel** | the component alias (a partial subdirectory)
-**title.htm** | the component partial to override
+| Segment       | La description                                            |
+| ------------- | --------------------------------------------------------- |
+| **partials**  | le répertoire des partiels du thème                       |
+| **channel**   | l'alias du composant (un sous-répertoire de **partials**) |
+| **title.htm** | le partiel du composant à remplacer                       |
 
-The partial subdirectory name can be customized to anything by simply assigning the component an alias of the same name. For example, by assigning the **channel** component with a different alias **foobar** the override directory is also changed:
+Le nom du sous-répertoire du partiel peut être personnalisé au choix en attribuant simplement au composant un alias du même nom. Par exemple, en attribuant au composant **channel** un alias différent **foobar**, le répertoire de remplacement est également modifié:
 
     [channel foobar]
     ==
     {% component "foobar" %}
 
-Now we can override the **title.htm** partial by creating a file in our theme called **partials/foobar/title.htm**.
+Nous pouvons maintenant remplacer le partiel **title.htm** en créant un fichier dans notre thème appelé **partials/foobar/title.htm**.
 
-<a name="viewbag-component"></a>
-## The "View Bag" component
+<a name="viewbag-component"> </a>
 
-There is a special component included in October called `viewBag` that can be used on any page or layout. It allows ad hoc properties to be defined and accessed inside the markup area easily as variables. A good usage example is defining an active menu item inside a page:
+## Le composant "View Bag"
+
+Il existe un composant spécial inclus dans October appelé `viewBag` qui peut être utilisé dans n'importe quelle page ou maquette. Il permet de définir des propriétés spontanément et d'y accéder facilement en tant que variables. Un bon exemple d'utilisation consiste à définir un élément de menu actif dans une page:
 
     title = "About"
     url = "/about.html"
@@ -182,30 +190,31 @@ There is a special component included in October called `viewBag` that can be us
     activeMenu = "about"
     ==
 
-    <p>Page content...</p>
+    <p>Contenu de la page ... </p>
 
-Any property defined for the component is then made available inside the page, layout, or partial markup using the `viewBag` variable. For example, in this layout the **active** class is added to the list item if the `viewBag.activeMenu` value is set to **about**:
+Toute propriété définie pour le composant est ensuite rendue disponible dans la page, la maquette ou le partiel à l'aide de la variable `viewBag`. Par exemple, dans cette maquette, la classe **active** est ajoutée à la "list item" `<li></li>` si la valeur `viewBag.activeMenu` est définie sur **about**:
 
-    description = "Default layout"
+    description = "Maquette par defaut"
     ==
     [...]
 
-    <!-- Main navigation -->
+    <!-- Navigation principale -->
     <ul>
         <li class="{{ viewBag.activeMenu == 'about' ? 'active' }}">About</li>
         [...]
     </ul>
 
-> **Note**: The viewBag component is hidden on the back-end and is only available for file-based editing. It can also be used by other plugins to store data.
+> **Remarque**: le composant viewBag est masqué dans le backend et n'est disponible que pour l'édition directe du code sur des fichiers. Il peut également être utilisé par d'autres plugins pour stocker des données.
 
-<a name="soft-components"></a>
-## Soft components
+<a name="soft-components"> </a>
 
-Soft components are components in a theme that will continue to operate even if the linked component is no longer available. This allows theme and site developers to specify optional plugin components in their themes that will provide specific functionality if the plugin and/or component is present, while allowing the site to continue to function should the component no longer exist.
+## Les Composants Soft
 
-When soft components are present on a page and the component is unavailable, no output is generated for the component.
+Les composants Soft sont des composants d'un thème qui continueront de fonctionner même si le composant lié n'est plus disponible. Cela permet aux développeurs de thèmes et de sites de spécifier des composants de plugin facultatifs dans leurs thèmes qui fourniront des fonctionnalités spécifiques si le plugin et/ou le composant est présent, tout en permettant au site de continuer à fonctionner si le composant n’existe plus.
 
-You can define soft components by prefixing the component name with an `@` symbol.
+Lorsque des composants Soft sont présents sur une page et que le composant n'est pas disponible, aucune sortie n'est générée pour le composant.
+
+Vous pouvez définir des composants Soft en préfixant le nom du composant avec le symbole `@`.
 
     url = "mypage"
 
@@ -213,9 +222,9 @@ You can define soft components by prefixing the component name with an `@` symbo
     ==
     {% component "channel" %}
 
-In this example, should the `channel` component not be available, the `{% component "channel" %}` tag will be ignored when the page is rendered.
+Dans cet exemple, si le composant `channel` n'est pas disponible, la balise `{% component "channel" %}` sera ignorée lors du rendu de la page.
 
-Soft components also work with aliases as well:
+Les composants Soft fonctionnent également avec les alias:
 
     url = "mypage"
 
@@ -223,7 +232,7 @@ Soft components also work with aliases as well:
     ==
     {% component "channelSection" %}
 
-As soft components do not contain any of the data that the component may provide normally if the component is not available, you must take care to ensure that any custom markup will gracefully handle any missing component information. For example:
+Étant donné que les composants Soft ne contiennent aucune des données que le composant peut fournir normalement s'il n'est pas disponible, vous devez vous assurer que tout balisage personnalisé gérera correctement toutes les informations de composant manquantes. Par exemple:
 
     url = "mypage"
 

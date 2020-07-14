@@ -1,16 +1,19 @@
-# CMS Layouts
+# Maquettes du CMS
 
 - [Introduction](#introduction)
-- [Placeholders](#placeholders)
-- [Dynamic layouts](#dynamic-layouts)
-    - [Layout execution life cycle](#layout-life-cycle)
+- [Les placeholders](#placeholders)
+- [Maquettes dynamiques](#dynamic-layouts)
+  - [Cycle de vie de l'exécution d'une maquette](#layout-life-cycle)
 
 <a name="introduction"></a>
+
 ## Introduction
 
-Layouts define the page scaffold, that is everything that repeats on a page, such as a header and footer. Layouts often contain the HTML tag as well as the HEAD, TITLE and BODY tags.
+Les maquettes définissent la structure de la page, c'est-à-dire tout ce qui se répète sur une page, comme l'en-tête et le pied de la page. Les maquettes contiennent souvent la balise HTML ainsi que les balises HEAD, TITLE et BODY.
 
-Layout templates reside in the **/layouts** subdirectory of a theme directory. Layout template files should have the **htm** extension. Inside the layout file you should use the `{% page %}` tag to output the page content. Simplest layout example:
+Les maquettes résident dans le sous-répertoire **/layouts** du répertoire du thème. Les fichiers de la maquette doivent avoir l'extension **htm**.
+Dans le fichier de la maquette, vous devez utiliser la balise `{% page %}` pour afficher le contenu de la page.
+Exemple d'une simple maquette:
 
     <html>
         <body>
@@ -18,24 +21,26 @@ Layout templates reside in the **/layouts** subdirectory of a theme directory. L
         </body>
     </html>
 
-To use a layout for a [page](pages) the page should refer the layout file name (without extension) in the [Configuration](themes#configuration-section) section. Remember that if you refer a layout from a [subdirectory](themes#subdirectories) you should specify the subdirectory name. Example page template using the default.htm layout:
+Pour utiliser une maquette pour une [page](pages), la page doit faire référence au nom du fichier de la maquette (sans extension) dans la section [configuration](themes#configuration-section). N'oubliez pas que si vous référez une maquette à partir d'un sous-répertoire, vous devez spécifier le nom du sous-répertoire. Exemple de modèle de page utilisant la maquette default.htm:
 
     url = "/"
     layout = "default"
     ==
-    <p>Hello, world!</p>
+    <p> Bonjour tout le monde! </p>
 
-When this page is requested its content is merged with the layout, or more precisely - the layout's `{% page %}` tag is replaced with the page content. The previous examples would generate the following markup:
+Lorsque cette page est demandée, son contenu est fusionné avec la maquette, ou plus précisément, la balise `{% page %}` de la maquette est remplacée par le contenu de la page.
+L'exemple précédent générerait le balisage suivant:
 
     <html>
         <body>
-            <p>Hello, world!</p>
+            <p> Bonjour tout le monde! </p>
         </body>
     </html>
 
-Note that you can render [partials](partials) in layouts. This lets you to share the common markup elements between different layouts. For example, you can have a partial that outputs the website CSS and JavaScript links. This approach simplifies the resource management - if you want to add a JavaScript reference you should modify a single partial instead of editing all the layouts.
+Notez que vous pouvez afficher des [partiels](partials) dans des maquettes. Cela vous permet de partager les éléments de balisage communs entre différentes maquettes. Par exemple, vous pouvez avoir un partiel qui génère les liens CSS et JavaScript du site Web. Cette approche simplifie la gestion des ressources, si vous souhaitez ajouter une référence JavaScript, vous devez modifier un seul partiel au lieu de modifier toutes les maquettes.
 
-The [Configuration](themes#configuration-section) section is optional for layouts. The supported configuration parameters are **name** and **description**. The parameters are optional and used in the back-end user interface. Example layout template with a description:
+La section [configuration](themes#configuration-section) est facultative pour les maquettes. Les paramètres de configuration pris en charge sont **name** et **description**. Les paramètres sont facultatifs et utilisés dans l'interface d'administration.
+Exemple de modèle de maquette avec une description:
 
     description = "Basic layout example"
     ==
@@ -46,47 +51,50 @@ The [Configuration](themes#configuration-section) section is optional for layout
     </html>
 
 <a name="placeholders"></a>
+
 ## Placeholders
 
-Placeholders allow pages to inject content to the layout. Placeholders are defined in the layout templates with the `{% placeholder %}` tag. The next example shows a layout template with a placeholder **head** defined in the HTML HEAD section.
+Les placeholders permettent aux pages d'injecter du contenu dans la maquette. Les placeholders sont définis dans les maquettes avec la balise `{% placeholder %}`. L'exemple suivant montre un modèle de maquette avec un placeholder **head** définie dans la section HTML HEAD.
 
     <html>
         <head>
-            {% placeholder head %}
+            {% headholder head %}
         </head>
         ...
 
-Pages can inject content to placeholders with the `{% put %}` and `{% endput %}` tags. The following example demonstrates a simple page template which injects a CSS link to the placeholder **head** defined in the previous example.
+Les pages peuvent injecter du contenu dans les placeholders à l'aide des balises `{% put %}` et `{% endput %}`. L'exemple suivant illustre un modèle de page simple qui injecte un lien CSS dans le placeholders **head** défini dans l'exemple précédent.
 
-    url = "/my-page"
+    url = "/ma-page"
     layout = "default"
     ==
     {% put head %}
         <link href="/themes/demo/assets/css/page.css" rel="stylesheet">
     {% endput %}
 
-    <p>The page content goes here.</p>
+    <p>Le contenu de la page va ici.</p>
 
-More information on placeholders can be found [in the Markup guide](../markup/tag-placeholder).
+Vous trouverez plus d'informations sur les placeholders dans [le guide de balisage](../markup/tag-placeholder).
 
 <a name="dynamic-layouts"></a>
-## Dynamic layouts
 
-Layouts, like pages, can use any Twig features. Please refer to the [Dynamic pages](pages#dynamic-pages) documentation for details.
+## Maquettes dynamiques
+
+Les maquettes comme les pages, peuvent utiliser toutes les fonctionnalités Twig. Veuillez consulter la documentation des [pages dynamiques](pages#dynamic-pages) pour plus de détail.
 
 <a name="layout-life-cycle"></a>
-### Layout execution life cycle
 
-Inside the layout's [PHP section](themes#php-section) you can define the following functions for handling the page execution life cycle: `onInit`, `onStart`, `onBeforePageStart` and `onEnd`.
+### Cycle de vie de l'exécution d'une maquette
 
-The `onInit` function is executed when all components are initialized and before AJAX requests are handled. The `onStart` function is executed in the beginning of the page processing. The `onBeforePageStart` function is executed after the layout [components](components) ran, but before the page's `onStart` function is executed. The `onEnd` function is executed after the page is rendered. The sequence the handlers are executed is following:
+Dans la [section PHP](themes#php-section) de la maquette, vous pouvez définir les fonctions suivantes pour gérer le cycle de vie d'exécution de la page: `onInit`, `onStart`, `onBeforePageStart` et `onEnd`.
 
-1. Layout `onInit()` function.
-1. Page `onInit()` function.
-1. Layout `onStart()` function.
-1. Layout components `onRun()` method.
-1. Layout `onBeforePageStart()` function.
-1. Page `onStart()` function.
-1. Page components `onRun()` method.
-1. Page `onEnd()` function.
-1. Layout `onEnd()` function.
+La fonction `onInit` est exécutée lorsque tous les composants sont initialisés et avant que les requêtes AJAX ne soient traitées. La fonction `onStart` est exécutée au début du traitement de la page. La fonction `onBeforePageStart` est exécutée après l'exécution des composants de la maquette, mais avant l'exécution de la fonction `onStart` de la page. La fonction `onEnd` est exécutée après le rendu de la page. La séquence d'exécution des gestionnaires est la suivante:
+
+1. Fonction `onInit()` de la maquette.
+1. Fonction `onInit()` de la page.
+1. Fonction `onStart()` de la maquette.
+1. Fonction `onRun()` des composants de la maquette.
+1. Fonction `onBeforePageStart()` de la maquette.
+1. Fonction `onStart()` de la page.
+1. Fonction `onRun()` des composants de la page.
+1. Fonction `onEnd()` de la page.
+1. Fonction `onEnd()` de la maquette.

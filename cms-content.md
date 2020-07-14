@@ -1,29 +1,33 @@
-# CMS Content blocks
+# Blocs de contenu
 
 - [Introduction](#introduction)
-- [Rendering content blocks](#rendering-content-blocks)
-- [Passing variables to content blocks](#content-variables)
-    - [Global variables](#content-global-variables)
+- [Afficher des blocs de contenu](#rendering-content-blocks)
+- [Passer des variables à un bloc de contenu](#content-variables)
+  - [Variables globales](#content-global-variables)
 
-Content blocks are text, HTML or [Markdown](http://daringfireball.net/projects/markdown/syntax) blocks that can be edited separately from the page or layout. They are designed to hold static content only and support basic templating variables. [Partials](partials) are more flexible and should be used for generating dynamic content.
+Les blocs de contenus sont des blocs de textes, de HTML ou de [Markdown](http://daringfireball.net/projects/markdown/syntax)
+qui peuvent être rédigé séparément d'une page ou d'une maquette. Ils sont faits pour contenir des contenus statics et supportent uniquement des variables de mise en forme basiques. Les [partiels](partials) sont plus flexible et devraient être utilisé pour générer du contenu dynamique.
 
 <a name="introduction"></a>
+
 ## Introduction
 
-Content blocks files reside in the **/content** subdirectory of a theme directory. The following extensions are supported for content files:
+Les blocs de contenus sont dans le sous-dossier **/content/** d'un dossier thème. Les extensions suivantes sont supportés :
 
-Extension | Description
-------------- | -------------
-**htm** | Used for HTML markup.
-**txt** | Used for plain text.
-**md** | Used for Markdown syntax.
+| Extension | Description                             |
+| --------- | --------------------------------------- |
+| **htm**   | Utilisé pour une mise en forme HTML     |
+| **txt**   | Utilisé pour du texte brut              |
+| **md**    | Utilisé pour une mise en forme Markdown |
 
-The extension affects the way content blocks are displayed in the back-end user interface (with a WYSIWYG editor or with a plain text editor) and how the blocks are rendered on the website. Markdown blocks are converted to HTML before they are displayed.
+L'extension affecte la façon dont le bloc de contenu est affiché dans l'interface d'administration (avec un éditeur WYSIWYG ou avec un éditeur de texte brut) et comment le bloc est affiché sur le site. Les blocs de Markdown sont convertis en HTML avant d'être affichés.
 
 <a name="rendering-content-blocks"></a>
-## Rendering content blocks
 
-Use the `{% content 'file.htm' %}` tag to render a content block in a [page](pages), [partial](partials) or [layout](layouts). Example of a page rendering a content block:
+## Afficher un bloc de contenu
+
+Utilisez la balise `{% content 'file.htm' %}` pour afficher un bloc de contenu dans une [page](pages), un [partiel](partials)
+ou une [maquette](layouts). Exemple d'affichage d'un bloc de contenu sur une page :
 
     url = "/contacts"
     ==
@@ -32,23 +36,28 @@ Use the `{% content 'file.htm' %}` tag to render a content block in a [page](pag
     </div>
 
 <a name="content-variables"></a>
-## Passing variables to content blocks
 
-Sometimes you may need to pass variables to a content block from the external code. While content blocks do not support the use of Twig markup, they do support using variables with a basic syntax. You can pass variables to content blocks by specifying them after the content block name in the `{% content %}` tag:
+## Passer des variables à un bloc de contenu
+
+Il peut être nécessaire d'avoir besoin de passer des variables à un bloc de contenu depuis du code externe. Malgré que les blocs de contenu ne supportent pas le balisage Twig, ils supportent l'utilisation de variable dans une syntaxe basique. Vous pouvez passer des variables à un bloc de contenu en les spécifiant après le nom du bloc dans la balise `{% content %}` :
 
     {% content 'welcome.htm' name='John' %}
 
-Inside the content block, variables can be accessed using singular *curly brackets*:
+À l'intérieur du bloc de contenu, la variable peut être affiché en utilisant des _accolades_ simples:
 
-    <h1>This is a demo for {name}</h1>
+    <h1>Ceci est une démo pour {name}</h1>
 
-More information can be found [in the Markup guide](../markup/tag-content).
+<!-- TODO: changer le nom du "guide markup" -->
+
+Vous trouverez plus d'information dans le [guide de balisage](../markup/tag-content).
 
 <a name="content-global-variables"></a>
-### Global variables
 
-You may register variables that are globally available to all content blocks with the `View::share` method.
+### Variables globales
+
+Vous pouvez définir des variables qui sont globalement accessibles à tous les blocs de contenu avec la fonction `View::share`.
 
     View::share('site_name', 'OctoberCMS');
 
-This code could be called inside the register or boot method of a [plugin registration file](../plugin/registration). Using the above example, the variable `{site_name}` will be available inside all content blocks.
+Ce code peut être appelé à l'intérieur de la méthode `boot` d'un [fichier d'enregistrement de plugin](../plugin/registration).
+En utilisant le code précédent, la variable `{site_name}` deviens accessible à tous les blocs de contenu.
