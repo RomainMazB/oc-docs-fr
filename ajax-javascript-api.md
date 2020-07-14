@@ -13,11 +13,10 @@
 ## L'API JavaScript
 L'API JavaScript est plus puissante que l'API des attributs de données. La fonction `request` peut être utilisée sur n'importe quel élément à l'intérieur d'un formulaire, ou sur un formulaire. Lorsque la fonction est utilisée sur un élément à l'intérieur d'un formulaire, elle est renvoyée au formulaire.
 
-La fonction `request` n'as qu'un seul argument obligatoire : le nom de l'écouteur AJAX. Exemple:
+La fonction `request` n'as qu'un seul argument obligatoire : le nom du gestionnaire AJAX. Exemple:
 
     <form onsubmit="$(this).request('onLogin'); return false;">
 
-...
 Le second argument de la fonction `request` est l'objet options. Vous pouvez utiliser toutes les options compatible avec la [fonction AJAX de jQuery](http://api.jquery.com/jQuery.ajax/). Les options suivantes sont spécifiques au framework d'October:
 
 Option | Description
