@@ -17,33 +17,33 @@ Lorsqu'un écouteur s'exécute, il peut préparer des partiels qui mettrons à j
 ## Demander une mise à jour depuis la vue
 
 Le navigateur client peut demander une mise à jour depuis le serveur lorsqu'il émet une requete AJAX, c'est ce que l'on appelera une *demande de mise à jour*. Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [l'écouteur](../ajax/handlers) `onConnexion`.
-```html
-<div id="monDiv">{% partial 'monutilisateur' %}</div>
-```
+
+    <div id="monDiv">{% partial 'monutilisateur' %}</div>
+
 L'[API des attributs de données](../ajax/attributes-api) utilise l'attribut `data-request-update`.
-```html
-<!-- API des attributs de données -->
 
-<button
+    <!-- API des attributs de données -->
 
-data-request="onConnexion"
+    <button
+    
+    data-request="onConnexion"
+    
+    data-request-update="monutilisateur: '#monDiv'">
+    
+        Go
+    
+    </button>
 
-data-request-update="monutilisateur: '#monDiv'">
+L'[API JavaScript](../ajax/javascript-api) utilise l'option de configuration `update`:
 
-Go
+    // API JavaScript
+    
+    $.request('onConnexion', {
+    
+        update: { monutilisateur: '#monDiv' }
+    
+    })
 
-</button>
-```
-- L'[API JavaScript](../ajax/javascript-api) utilise l'option de configuration `update`:
-```js
-// API JavaScript
-
-$.request('onConnexion', {
-
-update: { monutilisateur: '#monDiv' }
-
-})
-```
 <a name="update-definition"></a>
 
 ### Définition de la mise à jour
@@ -55,32 +55,32 @@ La définition de ce qui doit être mis à jour utilise une syntaxe similaire à
 - la partie droite (la valeur) est l'**élément visé** à mettre à jour
 
 Ci dessous nous demandons à mettre à jour l'élément `#monDiv` avec le contenu du partiel **monpartiel**.
-```html
-monpartiel: '#monDiv'
-```
+
+    monpartiel: '#monDiv'
+
 Plusieurs partiels peuvent être mis à jour, dans ce cas il faut les séparer par des virgules.
 
-premierpartiel: '#monDiv', secondpartiel: '#autreDiv'
+    premierpartiel: '#monDiv', secondpartiel: '#autreDiv'
 
 Si le nom du partiel contiens un slash ou un tiret, il faut l'entourer avec des 'apostrophes'.
-```html
-'dossier/monpartiel': '#monDiv', 'mon-partiell': '#autreDiv'
-```
+
+    'dossier/monpartiel': '#monDiv', 'mon-partiell': '#autreDiv'
+
 L'élément visé sera toujours à droite puisqu'il peut aussi être sélectionné à l'aide d'une fonction JavaScript.
-```html
-monpartiel: document.getElementById('monDiv')
-```
+
+    monpartiel: document.getElementById('monDiv')
+
 <a name="appending-prepending"></a>
 
 ### Ajouter du contenu au début ou à la fin
 
 Si le sélecteur est précédé du signe `@`, le contenu reçu du serveur sera ajouté avant le contenu existant de l'élément au lieu de le remplacer.
-```json
-'dossier/debut': '@#monDiv'
-```
-- Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveur sera ajouter après à la fin du contenu de l'élément.
 
-'dossier/fin': '^#monDiv'
+    'dossier/debut': '@#monDiv'
+
+Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveur sera ajouter après à la fin du contenu de l'élément.
+
+    'dossier/fin': '^#monDiv'
 
 <a name="pushing-updates"></a>
 
@@ -89,19 +89,16 @@ Si le sélecteur est précédé du signe `@`, le contenu reçu du serveur sera a
 De la même manière, les [écouteurs AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur. Pour envoyer une mise à jour, l'écouteur AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
 
 L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la page avec le contenu du partiel **monpartiel**. L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
-```php
-function onConnexion()
 
-{
+    function onConnexion()
+    {
+        return [
+        
+            '#monDiv' => $this->renderPartial('monpartiel')
+        
+        ];
+    }
 
-return [
-
-'#monDiv' => $this->renderPartial('monpartiel')
-
-];
-
-}
-```
 > **Note:** Le premier caractère du nom de la clé doit être un `#` ou un `.` pour exécuter une mise à jour de contenu.
 
 <a name="passing-variables"></a>
@@ -118,20 +115,20 @@ Selon le contexte d'exécution de [l'écouteur d'événement](../ajax/handlers),
 
 Les exemples suivants fournissent tous la variable **resultat** selon les contextes différents :
 
-// Dans la section PHP d'un layout ou d'une page
-
-$this['resultat'] = 'Hello world!';
-
-// Depuis un composant de plugin
-
-$this->page['resultat'] = 'Hello world!';
-
-// Depuis un contrôleur ou un widget du back-end
-
-$this->vars['resultat'] = 'Hello world!';
-
-Cette valeur peut être affiché directement avec Twig dans le partiel:
-
-<!-- Hello world! -->
-
-{{ resultat }}
+    // Dans la section PHP d'un layout ou d'une page
+    
+    $this['resultat'] = 'Hello world!';
+    
+    // Depuis un composant de plugin
+    
+    $this->page['resultat'] = 'Hello world!';
+    
+    // Depuis un contrôleur ou un widget du back-end
+    
+    $this->vars['resultat'] = 'Hello world!';
+    
+    Cette valeur peut être affiché directement avec Twig dans le partiel:
+    
+    <!-- Hello world! -->
+    
+    {{ resultat }}
