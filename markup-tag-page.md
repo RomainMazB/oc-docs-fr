@@ -1,36 +1,35 @@
 # {% page %}
 
-The `{% page %}` tag renders the contents of a [page](../cms/pages) into a layout template.
+La balise `{% page %}` rend le contenu d'une [page](../cms/pages) dans un modèle de maquette.
 
-See [layouts](../cms/layouts#introduction) for a basic example.
+Voir [layouts](../cms/layouts#introduction) pour un exemple de base.
 
-The `{% page %}` tag parses the raw markup from a page template. A page template may inject content both into placeholder(s) as well as define raw markup.
+La balise `{% page %}` analyse le balisage brut d'un modèle de page. Un modèle de page peut à la fois injecter du contenu dans les placeholders et définir un balisage brut.
 
-    description="example layout"
-    ==
-    <html>
-        <head>
-            {% placeholder head %}
-        </head>
-        <body>
-            {% page %}
-            ...
+     description = "Exemple d'une maquette"
+     ==
+     <html>
+         <head>
+             {% placeholder head%}
+         </head>
+         <body>
+             {% page %}
+             ...
 
-    description="example page"
-    ==
-    {% put head %}
-        <meta name="foo" content="bar">
-    {% endput %}
-    
-    <p>My content.</p>
-    
-The page rendered with the template would result in:
+     description = "Exemple d'une page"
+     ==
+     {% put head %}
+         <meta name="toto" content="titi">
+     {% endput %}
 
-    <html>
-        <head>
-            <meta name="foo" content="bar">
-        </head>
-        <body>
-            <p>My content.</p>
-            ...
- 
+     <p>Mon contenu.</p>
+
+La page rendue avec le modèle entraînerait:
+
+     <html>
+         <head>
+             <meta name="toto" content="titi">
+         </head>
+         <body>
+             <p>Mon contenu.</p>
+             ...
