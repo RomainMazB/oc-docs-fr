@@ -1,87 +1,87 @@
-# Templating
+# Le moteur de templates
 
-October extends the [Twig template language](http://twig.sensiolabs.org/documentation) with a number of functions, tags, filters and variables. These extensions allow you to use the CMS features and access the page environment information inside your templates.
+October étend le [langage de template Twig](http://twig.sensiolabs.org/documentation) avec un certain nombre de fonctions, balises, filtres et variables. Ces extensions vous permettent d'utiliser les fonctionnalités du CMS et d'accéder aux informations d'environnement de la page dans vos modèles de vues.
 
 ## Variables
 
-Template variables are printed on the page using *double curly brackets*.
+Les variables de template sont imprimées sur la page à l'aide des _doubles accolades_.
 
     {{ variable }}
 
-Variables can also represent *expressions*.
+Les variables peuvent également représenter des _expressions_.
 
-    {{ isAjax ? 'Yes' : 'No' }}
+    {{ isAjax? 'Oui' : 'Non' }}
 
-Variables can be concatenated with the `~` character.
+Les variables peuvent être concaténées avec le caractère `~`.
 
-    {{ 'Your name: ' ~ name }}
+    {{ 'Votre nom: ' ~ nom }}
 
-October provides global variables under the `this` variable, as listed under the **Variables** section.
+October fournit des variables globales sous la variable `this`, comme indiqué dans la section **Variables**.
 
-## Tags
+## Balise
 
-Tags are a unique feature to Twig and are wrapped with `{% %}` characters.
+Les balises sont une caractéristique unique de Twig et sont entourées de caractères `{% %}`.
 
-    {% tag %}
+    {% balise %}
 
-Tags provide a more fluent way to describe template logic.
+Les balises fournissent un moyen plus fluide pour décrire la logique du modèle.
 
-    {% if stormCloudComing %}
-        Stay inside
+    {% if nuageOrageArrive %}
+        Rester à l'intérieur
     {% else %}
-        Go outside and play
+        Allez dehors et profitez du beau temps
     {% endif %}
 
-The `{% set %}` tag can be used to set variables inside the template.
+La balise `{% set %}` peut être utilisée pour définir des variables à l'intérieur du modèle.
 
-    {% set activePage = 'blog' %}
+    {% set pageActive = 'blog' %}
 
-Tags can take on many different syntaxes and are listed under the **Tags** section.
+Les balises peuvent prendre de nombreuses syntaxes différentes et sont répertoriées dans la section **Balises**.
 
-## Filters
+## Filtres
 
-Filters act as modifiers to variables for a single instance and are applied using a *pipe symbol* followed by the filter name.
+Les filtres agissent comme des modificateurs de variables pour une seule instance et sont appliqués à l'aide d'un _symbole de barre vertical_ suivi du nom du filtre.
 
-    {{ 'string'|filter }}
+    {{ 'chaîne de caractères'|filtre }}
 
-Filters can take arguments like a function.
+Les filtres peuvent prendre des arguments comme une fonction.
 
-    {{ price|currency('USD') }}
+    {{ prix|currency('USD'))}}
 
-Filters can be applied in succession.
+Les filtres peuvent être appliqués successivement.
 
-    {{ 'October Glory'|upper|replace({'October': 'Morning'}) }}
+    {{ 'Gloire à October'|upper|replace({'October': 'Matin'}) }}
 
-Filters are listed under the **Filters** section.
+Les filtres sont répertoriés dans la section **Filtres**.
 
-## Functions
+## Les fonctions
 
-Functions allow logic to be executed and the return result acts as a variable.
+Les fonctions permettent à la logique d'être exécutée et le résultat renvoyé agit comme une variable.
 
-    {{ function() }}
+    {{ fonction() }}
 
-Functions can take arguments.
+Les fonctions peuvent accepter des arguments.
 
     {{ dump(variable) }}
 
-Functions are listed under the **Functions** section.
+Les fonctions sont répertoriées dans la section **Fonctions**.
 
-## Access logic
+## Logique d'accès
 
-The most important thing to learn about Twig is how it accesses the PHP layer. For convenience sake `{{ foo.bar }}` does the following checks on a PHP object:
+La chose la plus importante à apprendre sur Twig est de savoir comment il accède à la couche PHP. Pour des raisons de commodité, `{{ toto.titi }}` effectue les vérifications suivantes sur un objet PHP:
 
-1. Check if `foo` is an array and `bar` a valid element.
-1. If not, and if `foo` is an object, check that `bar` is a valid property.
-1. If not, and if `foo` is an object, check that `bar` is a valid method (even if bar is the constructor - use `__construct()` instead).
-1. If not, and if `foo` is an object, check that `getBar` is a valid method.
-1. If not, and if `foo` is an object, check that `isBar` is a valid method.
-1. If not, return a `null` value.
+1. Vérifie si `toto` est un tableau et `titi` un élément valide.
+1. Sinon, si `toto` est un objet, vérifie que `titi` est une propriété valide.
+1. Sinon, si `toto` est un objet, vérifie que `titi` est une méthode valide (même si titi est le constructeur, utilisez plutôt `__construct()`).
+1. Sinon, si `toto` est un objet, vérifie que `getTiti` est une méthode valide.
+1. Sinon, si `toto` est un objet, vérifie que `isTiti` est une méthode valide.
+1. Sinon, renvoi une valeur `null`.
 
-## Unsupported features
+## Fonctionnalités non prises en charge
 
-There are some features offered by Twig that are not supported by October. They are listed below next to the equivalent feature.
+Il y a certaines fonctionnalités offertes par Twig qui ne sont pas prises en charge dans October. Ils sont répertoriés ci-dessous à côté de la fonctionnalité équivalente.
 
-Tag | Equivalent
-------------- | -------------
-`{% extend %}` | Use [Layouts](http://octobercms.com/docs/cms/layouts) or `{% placeholder %}`
-`{% include %}` | Use `{% partial %}` or `{% content %}`
+| Tag             | Équivalent                                                                        |
+| --------------- | --------------------------------------------------------------------------------- |
+| `{% extend %}`  | Utilisez [Maquette](http://octobercms.fr/docs/cms/layouts) ou `{% placeholder %}` |
+| `{% include %}` | Utilisez `{% partial %}` ou `{% content %}`                                       |
