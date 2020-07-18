@@ -1,53 +1,56 @@
 # {% content %}
 
-The `{% content %}` tag will display a [CMS content block](../cms/content) on the page. To display content block called **contacts.htm** you pass the file name after the `content` tag quoted as a string.
+La balise `{% content %}` affichera un [bloc de contenu CMS](../cms/content) sur la page.
+
+Pour afficher le bloc de contenu appelé **contacts.htm**, vous passez le nom du fichier après la balise `content` entre guillemets sous forme de chaîne.
 
     {% content "contacts.htm" %}
 
-A content block inside a subdirectory can be rendered in the same way.
+Un bloc de contenu à l'intérieur d'un sous-répertoire peut être rendu de la même manière.
 
     {% content "sidebar/content.htm" %}
 
-> **Note**: The [Themes documentation](../cms/themes#subdirectories) has more details on subdirectory usage.
+> **Remarque**: La [Documentation du thème](../cms/themes#subdirectories) contient plus de détails sur l'utilisation des sous-répertoires.
 
-Content blocks can be rendered as plain text:
+Les blocs de contenu peuvent être rendus sous forme de texte brut:
 
     {% content "readme.txt" %}
 
-You can also use Markdown syntax:
+Vous pouvez également utiliser la syntaxe Markdown:
 
     {% content "changelog.md" %}
 
-Content blocks can also be used in combination with [layout placeholders](../cms/layouts#placeholders):
+Les blocs de contenu peuvent également être utilisés en combinaison avec des [placeholders de la maquette](../cms/layouts#placeholders):
 
     {% put sidebar %}
         {% content 'sidebar-content.htm' %}
-    {% endput %}
+    {% endput%}
 
-<a name="variables"></a>
+<a name="variables"> </a>
+
 ## Variables
 
-You can pass variables to content blocks by specifying them after the file name:
+Vous pouvez transmettre des variables aux blocs de contenu en les spécifiant après le nom du fichier:
 
     {% content "welcome.htm" name=user.name %}
 
-You can also assign new variables for use in the content:
+Vous pouvez également affecter de nouvelles variables à utiliser dans le contenu:
 
-    {% content "location.htm" city="Vancouver" country="Canada" %}
+    {% partial "location" ville="Paris" pays="France" %}
 
-Inside the content, variables can be accessed using a basic syntax using singular *curly brackets*:
+À l'intérieur du contenu, les variables sont accessibles en utilisant une syntaxe de base utilisant de simples accolades:
 
-    <p>Country: {country}, city: {city}.</p>
+    <p>Pays: { pays }, ville: { ville }.</p>
 
-You can also pass a collection of variables as a simple array:
+Vous pouvez également transmettre une collection de variables sous forme d'un simple tableau:
 
     {% content "welcome.htm" likes=[
-        {name:'Dogs'},
-        {name:'Fishing'},
-        {name:'Golf'}
+        {name: 'Dogs'},
+        {name: 'Fishing'},
+        {nom: 'Golf'}
     ] %}
 
-The collection of variables is accessed by using an opening and closing set of brackets:
+La collection de variables est accessible en utilisant des accolades ouvrant et fermant:
 
     <ul>
         {likes}
@@ -55,4 +58,4 @@ The collection of variables is accessed by using an opening and closing set of b
         {/likes}
     </ul>
 
-> **Note**: Twig syntax is not supported in Content blocks, consider using a [CMS partial](../cms/partials) instead.
+> **Remarque**: la syntaxe Twig n'est pas prise en charge dans les blocs de contenu, pensez à utiliser un [ partiel du CMS](../cms/partials) à la place.
