@@ -1,7 +1,7 @@
 Markup:
   icon: "icon-code"
   pages:
-    markup/templating: "Templating"
+    markup/templating: "Moteur de template"
 
 Variables:
   icon: "icon-subscript"
@@ -29,24 +29,23 @@ Tags:
     markup/tag-macro: "{% macro %}"
     markup/tag-for: "{% for %}"
     markup/tag-if: "{% if %}"
+# Filters:
+#   icon: "icon-quote-right"
+#   itemClass: "code-item"
+#   pages:
+#     markup/filter-app: "|app"
+#     markup/filter-page: "|page"
+#     markup/filter-theme: "|theme"
+#     markup/filter-media: "|media"
+#     markup/filter-md: "|md"
+#     markup/filter-raw: "|raw"
+#     markup/filter-default: "|default"
 
-Filters:
-  icon: "icon-quote-right"
-  itemClass: "code-item"
-  pages:
-    markup/filter-app: "|app"
-    markup/filter-page: "|page"
-    markup/filter-theme: "|theme"
-    markup/filter-media: "|media"
-    markup/filter-md: "|md"
-    markup/filter-raw: "|raw"
-    markup/filter-default: "|default"
-
-Functions:
-  icon: "icon-eraser"
-  itemClass: "code-item"
-  pages:
-    markup/function-str: "str()"
-    markup/function-form: "form()"
-    markup/function-html: "html()"
-    markup/function-dump: "dump()"
+# Functions:
+#   icon: "icon-eraser"
+#   itemClass: "code-item"
+#   pages:
+#     markup/function-str: "str()"
+#     markup/function-form: "form()"
+#     markup/function-html: "html()"
+#     markup/function-dump: "dump()"
