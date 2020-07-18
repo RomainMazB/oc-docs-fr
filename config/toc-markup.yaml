@@ -1,4 +1,4 @@
-Markup:
+BALISAGE:
   icon: "icon-code"
   pages:
     markup/templating: "Moteur de template"
@@ -13,7 +13,7 @@ Variables:
     markup/this-param: "this.param"
     markup/this-environment: "this.environment"
 
-Tags:
+Balises:
   icon: "icon-tags"
   itemClass: "code-item"
   pages:
