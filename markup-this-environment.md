@@ -1,13 +1,13 @@
 # this.environment
 
-You can access the current environment object via `this.environment` and it returns a string that references the [current environment configuration](../setup/configuration#environment-config).
+Vous pouvez accéder à l'objet d'environnement actuel via `this.environment` et il renvoie une chaîne qui fait référence à la [configuration de l'environnement actuelle](../setup/configuration#environment-config).
 
-## Example
+## Exemple
 
-The following example will display a banner if the website is running in the test environment:
+L'exemple suivant affichera une bannière si le site Web s'exécute dans l'environnement de test:
 
-    {% if this.environment == 'test' %}
+     {% if this.environment == 'test'%}
 
-        <div class="banner">Test Environment</div>
+         <div class="banner">Environnement de test</div>
 
     {% endif %}
