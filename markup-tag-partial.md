@@ -1,44 +1,46 @@
 # {% partial %}
 
-The `{% partial %}` tag will parse a [CMS partial](../cms/partials) and render the partial contents on the page. To display a partial called **footer.htm**, simply pass the name after the `partial` tag quoted as a string.
+La balise `{% partial %}` analysera un [partiel du CMS](../cms/partials) et rendra le contenu du partiel dans la page. Pour afficher un partiel appelé **footer.htm**, passez simplement le nom après la balise `partial` entre guillemets sous forme de chaîne.
 
     {% partial "footer" %}
 
-A partial inside a subdirectory can be rendered in the same way.
+Un partiel à l'intérieur d'un sous-répertoire peut être rendu de la même manière.
 
-    {% partial "sidebar/menu" %}
+    {% partial "sidebar/menu"%}
 
-> **Note**: The [Themes documentation](../cms/themes#subdirectories) has more details on subdirectory usage.
+> **Remarque**: La [Documentation du thème](../cms/themes#subdirectories) contient plus de détails sur l'utilisation des sous-répertoires.
 
-The partial name can also be a variable:
+Le nom du partiel peut également être une variable:
 
-    {% set tabName = "profile" %}
+    {% set tabName = "profil" %}
     {% partial tabName %}
 
-<a name="variables"></a>
+<a name="variables"> </a>
+
 ## Variables
 
-You can pass variables to partials by specifying them after the partial name:
+Vous pouvez passer des variables aux partiels en les spécifiant après le nom du partiel:
 
     {% partial "blog-posts" posts=posts %}
 
-You can also assign new variables for use in the partial:
+Vous pouvez également affecter de nouvelles variables à utiliser dans le partiel:
 
-    {% partial "location" city="Vancouver" country="Canada" %}
+    {% partial "location" ville="Paris" pays="France" %}
 
-Inside the partial, variables can be accessed like any other markup variable:
+À l'intérieur du partiel, les variables sont accessibles comme toute autre variable de balisage:
 
-    <p>Country: {{ country }}, city: {{ city }}.</p>
+    <p>Pays: {{ pays }}, ville: {{ ville }}.</p>
 
-<a name="checking-partial-exits"></a>
-## Checking a partial exists
+<a name="checking-partial-exits"> </a>
 
-In any template you can check if a partial content exists by using the `partial()` function. This lets you to generate different markup depending on whether the partial exists or not. Example:
+## La vérification de l'existance d'un partiel
 
-    {% set cardPartial = 'my-cards/' ~ cardCode %}
+Dans n'importe quel modèle, vous pouvez vérifier si un partiel existe en utilisant la fonction `partial()`. Cela vous permet de générer un balisage différent selon que le partiel existe ou non. Exemple:
 
-    {% if partial(cardPartial) %}
+    {% set cardPartial = 'mes-cartes/' ~ cardCode %}
+
+    {% if partial(cardPartial)%}
         {% partial cardPartial %}
     {% else %}
-        <p>Card not found!</p>
+        <p>Carte introuvable!</p>
     {% endif %}
