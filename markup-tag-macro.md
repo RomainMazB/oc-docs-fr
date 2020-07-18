@@ -1,90 +1,93 @@
 # {% macro %}
 
-The `{% macro %}` tag allows you to define custom functions in your templates, similar to regular programming languages.
+La balise `{% macro %}` vous permet de définir des fonctions personnalisées dans vos modèles, similaires aux langages de programmation habituels.
 
     {% macro input() %}
         ...
     {% endmacro %}
 
-Alternatively you can include the name of the macro after the end tag for better readability:
+Vous pouvez également inclure le nom de la macro après la balise de fin pour une meilleure lisibilité:
 
     {% macro input() %}
         ...
     {% endmacro input %}
 
-The following example defines a function called `input()` that takes 4 arguments, the associated values are accessed as variables within the markup inside.
+L'exemple suivant définit une fonction appelée `input()` qui prend 4 arguments, les valeurs associées sont accessibles en tant que variables dans le balisage à l'intérieur.
 
-    {% macro input(name, value, type, size) %}
+    {% macro input(nom, valeur, type, taille)%}
         <input
-            type="{{ type|default('text') }}"
-            name="{{ name }}"
-            value="{{ value|e }}"
-            size="{{ size|default(20) }}" />
+            type = "{{ type|default('text') }}"
+            nom = "{{ nom }}"
+            valeur = "{{ valeur|e }}"
+            taille = "{{ taille|default(20) }}" />
+    {% endmacro%}
+
+> **Remarque**: Les arguments d'une macro ne spécifient pas de valeurs par défaut et sont toujours considérés comme facultatifs.
+
+<a name="calling-macros"> </a>
+
+## Appel de macros
+
+Avant qu'une macro puisse être utilisée, elle doit d'abord être "importée" en utilisant la balise `{% import %}`. Si la macro est définie dans le même fichier, la variable spéciale `_self` peut être utilisée.
+
+    {% import _self as formulaire %}
+
+Ici, les fonctions macro sont affectées à la variable `formulaire`, disponible pour être appelée comme n'importe quelle autre fonction.
+
+    <p>{{ formulaire.input('username') }}</p>
+    <p>{{ formulaire.input('password', null, 'password') }}</p>
+
+Les macros peuvent être définies dans [un partiel de thème](../cms/partials) et importées par leur nom. Pour importer les macros à partir d'un partiel appelé **macros/form.htm**, passez simplement le nom après la balise `import` entre guillemets sous forme de chaîne.
+
+    {% import 'macros/form' as formulaire%}
+
+Vous pouvez également importer des macros à partir d'un [fichier de vue système](../services/response-view#views) et celles-ci seront acceptées. Pour importer depuis **plugins/acme/blog/views/macros.htm**, transmettez simplement l'indication du chemin à la place.
+
+    {% import 'acme.blog::macros' as formulaire %}
+
+<a name="nested-macros"> </a>
+
+## Macros imbriquées
+
+Lorsque vous souhaitez utiliser une macro à l'intérieur d'une autre macro du même fichier, vous devez l'importer localement.
+
+    {% macro input(nom, valeur, type, taille)%}
+        <input
+            type = "{{ type|default('text') }}"
+            nom = "{{ nom }}"
+            valeur = "{{ valeur|e }}"
+            taille = "{{ taille|default(20) }}" />
     {% endmacro %}
 
-> **Note**: Macro arguments don't specify default values and are always considered optional.
-
-<a name="calling-macros"></a>
-## Calling macros
-
-Before a macro can be used it needs to be "imported" first using the `{% import %}` tag. If the macro is defined in the same template, the special `_self` variable can be used.
-
-    {% import _self as form %}
-
-Here the macro functions are assigned to the `form` variable, available to be called like any other function.
-
-    <p>{{ form.input('username') }}</p>
-    <p>{{ form.input('password', null, 'password') }}</p>
-
-Macros can be defined in [a theme partial](../cms/partials) and imported by name. To import the macros from a partial called **macros/form.htm**, simply pass the name after the `import` tag quoted as a string.
-
-    {% import 'macros/form' as form %}
-
-Alternatively you may import macros from a [system view file](../services/response-view#views) and these will be accepted. To import from **plugins/acme/blog/views/macros.htm** simply pass the path hint instead.
-
-    {% import 'acme.blog::macros' as form %}
-
-<a name="nested-macros"></a>
-## Nested macros
-
-When you want to use a macro inside another macro from the same template, you need to import it locally.
-
-    {% macro input(name, value, type, size) %}
-        <input
-            type="{{ type|default('text') }}"
-            name="{{ name }}"
-            value="{{ value|e }}"
-            size="{{ size|default(20) }}" />
-    {% endmacro %}
-
-    {% macro wrapped_input(name, value, type, size) %}
-        {% import _self as form %}
+    {% macro wrapped_input(nom, valeur, type, taille) %}
+        {% import _self as formulaire %}
 
         <div class="field">
-            {{ form.input(name, value, type, size) }}
+            {{ formulaire.input (nom, valeur, type, taille) }}
         </div>
     {% endmacro %}
 
-<a name="context-variable"></a>
-## Context variable
+<a name="context-variable"> </a>
 
-Macros don't have access to the current page variables.
+## Variable de contexte
+
+Les macros n'ont pas accès aux variables de la page en cours.
 
     <!-- October CMS -->
-    {{ site_name }} 
+    {{ nom_du_site}}
 
-    {% macro myFunction() %}
+    {% macro maFonction() %}
         <!-- NULL -->
-        {{ site_name }}
+        {{ nom_du_site }}
     {% endmacro %}
 
-You may pass the variables to the function using the special `_context` variable.
+Vous pouvez passer les variables à la fonction en utilisant la variable spéciale `_context`.
 
-    {% macro myFunction(vars) %}
-        {{ vars.site_name }}
+    {% macro maFonction(vars) %}
+        {{ vars.nom_du_site }}
     {% endmacro %}
 
-    {% import _self as form %}
+    {% import _self as formulaire %}
 
     <!-- October CMS -->
-    {{ form.myFunction(_context) }}
+    {{ formulaire.maFonction(_context) }}
