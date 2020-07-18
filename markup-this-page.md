@@ -1,61 +1,63 @@
 # this.page
 
-You can access the current page object via `this.page` and it returns the object `Cms\Classes\Page`. This object can also be [accessed in the PHP code](../cms/pages/#page-variables).
+Vous pouvez accéder à l'objet representant la page actuele via `this.page`, il renvoie l'objet `Cms\Classes\Page`. Cet objet est également [accessible dans la section code PHP](../cms/pages/#page-variables)
 
-## Properties
+## Propriétés
 
-`this.page` has the following properties.
+`this.page` a les propriétés suivantes.
 
 ### layout
 
-Reference to the layout name used by this page, if defined. Not to be confused with `this.layout`.
+Référence au nom de la maquette utilisé par cette page, s'elle est défini.
+
+A ne pas confondre avec `this.layout`.
 
     {{ this.page.layout }}
 
 ### id
 
-Converts the page file name and folder name to a CSS friendly identifier.
+Convertit le nom du fichier de la page et le nom du dossier en un identifiant CSS convivial.
 
     <body class="page-{{ this.page.id }}">
 
-If the page file was **home/index.htm** this would generate a class name of `page-home-index`.
+Si le fichier était **home/index.htm**, il générerait un nom de classe `page-home-index`.
 
 ### title
 
-The page title as defined by the configuration.
+Le titre de la page tel que défini par la configuration.
 
     <h1>{{ this.page.title }}</h1>
 
 ### description
 
-The page description as defined by the configuration.
+La description de la page telle que définie par la configuration.
 
     <p>{{ this.page.description }}</p>
 
 ### meta_title
 
-An alternative `title` field, usually more descriptive for SEO purposes.
+Un autre champ `title`, généralement plus descriptif à des fins de référencement.
 
     <title>{{ this.page.meta_title }}</title>
 
 ### meta_description
 
-An alternative `description` field, usually more descriptive for SEO purposes.
+Un autre champ `description`, généralement plus descriptif à des fins de référencement.
 
     <meta name="description" content="{{ this.page.meta_description }}">
 
 ### hidden
 
-Hidden pages are accessible only by logged-in back-end users.
+Les pages masquées ne sont accessibles qu'aux utilisateurs connectés au back-end.
 
     {% if this.page.hidden %}
-        <p>Note to other admins: We are currently working on this page.</p>
+        <p>Note aux autres administrateurs: nous travaillons actuellement sur cette page.</p>
     {% endif %}
 
 ### fileName
 
-Page file name in the theme with extension.
+Nom du fichier de la page dans le thème avec l'extension.
 
 ### baseFileName
 
-Page file name in the theme without the extension.
+Nom du fichier de la page dans le thème sans l'extension.
