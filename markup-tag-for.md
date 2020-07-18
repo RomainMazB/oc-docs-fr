@@ -1,56 +1,56 @@
 # {% for %}
 
-The `{% for %}` and `{% endfor %}` tags will loop over each value in a collection. A collection can be either an array or an object implementing the `Traversable` interface.
+Les balises `{% for %}` et `{% endfor %}` feront une boucle sur chaque valeur d'une collection. Une collection peut être un tableau ou un objet implémentant l'interface `Traversable`.
 
     <ul>
         {% for user in users %}
             <li>{{ user.username }}</li>
-        {% endfor %}
+        {% endfor%}
     </ul>
 
-You can also access both keys and values:
+Vous pouvez également accéder aux clés et aux valeurs:
 
     <ul>
-        {% for key, user in users %}
-            <li>{{ key }}: {{ user.username }}</li>
-        {% endfor %}
+        {% for key, user in users%}
+            <li>{{key}}: {{user.username}}</li>
+        {% endfor%}
     </ul>
 
-If the collection is empty, you can render a replacement block by using else:
+Si la collection est vide, vous pouvez rendre un bloc de remplacement en utilisant else:
 
     <ul>
         {% for user in users %}
             <li>{{ user.username }}</li>
         {% else %}
-            <li><em>There are no users found</em></li>
+            <li><em>Aucun utilisateur trouvé</em></li>
         {% endfor %}
     </ul>
 
-## Looping a collection
+## Boucler une collection
 
-If you do need to iterate over a collection of numbers, you can use the `..` operator:
+Si vous avez besoin d'itérer sur une collection de nombres, vous pouvez utiliser l'opérateur `..`:
 
     {% for i in 0..10 %}
         - {{ i }}
     {% endfor %}
 
-The above snippet of code would print all numbers from 0 to 10.
+L'extrait du code ci-dessus afficherait tous les nombres de 0 à 10.
 
-It can also be useful with letters:
+Il peut également être utile avec des lettres:
 
-    {% for letter in 'a'..'z' %}
-        - {{ letter }}
+    {% for lettre in 'a'..'z' %}
+        - {{ lettre }}
     {% endfor %}
 
-The `..` operator can take any expression at both sides:
+L'opérateur `..` peut prendre n'importe quelle expression des deux côtés:
 
-    {% for letter in 'a'|upper..'z'|upper %}
-        - {{ letter }}
+    {% for lettre in 'a'|upper..'z'|upper %}
+        - {{ lettre }}
     {% endfor %}
 
-## Adding a condition
+## Ajout d'une condition
 
-Unlike in PHP there is no function to `break` or `continue` in a loop, however you can still filter the collection. The following example skips all the `users` which are not active:
+Contrairement à PHP, il n'y a pas de fonction pour `break` ou `continue` dans une boucle, mais vous pouvez toujours filtrer la collection. L'exemple suivant ignore tous les `utilisateurs` qui ne sont pas actifs:
 
     <ul>
         {% for user in users if user.active %}
@@ -58,21 +58,21 @@ Unlike in PHP there is no function to `break` or `continue` in a loop, however y
         {% endfor %}
     </ul>
 
-## The loop variable
+## La variable de boucle
 
-Inside of a `for` loop block you can access some special variables:
+À l'intérieur d'un bloc de boucle `for`, vous pouvez accéder à certaines variables spéciales:
 
-Variable | Description
-------------- | -------------
-`loop.index` | The current iteration of the loop. (1 indexed)
-`loop.index0` | The current iteration of the loop. (0 indexed)
-`loop.revindex` |  The number of iterations from the end of the loop (1 indexed)
-`loop.revindex0` | The number of iterations from the end of the loop (0 indexed)
-`loop.first` | True if first iteration
-`loop.last` |  True if last iteration
-`loop.length` | The number of items in the collection
-`loop.parent` | The parent context
+| Variable         | Description                                                                   |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `loop.index`     | L'itération actuelle de la boucle. (l'index commence à 1)                     |
+| `loop.index0`    | L'itération actuelle de la boucle. (l'index commence à 0)                     |
+| `loop.revindex`  | Le nombre d'itérations à partir de la fin de la boucle (l'index commence à 1) |
+| `loop.revindex0` | Le nombre d'itérations à partir de la fin de la boucle (l'index commence à 0) |
+| `loop.first`     | Vrai si première itération                                                    |
+| `loop.last`      | Vrai si dernière itération                                                    |
+| `loop.length`    | Le nombre d'élément dans la collection                                        |
+| `loop.parent`    | Le contexte parent                                                            |
 
-    {% for user in users %}
-        {{ loop.index }} - {{ user.username }}
-    {% endfor %}
+    {% for user in users%}
+        {{loop.index}} - {{user.username}}
+    {% endfor%}
