@@ -1,9 +1,9 @@
 # |md
 
-The `|md` filter converts the value from Markdown to HTML format.
+Le filtre `|md` convertit la valeur en Markdown au format HTML.
 
-    {{ '**Text** is bold.'|md }}
+    {{ '**Ce texte** est en gras.'|md }}
 
-The above will output the following:
+Ce qui précède produira le balisage suivant:
 
-    <strong>Text</strong> is bold.
+    <strong>Ce texte</strong> est en gras.
