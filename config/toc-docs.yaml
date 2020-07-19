@@ -26,10 +26,10 @@ AJAX:
     ajax/javascript-api: "API JavaScript"
     ajax/extras: "Fonctionnalités supplémentaires"
 
-#Themes:
-#  icon: "icon-picture"
-#  pages:
-#    themes/development: "Developing themes"
+Thèmes:
+  icon: "icon-picture"
+  pages:
+    themes/development: "Développement des thèmes"
 
 #Plugins:
 #  icon: "icon-puzzle-piece"

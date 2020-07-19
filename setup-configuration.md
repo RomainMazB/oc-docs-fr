@@ -202,7 +202,7 @@ Bien que la protection CSRF soit activée par défaut, vous pouvez la désactive
 
 OctoberCMS et certains plugins de la marketplace implémenteront des changements en deux étapes afin d’assurer la stabilité globale et l’intégrité de la plate-forme. Cela signifie qu’ils ont une _build test_ en plus de la _build stable_ par défaut.
 
-Vous pouvez demander à la plate-forme de préférer les builds de test à partir du marketplace en modifiant le paramètre `edgeUpdates` dans le fichier de configuration `config/cms.php`.
+Vous pouvez demander à la plate-forme de préférer les builds de test à partir de la marketplace en modifiant le paramètre `edgeUpdates` dans le fichier de configuration `config/cms.php`.
 
     /*
     |--------------------------------------------------------------------------
@@ -217,7 +217,7 @@ Vous pouvez demander à la plate-forme de préférer les builds de test à parti
 
     'edgeUpdates' => false,
 
-> **Remarque** : Pour les développeurs de plugins, nous vous recommandons d’activer les **Test updates** pour vos plugins répertoriés sur le marketplace, via la page Paramètres plugin.
+> **Remarque** : Pour les développeurs de plugins, nous vous recommandons d’activer les **Test updates** pour vos plugins répertoriés sur la Marketplace, via la page Paramètres plugin.
 
 > **Remarque** : Si vous utilisez [Composer](../console/commands#console-install-composer) pour gérer les mises à jour, remplacez les exigences par défaut d’OctoberCMS dans votre fichier `composer.json` par les éléments suivants afin de télécharger les mises à jour directement à partir de la _branche develop_.
 

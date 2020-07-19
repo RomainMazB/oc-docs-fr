@@ -1,4 +1,4 @@
-BALISAGE:
+Balisage:
   icon: "icon-code"
   pages:
     markup/templating: "Moteur de template"
@@ -29,23 +29,24 @@ Balises:
     markup/tag-macro: "{% macro %}"
     markup/tag-for: "{% for %}"
     markup/tag-if: "{% if %}"
-# Filters:
-#   icon: "icon-quote-right"
-#   itemClass: "code-item"
-#   pages:
-#     markup/filter-app: "|app"
-#     markup/filter-page: "|page"
-#     markup/filter-theme: "|theme"
-#     markup/filter-media: "|media"
-#     markup/filter-md: "|md"
-#     markup/filter-raw: "|raw"
-#     markup/filter-default: "|default"
 
-# Functions:
-#   icon: "icon-eraser"
-#   itemClass: "code-item"
-#   pages:
-#     markup/function-str: "str()"
-#     markup/function-form: "form()"
-#     markup/function-html: "html()"
-#     markup/function-dump: "dump()"
+Filtres:
+  icon: "icon-quote-right"
+  itemClass: "code-item"
+  pages:
+    markup/filter-app: "|app"
+    markup/filter-page: "|page"
+    markup/filter-theme: "|theme"
+    markup/filter-media: "|media"
+    markup/filter-md: "|md"
+    markup/filter-raw: "|raw"
+    markup/filter-default: "|default"
+
+Fonctions:
+  icon: "icon-eraser"
+  itemClass: "code-item"
+  pages:
+    markup/function-str: "str()"
+    markup/function-form: "form()"
+    markup/function-html: "html()"
+    markup/function-dump: "dump()"
