@@ -1,15 +1,15 @@
 # |default
 
-The `|default` filter returns the value passed as the first argument if the filtered value is undefined or empty, otherwise the filtered value is returned.
+Le filtre `|default` renvoie la valeur passée comme premier argument si la valeur filtrée n'est pas définie ou vide, sinon la valeur filtrée est retournée.
 
-    {{ variable|default('The variable is not defined') }}
+    {{ variable|default('La variable n'est pas définie') }}
 
-    {{ variable.foo|default('The foo property on variable is not defined') }}
+    {{ variable.toto|default('La propriété toto de la variable n'est pas définie') }}
 
-    {{ variable['foo']|default('The foo key in variable is not defined') }}
+     {{ variable['toto']|default('La clé toto dans la variable n'est pas définie') }}
 
-    {{ ''|default('The variable is empty')  }}
+     {{ ''|default('La variable est vide') }}
 
-When using the `default` filter on an expression that uses variables in some method calls, be sure to use the `default` filter whenever a variable can be undefined:
+Lorsque vous utilisez le filtre `default` sur une expression qui utilise des variables dans certains appels de méthode, veillez à utiliser le filtre `default` chaque fois qu'une variable peut être indéfinie:
 
-    {{ variable.method(foo|default('bar'))|default('bar') }}
+    {{ variable.methode(toto|default('titi'))|default('titi') }}
