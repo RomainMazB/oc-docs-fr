@@ -1,64 +1,64 @@
 # str()
 
-Functions prefixed with `str_` perform tasks that are useful when dealing with strings. The helper maps directly to the `Str` PHP class and its methods. For example:
+Les fonctions préfixée de `str_` exécutent des tâches utiles lors du traitement des chaînes. Le helper correspond directement à la classe PHP `Str` et à ses méthodes. Par exemple:
 
     {{ str_camel() }}
 
-is the PHP equivalent of the following:
+est l'équivalent en PHP de ce qui suit:
 
     <?= Str::camel() ?>
 
-> **Note**: Methods in *camelCase* should be converted to *snake_case*.
+> **Remarque**: Les méthodes en _camelCase_ (dans la classe PHP `Str`) doivent être converties en _snake_case_ (pour Twig).
 
 ## str_limit()
 
-Limit the number of characters in a string.
+Limitez le nombre de caractères dans une chaîne.
 
-    {{ str_limit('The quick brown fox...', 100) }}
+    {{ str_limit ('Le renard brun rapide ...', 100) }}
 
-To add a suffix when limit is applied, pass it as the third argument. Defaults to `...`.
+Pour ajouter un suffixe lorsque la limite est appliquée, passez-le comme troisième argument. La valeur par défaut est `...`.
 
-    {{ str_limit('The quick brown fox...', 100, '... Read more!') }}
+    {{ str_limit('Le renard brun rapide ...', 100, '... En savoir plus!') }}
 
 ## str_words()
 
-Limit the number of words in a string.
+Limitez le nombre de mots dans une chaîne.
 
-    {{ str_words('The quick brown fox...', 100) }}
+    {{ str_words('Le renard brun rapide ...', 100) }}
 
-To add a suffix when limit is applied, pass it as the third argument. Defaults to `...`.
+Pour ajouter un suffixe lorsque la limite est appliquée, passez-le comme troisième argument. La valeur par défaut est `...`.
 
-    {{ str_words('The quick brown fox...', 100, '... Read more!') }}
+    {{ str_words('Le renard brun rapide ...', 100, '... En savoir plus!') }}
 
 ## str_camel()
 
-Convert a value to *camelCase*.
+Convertissez une valeur en _camelCase_.
 
-    // Outputs: helloWorld
-    {{ str_camel('hello world') }}
+    // Rendra: bonjourLeMonde
+    {{ str_camel('bonjour le monde') }}
 
 ## str_studly()
 
-Convert a value to *StudlyCase*.
+Convertissez une valeur en _StudlyCase_.
 
-    // Outputs: HelloWorld
-    {{ str_studly('hello world') }}
+    // Rebdra: BonjourLeMonde
+    {{ str_studly ('bonjour le monde') }}
 
 ## str_snake()
 
-Convert a value to *snake_case*.
+Convertissez une valeur en _snake_case_.
 
-    // Outputs: hello_world
-    {{ str_snake('hello world') }}
+    // Rendra: bonjour_le_monde
+    {{ str_snake ('bonjour le monde') }}
 
-The second argument can supply a delimiter.
+Le deuxième argument peut fournir un délimiteur.
 
-    // Outputs: hello---world
-    {{ str_snake('hello world', '---') }}
+    // Rendra: bonjour---le---monde
+    {{ str_snake ('bonjour le monde', '---') }}
 
 ## str_plural()
 
-Get the plural form of an English word.
+Obtenez le pluriel d'un mot anglais.
 
-    // Outputs: chickens
+    // Rendra: chickens
     {{ str_plural('chicken') }}
