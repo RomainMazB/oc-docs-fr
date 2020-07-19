@@ -1,23 +1,23 @@
 # |app
 
-The `|app` filter returns an address relative to the public path of the website. The result is an absolute URL, including the domain name and protocol, to the location specified in the filter parameter. The filter can be applied to any path.
+Le filtre `|app` renvoie une adresse relative du chemin public du site Web. Le résultat est une URL absolue, comprenant le nom du domaine et le protocole vers l'emplacement spécifié dans le paramètre du filtre. Le filtre peut être appliqué à n'importe quel chemin.
 
     <link rel="icon" href="{{ '/favicon.ico'|app }}" />
 
-If the website address is __http://octobercms.com__ the above example would output the following:
+Si l'adresse du site Web est **https://octobercms.com**, l'exemple ci-dessus affichera ce qui suit:
 
-    <link rel="icon" href="http://octobercms.com/favicon.ico" />
+    <link rel="icon" href="https://octobercms.com/favicon.ico" />
 
-It can also be used for static URLs:
+Il peut également être utilisé pour les URL statiques:
 
-    <a href="{{ '/about-us'|app }}">
-        About Us
+     <a href="{{ '/about-us'|app }}">
+         À propos de nous
+     </a>
+
+Ce qui précède produirait:
+
+    <a href="https://octobercms.com/about-us">
+        À propos de nous
     </a>
 
-The above would output:
-
-    <a href="http://octobercms.com/about-us">
-        About us
-    </a>
-
-> **Note**: The `|page` filter is recommended for linking to other pages.
+> **Remarque**: Le filtre `|page` est recommandé pour créer des liens vers d'autres pages.
