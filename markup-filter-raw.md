@@ -1,19 +1,19 @@
 # |raw
 
-Output variables in October are automatically escaped, the `|raw` filter marks the value as being "safe" and will not be escaped if `raw` is the last filter applied.
+Les variables de sortie dans octoberCMS sont automatiquement échappées, le filtre `|raw` marque la valeur comme étant "sûre" et ne sera pas échappée si `raw` est le dernier filtre appliqué.
 
-    {# This variable won't be escaped #}
+    {# Cette variable ne sera pas échappée #}
     {{ variable|raw }}
 
-Be careful when using the `raw` filter inside expressions:
+Soyez prudent lorsque vous utilisez le filtre `raw` dans des expressions:
 
     {% set hello = '<strong>Hello</strong>' %}
     {% set hola = '<strong>Hola</strong>' %}
 
     {{ false ? '<strong>Hola</strong>' : hello|raw }}
 
-    {# The above will not render the same as #}
+    {# Le rendu ci-dessus ne sera pas le même que #}
     {{ false ? hola : hello|raw }}
 
-    {# But renders the same as #}
+    {# Mais rend le même que #}
     {{ (false ? hola : hello)|raw }}
