@@ -10,7 +10,7 @@
 <a name="ajax-handlers"></a>
 ## Écouteurs AJAX
 
-Les gestionnaires AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom du gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX. @TODO: vérifier la dernière phrase
+Les gestionnaires AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom du gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX.
 
     function onSubmitContactForm()
     {
@@ -22,7 +22,7 @@ Si deux gestionnaires avec le même nom sont définis simultanément dans une pa
 <a name="calling-handlers"></a>
 ### Appeler un gestionnaire
 
-Toute requête AJAX doit spécifier un nom d'un gestionnaire, que vous utilisiez l'[API des attributs de données](../ajax/attributes-api), ou l'[API JavaScript(../ajax/javascript-api). Lorsqu'une requête est faite, le serveur va chercher tous les gestionnaires enregistrés et prendre le premier qu'il trouve.
+Toute requête AJAX doit spécifier un nom d'un gestionnaire, que vous utilisiez l'[API des attributs de données](../ajax/attributes-api), ou l'[API JavaScript](../ajax/javascript-api). Lorsqu'une requête est faite, le serveur va chercher tous les gestionnaires enregistrés et prendre le premier qu'il trouve.
 
     <!-- Attributes API -->
     <button data-request="onSubmitContactForm">Go</button>
