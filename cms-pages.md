@@ -136,7 +136,7 @@ Pour passer des variables à la page, utilisez la `notation tableau` :
     ==
     fonction onStart ()
     {
-        $ this['bonjour'] = "Bonjour tout le monde!";
+        $this['bonjour'] = "Bonjour tout le monde!";
     }
     ==
     <h3> {{ bonjour }} </h3>
