@@ -1,14 +1,14 @@
 # html()
 
-Les fonctions préfixées par `html_` effectuent des tâches utiles lors du traitement du balisage html. Le helper est directement mappé sur la classe PHP `Html` et ses méthodes. Par exemple:
+Les fonctions préfixées par `html_` effectuent des tâches utiles lors du traitement du balisage html. L'helper est directement mappé sur la classe PHP `Html` et ses méthodes. Par exemple :
 
      {{ html_strip() }}
 
-est l'équivalent PHP de:
+est l'équivalent PHP de :
 
      <?= Html::strip() ?>
 
-> **Remarque**: Les méthodes en _camelCase_ (dans la classe PHP `Html`) doivent être converties en _snake_case_ (pour Twig).
+> **Remarque** : Les méthodes en _camelCase_ (dans la classe PHP `Html`) doivent être converties en _snake_case_ (pour Twig).
 
 ## html_strip()
 
@@ -38,7 +38,7 @@ Obscurcit une adresse e-mail pour empêcher les robots-spam de la renifler.
 
     {{ html_email('a@b.c') }}
 
-Par exemple:
+Par exemple :
 
     <a href="mailto: {{ html_email('a@b.c')|raw }}">Envoyez moi un email</a>
 

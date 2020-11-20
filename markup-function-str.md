@@ -1,14 +1,14 @@
 # str()
 
-Les fonctions préfixée de `str_` exécutent des tâches utiles lors du traitement des chaînes. Le helper correspond directement à la classe PHP `Str` et à ses méthodes. Par exemple:
+Les fonctions préfixées de `str_` exécutent des tâches utiles lors du traitement des chaînes. L’helper correspond directement à la classe PHP `Str` et à ses méthodes. Par exemple :
 
     {{ str_camel() }}
 
-est l'équivalent en PHP de ce qui suit:
+est l'équivalent en PHP de ce qui suit :
 
     <?= Str::camel() ?>
 
-> **Remarque**: Les méthodes en _camelCase_ (dans la classe PHP `Str`) doivent être converties en _snake_case_ (pour Twig).
+> **Remarque** : Les méthodes en _camelCase_ (dans la classe PHP `Str`) doivent être converties en _snake_case_ (pour Twig).
 
 ## str_limit()
 
@@ -34,31 +34,31 @@ Pour ajouter un suffixe lorsque la limite est appliquée, passez-le comme troisi
 
 Convertissez une valeur en _camelCase_.
 
-    // Rendra: bonjourLeMonde
+    // Affichera: bonjourLeMonde
     {{ str_camel('bonjour le monde') }}
 
 ## str_studly()
 
 Convertissez une valeur en _StudlyCase_.
 
-    // Rebdra: BonjourLeMonde
+    // Affichera: BonjourLeMonde
     {{ str_studly ('bonjour le monde') }}
 
 ## str_snake()
 
 Convertissez une valeur en _snake_case_.
 
-    // Rendra: bonjour_le_monde
+    // Affichera: bonjour_le_monde
     {{ str_snake ('bonjour le monde') }}
 
 Le deuxième argument peut fournir un délimiteur.
 
-    // Rendra: bonjour---le---monde
+    // Affichera: bonjour---le---monde
     {{ str_snake ('bonjour le monde', '---') }}
 
 ## str_plural()
 
 Obtenez le pluriel d'un mot anglais.
 
-    // Rendra: chickens
+    // Affichera: chickens
     {{ str_plural('chicken') }}

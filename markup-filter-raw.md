@@ -1,11 +1,11 @@
 # |raw
 
-Les variables de sortie dans octoberCMS sont automatiquement échappées, le filtre `|raw` marque la valeur comme étant "sûre" et ne sera pas échappée si `raw` est le dernier filtre appliqué.
+Les variables d'affichage dans octoberCMS sont automatiquement échappées, le filtre `|raw` marque la valeur comme étant "sûre" et ne sera pas échappée si `raw` est le dernier filtre appliqué.
 
     {# Cette variable ne sera pas échappée #}
     {{ variable|raw }}
 
-Soyez prudent lorsque vous utilisez le filtre `raw` dans des expressions:
+Soyez prudent lorsque vous utilisez le filtre `raw` dans des expressions :
 
     {% set hello = '<strong>Hello</strong>' %}
     {% set hola = '<strong>Hola</strong>' %}
@@ -15,5 +15,5 @@ Soyez prudent lorsque vous utilisez le filtre `raw` dans des expressions:
     {# Le rendu ci-dessus ne sera pas le même que #}
     {{ false ? hola : hello|raw }}
 
-    {# Mais rend le même que #}
+    {# Le rendu correspondra au suivant #}
     {{ (false ? hola : hello)|raw }}

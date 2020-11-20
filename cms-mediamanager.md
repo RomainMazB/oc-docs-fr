@@ -7,23 +7,28 @@
 - [Événements](#events)
 - [Résolution des problèmes](#troubleshooting)
 
-Par défaut, le Gestionnaire des Médias fonctionne avec le sous-répertoire storage/app/media du répertoire d'installation. Pour utiliser Amazon S3 ou Rackspace CDN, vous devez mettre à jour la configuration du système.
+Par défaut, le Gestionnaire des Médias fonctionne avec le sous-répertoire storage/app/media du répertoire d'installation.
+Pour utiliser Amazon S3 ou Rackspace CDN, vous devez mettre à jour la configuration du système.
 
 > Vous devez installer le [Plugin Drivers](http://octobercms.com/plugin/october-drivers) avant de pouvoir utiliser les fonctionnalités d'Amazon S3 ou de Rackspace CDN.
 
-Veuillez noter qu'après avoir modifié la configuration du Gestionnaire des Médias, vous devez réinitialiser son cache. Vous pouvez le faire en appuyant sur le bouton **Actualiser** dans la barre d'outils du Gestionnaire des Médias.
+Veuillez noter qu'après avoir modifié la configuration du Gestionnaire des Médias, vous devez réinitialiser son cache.
+Vous pouvez le faire en appuyant sur le bouton **Actualiser** dans la barre d'outils du Gestionnaire des Médias.
 
 <a name="amazon-s3"></a>
-
 ## Configuration de l'accès à Amazon S3
 
 Pour utiliser Amazon S3 avec OctoberCMS, vous devez créer un compartiment S3, un dossier dans le compartiment et un utilisateur d'API.
 
-Créez un compte Amazon AWS ou connectez-vous avec votre compte existant à AWS Console. Ouvrez le panneau de gestion S3. Créez un nouveau compartiment et attribuez-lui un nom (le nom du compartiment fera partie des URLs de vos fichiers publics).
+Créez un compte Amazon AWS ou connectez-vous avec votre compte existant à AWS Console. Ouvrez le panneau de gestion S3.
+Créez un nouveau compartiment et attribuez-lui un nom (le nom du compartiment fera partie des URLs de vos fichiers publics).
 
 Créez un dossier **media** dans le compartiment. Le nom du dossier n'a pas d'importance. Ce dossier sera une racine de votre bibliothèque multimédia.
 
-Par défaut, les fichiers des compartiments S3 ne sont pas accessibles directement. Pour rendre le compartiment public, revenez à la liste des compartiments et cliquez sur le compartiment. Cliquez sur le bouton **Properties** dans la barre latérale droite. Développez l'onglet **Permissions**. Cliquez sur le lien **Edit bucket policy**. Collez le code suivant dans la fenêtre contextuelle de la stratégie. Remplacez le nom du compartiment par votre nom réel de compartiment:
+Par défaut, les fichiers des compartiments S3 ne sont pas accessibles directement. Pour rendre le compartiment public, revenez à la liste des compartiments et cliquez sur le compartiment.
+Cliquez sur le bouton **Properties** dans la barre latérale droite. Développez l'onglet **Permissions**.
+Cliquez sur le lien **Edit bucket policy**. Collez le code suivant dans la fenêtre contextuelle de la stratégie.
+Remplacez le nom du compartiment par votre nom réel de compartiment :
 
     {
         "Version": "2008-10-17",
@@ -41,15 +46,24 @@ Par défaut, les fichiers des compartiments S3 ne sont pas accessibles directeme
         ]
     }
 
-Cliquez sur le bouton **Save** pour appliquer la politique. La stratégie donne un accès public en lecture seule à tous les dossiers et répertoires du compartiment. Si vous allez utiliser le compartiment pour d'autres besoins, il est possible de configurer un accès public à un dossier spécifique dans le compartiment, il suffit de spécifier le nom du répertoire dans la valeur **Resource**:
+Cliquez sur le bouton **Save** pour appliquer la politique. La stratégie donne un accès public en lecture seule à tous les dossiers et répertoires du compartiment.
+Si vous allez utiliser le compartiment pour d'autres besoins,
+il est possible de configurer un accès public à un dossier spécifique dans le compartiment,
+il suffit de spécifier le nom du répertoire dans la valeur **Resource** :
 
     "arn:aws:s3:::NOM-DU-COMPARTIMENT/media/*"
 
-Vous devez également créer un utilisateur d'API qu'OctoberCMS utilisera pour gérer les fichiers de compartiment. Dans la console AWS, accédez à la section IAM. Accédez à l'onglet Utilisateurs et créez un nouvel utilisateur. Le nom de l'utilisateur n'a pas d'importance. Assurez-vous que la case "Generate an access key for each user" est cochée lorsque vous créez un nouvel utilisateur. Une fois qu'AWS a créé un utilisateur, il vous permet de voir les informations d'identification de sécurité, **Access Key ID** et **Secret Access Key** de l'utilisateur . Copiez les clés et placez-les dans un fichier texte temporaire.
+Vous devez également créer un utilisateur d'API qu'OctoberCMS utilisera pour gérer les fichiers de compartiment.
+Dans la console AWS, accédez à la section IAM. Accédez à l'onglet Utilisateurs et créez un nouvel utilisateur.
+Le nom de l'utilisateur n'a pas d'importance. Assurez-vous que la case "Generate an access key for each user" est cochée lorsque vous créez un nouvel utilisateur.
+Une fois qu'AWS a créé un utilisateur, il vous permet de voir les informations d'identification de sécurité, **Access Key ID** et **Secret Access Key** de l'utilisateur .
+Copiez les clés et placez-les dans un fichier texte temporaire.
 
-Revenez à la liste des utilisateurs et cliquez sur l'utilisateur que vous venez de créer. Dans la section **Permissions**, cliquez sur le bouton **Attach Policy**. Sélectionnez la politique **AmazonS3FullAccess** dans la liste et cliquez sur le bouton **Attach Policy**.
+Revenez à la liste des utilisateurs et cliquez sur l'utilisateur que vous venez de créer. Dans la section **Permissions**,
+cliquez sur le bouton **Attach Policy**. Sélectionnez la politique **AmazonS3FullAccess** dans la liste et cliquez sur le bouton **Attach Policy**.
 
-Vous avez maintenant toutes les informations pour mettre à jour la configuration d'OctoberCMS. Ouvrez le script **config/filesystem.php** et recherchez la section **disks**. Il contient déjà la configuration s3, vous devez remplacer les informations d'identification de l'API et les paramètres d'informations pour le compartiment:
+Vous avez maintenant toutes les informations pour mettre à jour la configuration d'OctoberCMS. Ouvrez le script **config/filesystem.php** et recherchez la section **disks**.
+Il contient déjà la configuration s3, vous devez remplacer les informations d'identification de l'API et les paramètres d'informations pour le compartiment :
 
 | Paramètre  | Valeur                                                                          |
 | ---------- | ------------------------------------------------------------------------------- |
@@ -84,7 +98,7 @@ Vous pouvez trouver la région du compartiment dans la console de gestion S3, da
 | <span class = "nowrap">**Amérique du Sud (São Paulo)**</span>           | sa-east-1       |
 | <span class = "nowrap">**Moyen-Orient (Bahreïn)**</span>                | moi-sud-1       |
 
-Exemple de configuration après la mise à jour:
+Exemple de configuration après la mise à jour :
 
     'disks' => [
         ...
@@ -98,7 +112,8 @@ Exemple de configuration après la mise à jour:
         ...
     ]
 
-Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms.php**. Trouvez la section **storage**. Dans le paramètre **media** mettez à jour **disk**, **folder** et **path**:
+Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms.php**.
+Trouvez la section **storage**. Dans le paramètre **media** mettez à jour **disk**, **folder** et **path** :
 
 | Paramètre  | Valeur                                                             |
 | ---------- | ------------------------------------------------------------------ |
@@ -106,9 +121,13 @@ Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms
 | **folder** | le nom du dossier que vous avez créé dans le compartiment S3.      |
 | **path**   | le chemin public du dossier dans le compartiment, voir ci-dessous. |
 
-Pour obtenir le chemin du dossier, ouvrez la console AWS et accédez à la section S3. Accédez au compartiment et cliquez sur le dossier que vous avez créé auparavant. Téléversez n'importe quel fichier dans le dossier et cliquez sur ce fichier. Cliquez sur le bouton **Properties** dans la barre latérale droite. L'URL du fichier se trouve dans le paramètre **Link**. Copiez l'URL et supprimez le nom du fichier et la barre oblique finale.
+Pour obtenir le chemin du dossier, ouvrez la console AWS et accédez à la section S3.
+Accédez au compartiment et cliquez sur le dossier que vous avez créé auparavant.
+Téléversez n'importe quel fichier dans le dossier et cliquez sur ce fichier.
+Cliquez sur le bouton **Properties** dans la barre latérale droite. L'URL du fichier se trouve dans le paramètre **Link**.
+Copiez l'URL et supprimez le nom du fichier et la barre oblique finale.
 
-Exemple de configuration de stockage:
+Exemple de configuration de stockage :
 
     'storage' => [
         ...
@@ -119,32 +138,49 @@ Exemple de configuration de stockage:
         ]
     ]
 
-Félicitations! Vous êtes maintenant prêt à utiliser Amazon S3 avec OctoberCMS. Notez que vous pouvez également configurer Amazon CloudFront CDN pour qu'il fonctionne avec votre compartiment. Ce sujet n'est pas traitée dans ce document, veuillez vous reporter à la [documentation CloudFront](http://aws.amazon.com/cloudfront/). Après avoir configuré CloudFront, vous devrez mettre à jour le paramètre **path** dans la configuration du stockage.
+Félicitations ! Vous êtes maintenant prêt à utiliser Amazon S3 avec OctoberCMS.
+Notez que vous pouvez également configurer Amazon CloudFront CDN pour qu'il fonctionne avec votre compartiment.
+Ce sujet n'est pas traité dans ce document, veuillez vous reporter à la [documentation CloudFront](http://aws.amazon.com/cloudfront/).
+Après avoir configuré CloudFront, vous devrez mettre à jour le paramètre **path** dans la configuration du stockage.
 
-<a name="rackspace-cdn"> </a>
-
+<a name="rackspace-cdn"></a>
 ## Configuration de l'accès Rackspace CDN
 
-Pour utiliser Rackspace CDN avec OctoberCMS, vous devez créer un conteneur Rackspace CDN, un dossier dans le conteneur et un utilisateur d'API.
+Pour utiliser Rackspace CDN avec OctoberCMS,
+vous devez créer un conteneur Rackspace CDN,
+un dossier dans le conteneur et un utilisateur d'API.
 
-Connectez-vous à la console de gestion Rackspace et accédez à la page "Storage / Files". Créez un nouveau conteneur. Le nom du conteneur n'a pas d'importance, il fera partie de vos URLs des fichiers publics. Sélectionnez le type **Public (Enabled CDN)** pour le nouveau conteneur.
+Connectez-vous à la console de gestion Rackspace et accédez à la page "Storage / Files".
+Créez un nouveau conteneur. Le nom du conteneur n'a pas d'importance,
+il fera partie de vos URLs des fichiers publics.
+Sélectionnez le type **Public (Enabled CDN)** pour le nouveau conteneur.
 
-Créez un dossier **media** dans le conteneur. Le nom du dossier n'a pas d'importance. Ce dossier sera une racine de votre bibliothèque multimédia.
+Créez un dossier **media** dans le conteneur. Le nom du dossier n'a pas d'importance.
+Ce dossier sera une racine de votre bibliothèque multimédia.
 
-Vous devez créer un utilisateur d'API qu'OctoberCMS utilisera pour gérer les fichiers dans le conteneur CDN. Ouvrez la page "Account / User Management" dans la console Rackspace. Cliquez sur le bouton **Create user**. Saisissez le nom d'utilisateur (par exemple october.cdn.api), le mot de passe, la question de sécurité et la réponse. Dans la section **Product Access**, sélectionnez **Custom** et dans la ligne CDN, sélectionnez **Admin**. Utilisez le rôle **No Access** dans la section **Account** et utilisez **Technical Contact** dans la section **Contact Information**. Enregistrez le compte utilisateur. Après avoir enregistré le compte, vous verrez la section Détails de connexion avec la ligne **API Key** qui contient une valeur que vous devez utiliser dans les fichiers de configuration d'OctoberCMS.
+Vous devez créer un utilisateur d'API qu'OctoberCMS utilisera pour gérer les fichiers dans le conteneur CDN.
+Ouvrez la page "Account / User Management" dans la console Rackspace.
+Cliquez sur le bouton **Create user**.
+Saisissez le nom d'utilisateur (par exemple october.cdn.api), le mot de passe, la question de sécurité et la réponse.
+Dans la section **Product Access**, sélectionnez **Custom** et dans la ligne CDN, sélectionnez **Admin**.
+Utilisez le rôle **No Access** dans la section **Account** et utilisez **Technical Contact** dans la section **Contact Information**.
+Enregistrez le compte utilisateur.
+Après avoir enregistré le compte, vous verrez la section Détails de connexion avec la ligne **API Key** qui contient une valeur que vous devez utiliser dans les fichiers de configuration d'OctoberCMS.
 
-Vous avez maintenant toutes les informations pour mettre à jour la configuration d'OctoberCMS. Ouvrez le script **config/filesystem.php** et recherchez la section **disks**. Il contient déjà la configuration de Rackspace, vous devez remplacer les informations d'identification de l'API et les paramètres d'informations du conteneur:
+Vous avez maintenant toutes les informations pour mettre à jour la configuration d'OctoberCMS.
+Ouvrez le script **config/filesystem.php** et recherchez la section **disks**.
+Il contient déjà la configuration de Rackspace, vous devez remplacer les informations d'identification de l'API et les paramètres d'informations du conteneur :
 
 | Paramètre     | Valeur                                                                                                                                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **username**  | Nom d'utilisateur Rackspace (par exemple october.cdn.api.                                                                                                                            |
+| **username**  | Nom d'utilisateur Rackspace (par exemple october.cdn.api).                                                                                                                           |
 | **key**       | l'**API Key** de l'utilisateur que vous pouvez copier à partir de la page du profil utilisateur Rackspace.                                                                           |
 | **container** | le nom du conteneur.                                                                                                                                                                 |
 | **region**    | le code de région du compartiment, voir ci-dessous.                                                                                                                                  |
 | **endpoint**  | laissez la valeur telle quelle.                                                                                                                                                      |
 | **region**    | vous pouvez trouver la région dans la liste des conteneurs CDN dans le panneau de configuration de Rackspace. Le code est une valeur à 3 lettres, par exemple, **ORD** pour Chicago. |
 
-Exemple de configuration après la mise à jour:
+Exemple de configuration après la mise à jour :
 
     'disks' => [
         ...
@@ -159,7 +195,8 @@ Exemple de configuration après la mise à jour:
         ...
     ]
 
-Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms.php**. Trouvez la section **storage**. Dans le paramètre **media** mettez à jour **disk**, **folder** et **path**:
+Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms.php**.
+Trouvez la section **storage**. Dans le paramètre **media** mettez à jour **disk**, **folder** et **path** :
 
 | Paramètre  | Valeur                                                          |
 | ---------- | --------------------------------------------------------------- |
@@ -167,9 +204,12 @@ Enregistrez le script **config/filesystem.php** et ouvrez le script **config/cms
 | **folder** | le nom du dossier que vous avez créé dans le conteneur CDN.     |
 | **path**   | le chemin public du dossier dans le conteneur, voir ci-dessous. |
 
-Pour obtenir le chemin du dossier, accédez à la liste des conteneurs CDN dans la console Rackspace. Cliquez sur le conteneur et ouvrez le dossier multimédia. Téléversez n'importe quel fichier. Une fois le fichier téléversé, cliquez dessus. Le fichier s'ouvrira dans un nouvel onglet du navigateur. Copiez l'URL du fichier et supprimez le nom du fichier et la barre oblique de fin.
+Pour obtenir le chemin du dossier, accédez à la liste des conteneurs CDN dans la console Rackspace.
+Cliquez sur le conteneur et ouvrez le dossier multimédia. Téléversez n'importe quel fichier.
+Une fois le fichier téléversé, cliquez dessus. Le fichier s'ouvrira dans un nouvel onglet du navigateur.
+Copiez l'URL du fichier et supprimez le nom du fichier et la barre oblique de fin.
 
-Exemple de configuration de stockage:
+Exemple de configuration de stockage :
 
     'storage' => [
         ...
@@ -180,13 +220,12 @@ Exemple de configuration de stockage:
         ]
     ]
 
-Félicitations! Vous êtes maintenant prêt à utiliser Rackspace CDN avec OctoberCMS.
+Félicitations ! Vous êtes maintenant prêt à utiliser Rackspace CDN avec OctoberCMS.
 
-<a name="audio-and-video-players"> </a>
-
+<a name="audio-and-video-players"></a>
 ## Lecteurs audio et vidéo
 
-Par défaut, le système utilise des balises audio et vidéo HTML5 pour rendre les fichiers audio et vidéo:
+Par défaut, le système utilise des balises audio et vidéo HTML5 pour rendre les fichiers audios et vidéos :
 
     <video src="video.mp4" controls></video>
 
@@ -194,13 +233,18 @@ ou
 
     <audio src="audio.mp3" controls></audio>
 
-Ce comportement peut être remplacé. S'il existe des partiels CMS **oc-audio-player.htm** et **oc-video-player.htm**, ils seront utilisés pour afficher le contenu audio et vidéo. À l'intérieur des partiels, utilisez la variable **src** pour générer un lien vers le fichier source. Exemple:
+Ce comportement peut être remplacé. S'il existe des partiels CMS **oc-audio-player.htm** et **oc-video-player.htm**,
+ils seront utilisés pour afficher le contenu audio et vidéo.
+À l'intérieur des partiels, utilisez la variable **src** pour générer un lien vers le fichier source. Exemple :
 
     <video src="{{ src }}" width="320" height="200" controls preload></video>
 
-Si vous ne souhaitez pas utiliser le lecteur HTML5, vous pouvez fournir tout autre balisage dans les partiels. Il existe un [script tiers](https://html5media.info/) qui permet la prise en charge des balises vidéo et audio HTML5 pour les anciens navigateurs.
+Si vous ne souhaitez pas utiliser le lecteur HTML5, vous pouvez fournir tout autre balisage dans les partiels.
+Il existe un [script tiers](https://html5media.info/) qui permet la prise en charge des balises vidéo et audio HTML5 pour les anciens navigateurs.
 
-Lorsque les partiels sont écrits en Twig, vous pouvez automatiser l'ajout des sources vidéo alternatives en fonction d'une convention de dénomination. Par exemple, s'il existe une convention selon laquelle il y a toujours une vidéo de résolution plus petite pour chaque vidéo pleine résolution et que le fichier de résolution plus petit a l'extension "iphone.mp4", le balisage généré pourrait ressembler à ceci:
+Lorsque les partiels sont écrits en Twig, vous pouvez automatiser l'ajout des sources vidéo alternatives en fonction d'une convention de dénomination.
+Par exemple, s'il existe une convention selon laquelle il y a toujours une vidéo de résolution plus petite pour chaque vidéo pleine résolution
+et que le fichier de résolution plus petit a l'extension "iphone.mp4", le balisage généré pourrait ressembler à ceci :
 
     <video controls>
         <source
@@ -211,11 +255,11 @@ Lorsque les partiels sont écrits en Twig, vous pouvez automatiser l'ajout des s
             media="only screen and (max-device-width: 568px)"></source>
     </video>
 
-<a name="configuration-options"> </a>
-
+<a name="configuration-options"></a>
 ## Autres options de configuration
 
-Il existe plusieurs options qui vous permettent d'affiner le réglage du Gestionnaire des Médias. Tous peuvent être définis dans le script **config/cms.php**, dans la section **storage/media**, par exemple:
+Il existe plusieurs options qui vous permettent d'affiner le réglage du Gestionnaire des Médias.
+Tous peuvent être définis dans le script **config/cms.php**, dans la section **storage/media**, par exemple :
 
     'storage' => [
         ...
@@ -234,8 +278,7 @@ Il existe plusieurs options qui vous permettent d'affiner le réglage du Gestion
 | **videoExtensions** | extensions du fichiers correspondant au type de document vidéo. La valeur par défaut est **['mp4', 'avi', 'mov', 'mpg']**.                                                                      |
 | **audioExtensions** | extensions du fichier correspondant au type de document Audio. La valeur par défaut est **['mp3', 'wav', 'wma', 'm4a']**.                                                                       |
 
-<a name="events"> </a>
-
+<a name="events"></a>
 ## Événements
 
 Le Gestionnaire des Médias fournit quelques [événements](../services/events) que vous pouvez écouter afin d'améliorer l'extensibilité.
@@ -265,8 +308,8 @@ Le Gestionnaire des Médias fournit quelques [événements](../services/events) 
         // Update custom references to path here
     });
 
-<a name="troubleshooting"> </a>
-
+<a name="troubleshooting"></a>
 ## Résolution des problèmes
 
-Le problème le plus courant avec l'utilisation des services distants est le problème de connexion SSL. Si vous obtenez des erreurs SSL, assurez-vous que votre serveur dispose de nouveaux certificats SSL d'autorités publiques de certification (CA).
+Le problème le plus courant avec l'utilisation des services distants est le problème de connexion SSL.
+Si vous obtenez des erreurs SSL, assurez-vous que votre serveur dispose de nouveaux certificats SSL d'autorités publiques de certification (CA).

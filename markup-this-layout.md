@@ -1,10 +1,11 @@
 # this.layout
 
-Vous pouvez accéder à l'objet representant la maquette actuel via `this.layout` et il renvoie l'objet `Cms\Classes\Layout`.
+Vous pouvez accéder à l'objet représentant la maquette actuelle via `this.layout`
+Cette propriété renvoie l'objet `Cms\Classes\Layout`.
 
 ## Propriétés
 
-`this.layout` a les propriétés suivantes:
+`this.layout` a les propriétés suivantes :
 
 ### id
 

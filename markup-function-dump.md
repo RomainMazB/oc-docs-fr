@@ -1,6 +1,6 @@
 # dump()
 
-La fonction `dump()` affiche les informations sur une variable du modèle (maquette, page, ...). Ceci est utile lors du débogage d'un modèle qui ne se comporte pas comme prévu.
+La fonction `dump()` affiche les informations sur une variable de la vue (maquette, page, ...). Ceci est utile lors du débogage d'un modèle qui ne se comporte pas comme prévu.
 
      {{ dump(user) }}
 

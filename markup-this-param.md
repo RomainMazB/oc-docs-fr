@@ -1,6 +1,6 @@
 # this.param
 
-Vous pouvez accéder aux paramètres de l'URL actuels via `this.param` et il renvoie un tableau PHP.
+Vous pouvez accéder aux paramètres de l'URL actuelle via `this.param` qui renvoie un tableau PHP.
 
 ## Accès aux paramètres de la page
 

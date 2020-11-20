@@ -6,7 +6,7 @@ Les balises `{% if %}` et `{% endif %}` représenteront une expression et sont c
         <p>Le site Web est en mode maintenance.</p>
     {% endif %}
 
-Vous pouvez également tester si un tableau n'est pas vide:
+Vous pouvez également tester si un tableau n'est pas vide :
 
     {% if users %}
         <ul>
@@ -16,7 +16,7 @@ Vous pouvez également tester si un tableau n'est pas vide:
         </ul>
     {% endif %}
 
-> **Remarque**: Si vous voulez tester si la variable `users` est définie, utilisez `{% if users is defined %}` à la place.
+> **Remarque** : Si vous voulez tester si la variable `users` est définie, utilisez `{% if users is defined %}` à la place.
 
 Vous pouvez également utiliser `not` pour vérifier les valeurs évaluées à `false`:
 
@@ -24,7 +24,7 @@ Vous pouvez également utiliser `not` pour vérifier les valeurs évaluées à `
         <p>Vous n'êtes pas abonné à notre liste de diffusion.</p>
     {% endif %}
 
-Pour plusieurs expressions, `{% elseif %}` et `{% else %}` peuvent être utilisés:
+Pour plusieurs expressions, `{% elseif %}` et `{% else %}` peuvent être utilisés :
 
     {% if kenny.sick %}
         Kenny est malade.

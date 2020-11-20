@@ -1,10 +1,12 @@
 # this.theme
 
-Vous pouvez accéder à l'objet thème actuel via `this.theme` et il renvoie l'objet `Cms\Classes\Theme`, une référence à l'[objet de personnalisation du thème](../themes/development#customization).
+Vous pouvez accéder à l'objet thème actuel via `this.theme`.
+Cette propriété renvoie l'objet `Cms\Classes\Theme`, une référence à l'[objet de personnalisation du thème](../themes/development#customization).
 
 ## Propriétés
 
-`this.theme` fournira un accès direct aux valeurs des champs du formulaire définies par n'importe quelle personnalisation du thème. Il possède également les propriétés suivantes de manière native.
+`this.theme` fournira un accès direct aux valeurs des champs du formulaire définies par n'importe quelle personnalisation du thème.
+Il possède également les propriétés suivantes de manière native.
 
 ### id
 

@@ -1,6 +1,8 @@
 # this.page
 
-Vous pouvez accéder à l'objet representant la page actuele via `this.page`, il renvoie l'objet `Cms\Classes\Page`. Cet objet est également [accessible dans la section code PHP](../cms/pages/#page-variables)
+Vous pouvez accéder à l'objet représentant la page actuelle via `this.page`.
+Cette propriété renvoie l'objet `Cms\Classes\Page`.
+Cet objet est également [accessible dans la section code PHP](../cms/pages/#page-variables)
 
 ## Propriétés
 
@@ -8,9 +10,9 @@ Vous pouvez accéder à l'objet representant la page actuele via `this.page`, il
 
 ### layout
 
-Référence au nom de la maquette utilisé par cette page, s'elle est défini.
+Référence au nom de la maquette utilisée par cette page, si elle est définie.
 
-A ne pas confondre avec `this.layout`.
+À ne pas confondre avec `this.layout`.
 
     {{ this.page.layout }}
 

@@ -4,6 +4,6 @@ Le filter `|media` renvoie une adresse relative au chemin public de la [biblioth
 
     <img src="{{ 'banner.jpg'|media }}" />
 
-Si l'adresse du Gestionnaire des Médias est **http://cdn.octobercms.com**, l'exemple ci-dessus produirait ce qui suit:
+Si l'adresse du Gestionnaire des Médias est **http://cdn.octobercms.com**, l'exemple ci-dessus produirait ce qui suit :
 
-    <img src="http://cdn.octobercms.com/banner.jpg" />
+    <img src="http://cdn.octobercms.fr/banner.jpg" />

@@ -4,7 +4,8 @@ La balise `{% page %}` rend le contenu d'une [page](../cms/pages) dans un modèl
 
 Voir [layouts](../cms/layouts#introduction) pour un exemple de base.
 
-La balise `{% page %}` analyse le balisage brut d'un modèle de page. Un modèle de page peut à la fois injecter du contenu dans les placeholders et définir un balisage brut.
+La balise `{% page %}` analyse le balisage brut d'un modèle de page.
+Un modèle de page peut à la fois injecter du contenu dans les placeholders et définir un balisage brut.
 
      description = "Exemple d'une maquette"
      ==
@@ -15,6 +16,7 @@ La balise `{% page %}` analyse le balisage brut d'un modèle de page. Un modèle
          <body>
              {% page %}
              ...
+Avec pour contenu de la page :
 
      description = "Exemple d'une page"
      ==
@@ -24,7 +26,7 @@ La balise `{% page %}` analyse le balisage brut d'un modèle de page. Un modèle
 
      <p>Mon contenu.</p>
 
-La page rendue avec le modèle entraînerait:
+La page finale afficherais :
 
      <html>
          <head>
