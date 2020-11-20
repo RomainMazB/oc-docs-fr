@@ -1,6 +1,7 @@
 # {% flash %}
 
-The `{% flash %}` and `{% endflash %}` tags will render any flash messages stored in the user session, set by the `Flash` PHP class. The `message` variable inside will contain the flash message text and the markup inside will repeat for multiple flash messages.
+Les balises `{% flash %}` et `{% endflash %}` rendront tous les messages flash stockés dans la session utilisateur, définis par la classe PHP `Flash`.
+La variable `message` à l'intérieur contiendra le texte du message flash et le balisage à l'intérieur se répétera pour plusieurs messages flash.
 
     <ul>
         {% flash %}
@@ -8,7 +9,7 @@ The `{% flash %}` and `{% endflash %}` tags will render any flash messages store
         {% endflash %}
     </ul>
 
-You can use the `type` variable that represents the flash message type &mdash; **success**, **error**, **info** or **warning**.
+Vous pouvez utiliser la variable `type` qui représente le type du message flash, **success**, **error**, **info** ou **warning**.
 
     {% flash %}
         <div class="alert alert-{{ type }}">
@@ -16,29 +17,31 @@ You can use the `type` variable that represents the flash message type &mdash; *
         </div>
     {% endflash %}
 
-You can also specify the `type`  to filter flash messages of a given type. The next example will show only **success** messages, if there is an **error** message it won't be displayed.
+Vous pouvez également spécifier le `type` pour filtrer les messages flash d'un type donné.
+L'exemple suivant n'affichera que les messages **success**, s'il y a un message **error**, il ne sera pas affiché.
 
-    {% flash success %}
-        <div class="alert alert-success">{{ message }}</div>
-    {% endflash %}
+     {% flash success %}
+         <div class = "alert alert-success">{{message}}</div>
+     {% endflash%}
 
-## Setting flash messages
+## Définition des messages flash
 
-Flash messages can be set by [Components](../cms/components) or inside the page or layout [PHP section](../cms/themes#php-section) with the `Flash` class.
+Les messages Flash peuvent être définis par les [components](../cms/components)
+ou à l'intérieur de la [section PHP](../cms/themes#php-section) de la page ou de la maquette avec la classe `Flash`.
 
     <?php
 
     function onSave()
     {
-        // Sets a successful message
-        Flash::success('Settings successfully saved!');
+        // Définit un message de succès
+         Flash::success('Paramètres enregistrés avec succès!');
 
-        // Sets an error message
-        Flash::error('Error saving settings');
+         // Définit un message d'erreur
+         Flash::error('Erreur d'enregistrement des paramètres');
 
-        // Sets a warning message
-        Flash::warning('There was a problem but no worries');
+         // Définit un message d'avertissement
+         Flash::warning('Il y avait un problème mais pas de soucis');
 
-        // Sets an informative message
-        Flash::info('Just a heads up about the settings');
+         // Définit un message informatif
+         Flash::info('Juste un avertissement concernant les paramètres');
     }

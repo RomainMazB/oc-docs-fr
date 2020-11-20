@@ -1,138 +1,145 @@
-# Developing themes
+# Développement des thèmes
 
-- [Theme information file](#theme-information)
-- [Version file](#version-file)
-- [Theme preview image](#preview-image)
-- [Theme customization](#customization)
-- [Theme dependencies](#dependencies)
+- [Fichier d'informations du thème](#theme-information)
+- [Fichier de version](#version-file)
+- [Image d'aperçu du thème](#preview-image)
+- [Personnalisation du thème](#customization)
+- [Dépendances du thème](#dependencies)
 
-The theme directory could include the **theme.yaml**, **version.yaml** and **assets/images/theme-preview.png** files. These files are optional for the local development but required for themes published on the OctoberCMS Marketplace.
+Le répertoire du thème peut inclure les fichiers **theme.yaml**, **version.yaml** et **assets/images/theme-preview.png**. Ces fichiers sont facultatifs pour le développement local mais requis pour les thèmes publiés sur la Marketplace d'OctoberCMS.
 
 <a name="theme-information"></a>
-## Theme information file
+## Fichier d'informations du thème
 
-The theme information file **theme.yaml** contains the theme description, the author name, URL of the author's website and some other information. The file should be placed to the theme root directory:
+Le fichier d'informations du thème **theme.yaml** contient la description du thème, le nom de l'auteur, l'URL du site Web de l'auteur et d'autres informations. Le fichier doit être placé dans le répertoire racine du thème:
 
     themes/
       demo/
-        theme.yaml    <=== Theme information file
+        theme.yaml    <=== Fichier d'informations du thème
 
-The following fields are supported in the **theme.yaml** file:
+Les champs suivants sont pris en charge dans le fichier **theme.yaml** :
 
-Field | Description
-------------- | -------------
-**name** | specifies the theme name, required.
-**author** | specifies the author name, required.
-**homepage** | specifies the author website URL, required.
-**description** | the theme description, required.
-**previewImage** | custom preview image, path relative to the theme directory, eg: `assets/images/preview.png`, optional.
-**code** | the theme code, optional. The value is used on the OctoberCMS marketplace for initializing the theme code value. If the theme code is not provided, the theme directory name will be used as a code. When a theme is installed from the Marketplace, the code is used as the new theme directory name.
-**form** | a configuration array or reference to a form field definition file, used for [theme customization](#customization), optional.
-**require** | an array of plugin names used for [theme dependencies](#dependencies), optional.
+| Champ            | Description                                                                                                                                                                                                                                                                                                                                                     |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **name**         | spécifie le nom du thème, obligatoire.                                                                                                                                                                                                                                                                                                                          |
+| **author**       | spécifie le nom de l'auteur, obligatoire.                                                                                                                                                                                                                                                                                                                       |
+| **homepage**     | spécifie l'URL du site Web de l'auteur, obligatoire.                                                                                                                                                                                                                                                                                                            |
+| **description**  | la description du thème, obligatoire.                                                                                                                                                                                                                                                                                                                           |
+| **previewImage** | image d'aperçu personnalisée, chemin relatif au répertoire du thème, par exemple: `assets/images/preview.png`, facultatif.                                                                                                                                                                                                                                      |
+| **code**         | le code du thème, facultatif. Cette valeur est utilisée sur la Marketplace d'OctoberCMS pour initialiser celle identifiant unique du thème. Si le code du thème n'est pas fourni, le nom du répertoire du thème sera utilisé comme code. Lorsqu'un thème est installé à partir de la Marketplace, le code est utilisé comme nouveau nom du répertoire du thème. |
+| **form**         | un tableau de configuration ou une référence à un fichier de définition de champ de formulaire, utilisé pour [la personnalisation du thème](#customization), facultatif.                                                                                                                                                                                        |
+| **require**      | un tableau de noms de plugins utilisés comme [dépendances du thème](#dependencies), facultatif.                                                                                                                                                                                                                                                                 |
 
-Example of the theme information file:
+Exemple de fichier d'informations du thème :
 
-    name: "OctoberCMS Demo"
-    description: "Demonstrates the basic concepts of the front-end theming."
-    author: "OctoberCMS"
-    homepage: "http://octobercms.com"
+    nom: "Démo d'OctoberCMS"
+    description: "Démontre les concepts de base du thème du front-end."
+    auteur: "OctoberCMS"
+    page d'accueil: "https://octobercms.fr"
     code: "demo"
 
 <a name="version-file"></a>
-## Version file
+## Fichier de version
 
-The theme version file **version.yaml** defines the current theme version and the change log. The file should be placed to the theme root directory:
+Le fichier de version du thème **version.yaml** définit la version actuelle du thème et le journal des modifications.
+Le fichier doit être placé dans le répertoire racine du thème :
 
     themes/
       demo/
         ...
         version.yaml    <=== Theme version file
 
-The file format is following:
+Le format du fichier est le suivant :
 
-    1.0.1: Theme initialization
-    1.0.2: Added more features
-    1.0.3: Some features are removed
+    1.0.1: Initialisation du thème
+    1.0.2: Ajout de nouvelles fonctionnalités
+    1.0.3: Certaines fonctionnalités sont supprimées
 
 <a name="preview-image"></a>
-## Theme preview image
+## Image d'aperçu du thème
 
-The theme preview image is used in the back-end theme selector. The image file **theme-preview.png** should be placed to the theme's **assets/images** directory:
+L'image d'aperçu du thème est utilisée dans le sélecteur de thème dans l'interface d'administration.
+Le fichier image **theme-preview.png** doit être placé dans le répertoire **assets/images** du thème :
 
     themes/
       demo/
         assets/
           images/
-            theme-preview.png    <=== Theme preview image
+            theme-preview.png    <=== Image d'aperçu du thème
 
-The image width should be at least 600px. The ideal aspect ratio is 1.5, for example 600x400px.
+La largeur de l'image doit être d'au moins 600 pixels. Le rapport hauteur/largeur idéal est de 1.5, par exemple 600x400px.
 
 <a name="customization"></a>
-## Theme customization
+## Personnalisation du thème
 
-Themes can support configuration values by defining a `form` key in the theme information file. This key should contain a configuration array or reference to a form field definition file, see [form fields](../backend/forms#form-fields) for more information.
+Les thèmes peuvent prendre en charge des valeurs de configuration en définissant une clé `form` dans le fichier d'informations du thème.
+Cette clé doit contenir un tableau de configuration ou une référence à un fichier de définition de champ de formulaire, voir [champs de formulaire](../backend/forms#form-fields) pour plus d'informations.
 
-The following is an example of how to define a website name configuration field called **site_name**:
+Ci-après un exemple de définition d'un champ de configuration pour le nom du site Web appelé **nom_site** :
 
-    name: My Theme
+    nom: Mon thème
     # [...]
 
     form:
         fields:
-            site_name:
-                label: Site name
-                comment: The website name as it should appear on the front-end
-                default: My Amazing Site!
-                
-> **Note:** If using nested fields with array syntax (`contact[name]`, `contact[email` etc.) you need to add the top level to the `ThemeData` model's `jsonable` array using the following:
+            nom_site:
+                label: Nom du site
+                comment: Le nom du site Web tel qu'il devrait apparaître sur le front-end
+                default: Mon site est incroyable!
 
-    \Cms\Models\ThemeData::extend(function ($model) { 
+> **Remarque** : Si vous utilisez des champs imbriqués avec une syntaxe de tableau (`contact[nom]`, `contact[email]` etc.), vous devez ajouter le niveau supérieur au tableau `jsonable` de la vue `ThemeData` en utilisant le code suivant :
+
+    \Cms\Models\ThemeData::extend(function ($model) {
         $model->addJsonable('contact');
     });
 
-The value can then be accessed inside any of the Theme templates using the [default page variable](../cms/markup#default-variables) called `this.theme`.
+La valeur peut alors être récupérée dans n'importe quel modèle du thème en utilisant la [variable de page](../cms/markup#default-variables) appelée `this.theme`.
 
-    <h1>Welcome to {{ this.theme.site_name }}!</h1>
+    <h1>Bienvenue dans {{ this.theme.nom_site }}!</h1>
 
-You may also define the configuration in a separate file, where the path is relative to the theme. The following definition will source the form fields from the file **config/fields.yaml** inside the theme.
+Vous pouvez également définir la configuration dans un fichier séparé, dont le chemin est relatif au thème.
+La définition suivante va générer les champs du formulaire à partir du fichier **config/fields.yaml** à l'intérieur du thème.
 
-    name: My Theme
+    name: Mon thème
     # [...]
 
     form: config/fields.yaml
 
 <a name="combiner-vars"></a>
-### Combiner variables
+### Variables du combinateur
 
-Assets combined using the `|theme` [filter and combiner](../markup/filter-theme) can have values passed to supporting filters, such as the LESS filter. Simply specify the `assetVar` option when defining the form field, the value should contain the desired variable name.
+Les ressources combinées à l'aide du [filtre et combinateur](../markup/filter-theme) `|theme` peuvent avoir des valeurs transmises aux filtres qui les prennent en charge, tels que le filtre LESS. Spécifiez simplement l'option `assetVar` lors de la définition du champ du formulaire, la valeur doit contenir le nom de la variable souhaité.
 
     form:
         fields:
             # [...]
 
-            link_color:
-                label: Link color
+            couleur_du_lien:
+                label: La couleur du lien
                 type: colorpicker
                 assetVar: 'link-color'
 
-In the above example, the color value selected will be available inside the less file as `@link-color`. Assuming we have the following stylesheet reference:
+Dans l'exemple ci-dessus, la valeur de la couleur sélectionnée sera disponible dans le fichier less en tant que `@link-color`.
+En supposant que nous ayons la référence de la feuille de style suivante :
 
     <link href="{{ ['assets/less/theme.less']|theme }}" rel="stylesheet">
 
-Using some example content inside **themes/yourtheme/assets/less/theme.less**:
+ci-après un exemple d'utilisation dans **themes/demo/assets/less/theme.less** :
 
     a { color: @link-color }
 
 <a name="dependencies"></a>
-## Theme dependencies
+## Dépendances du thème
 
-A theme can depend on plugins by defining a **require** option in the [Theme information file](#theme-information), the option should supply an array of plugin names that are considered requirements. A theme that depends on **Acme.Blog** and **Acme.User** can define this requirement like so:
+Un thème peut dépendre de plugins en définissant une option **require** dans le [Fichier d'informations du thème](#theme-information),
+l'option doit fournir un tableau de noms de plugins qui sont considérés comme des dépendances.
+Un thème qui dépend de **Acme.Blog** et **Acme.User** peut définir cette dépendance de la manière suivante :
 
-    name: "OctoberCMS Demo"
+    name: "Démo d'OctoberCMS"
     # [...]
 
     require:
         - Acme.User
         - Acme.Blog
 
-When the theme is installed for the first time, the system will attempt to install the required plugins at the same time.
+Lorsque le thème est installé pour la première fois, le système tentera d'installer les plugins requis en même temps.

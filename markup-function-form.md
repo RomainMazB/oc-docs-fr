@@ -1,99 +1,99 @@
 # form()
 
-Functions prefixed with `form_` perform tasks that are useful when dealing with forms. The helper maps directly to the `Form` PHP class and its methods. For example:
+Les fonctions préfixées par `form_` exécutent des tâches utiles lors du traitement des formulaires. L’helper est directement mappé sur la classe PHP `Form` et ses méthodes. Par exemple :
 
     {{ form_close() }}
 
-is the PHP equivalent of the following:
+est l'équivalent en PHP de :
 
     <?= Form::close() ?>
 
-> **Note**: Methods in *camelCase* should be converted to *snake_case*.
+**Remarque** : Les méthodes en _camelCase_ (dans la classe PHP `Form`) doivent être converties en _snake_case_ (pour Twig).
 
 ## form_open()
 
-Outputs a standard FORM opening tag (non AJAX).
+Produit une balise d'ouverture FORM standard (non AJAX).
 
     {{ form_open() }}
 
-Attributes can be passed in the first argument.
+Les attributs peuvent être passés dans le premier argument.
 
-    {{ form_open({ class: 'form-horizontal' }) }}
+    {{ form_open({ classe: 'form-horizontal' }) }}
 
-The above example would output as the following:
+L'exemple ci-dessus produirait le code suivant:
 
     <form class="form-horizontal">
 
-There are some special options that can also be used alongside the attributes.
+Il existe des options spéciales qui peuvent également être utilisées à côté des attributs.
 
     {{ form_open({ request: 'onUpdate' }) }}
 
-The function support the following options:
+La fonction prend en charge les options suivantes:
 
-Option | Description
-------------- | -------------
-**method** | Request method. Corresponds to the **method** FORM tag attribute. Eg: POST, GET, PUT, DELETE
-**request** | A handler name to execute on the server when the form is posted. See the [Handling forms](../cms/pages#handling-forms) article for details about the event handlers.
-**url** | Specifies URL to post the form to. Corresponds to the **action** FORM tag attribute.
-**files** | Determines whether the form will submit files. Accepted values: **true** and **false**.
-**model** | A model object for the form model binding.
+| Option      | La description                                                                                                                                                                                                       |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **method**  | Méthode du Request. Correspond à l'attribut **method** de la balise FORM. Par exemple: POST, GET, PUT, DELETE                                                                                                        |
+| **request** | Un nom de gestionnaire à exécuter coté serveur lorsque le formulaire est publié. Voir l'article [Manipulation des formulaires](../cms/pages#handling-forms) pour plus de détails sur les gestionnaires d'événements. |
+| **url**     | Spécifie l'URL vers laquelle le formulaire sera transmis. Correspond à l'attribut **action** de la balise FORM.                                                                                                               |
+| **files**   | Détermine si le formulaire soumettra des fichiers. Valeurs acceptées: **true** et **false**.                                                                                                                         |
+| **model**   | Un objet de la vue pour la liaison du formulaire au modèle.                                                                                                                                                          |
 
 ## form_ajax()
 
-Outputs an AJAX enabled FORM opening tag. The first parameter of the `form_ajax()` function is the AJAX handler name. The handler can be defined in the layout or page [PHP section](../cms/themes#php-section) code, it can also be defined in a component. You may find more information about AJAX in the [AJAX Framework](../ajax/introduction) article.
+Génère une balise d'ouverture FORM gérée par AJAX. Le premier paramètre de la fonction `form_ajax()` est le nom du gestionnaire AJAX. Le gestionnaire peut être défini dans la [section du code PHP](../cms/themes#php-section) dans la maquette ou la page, il peut aussi être défini dans un composant. Vous pouvez trouver plus d'informations sur AJAX dans l'article [Framework AJAX](../ajax/introduction).
 
     {{ form_ajax('onUpdate') }}
 
-Attributes can be passed in the second argument.
+Les attributs peuvent être passés dans le deuxième argument.
 
-    {{ form_ajax('onSave', { class: 'form-horizontal'}) }}
+    {{ form_ajax('onSave', { class: 'form-horizontal' }) }}
 
-The above example would output as the following:
+L'exemple ci-dessus produirait le code suivant :
 
     <form data-request="onSave" class="form-horizontal">
 
-There are some special options that can also be used alongside the attributes.
+Certaines options spéciales peuvent également être utilisées avec les attributs.
 
     {{ form_ajax('onDelete', { data: { id: 2 }, confirm: 'Really delete this record?' }) }}
 
     {{ form_ajax('onRefresh', { update: { statistics: '#statsPanel' } }) }}
 
->**Note:** When attempting to reference a component's alias with `__SELF__` as an argument to `form_ajax()` you must first build the string you wish to use outside of the call itself. Example:
+> **Remarque** : Lorsque vous essayez de référencer l'alias d'un composant avec `__SELF__` comme argument de `form_ajax ()`, vous devez d'abord créer la chaîne que vous souhaitez utiliser en dehors de l'appel lui-même. Exemple:
 
     {% set targetPartial = "'" ~ __SELF__ ~ "::statistics': '#statsPanel'" %}
     {{ form_ajax('onUpdate', { update: targetPartial }) }}
 
-The function support the following options:
+La fonction prend en charge les options suivantes :
 
-Option | Description
-------------- | -------------
-**success** | JavaScript string to execute on successful result.
-**error** | JavaScript string to execute on failed result.
-**confirm** | A confirmation message to display before sending the request.
-**redirect** | On successful result, redirect to a URL.
-**update** | An array of partials to update on success in the following format: { 'partial': '#element' }.
-**data** | Extra data to include with the request in the following format: { 'myvar': 'myvalue' }.
+| Option       | La description                                                                                        |
+| ------------ | ----------------------------------------------------------------------------------------------------- |
+| **success**  | Chaîne JavaScript à exécuter en cas de succès.                                                        |
+| **error**    | Chaîne JavaScript à exécuter en cas d'échec du résultat.                                              |
+| **confirm**  | Un message de confirmation à afficher avant d'envoyer la requête.                                     |
+| **redirect** | En cas de succès, redirigez vers une URL.                                                             |
+| **update**   | Un tableau de partiels à mettre à jour en cas de succès au format suivant: { 'partial': '#element' }. |
+| **data**     | Données supplémentaires à inclure dans le request au format suivant: { 'maVariable': 'ma-valeur' }.    |
 
 ## form_close()
 
-Outputs a standard FORM closing tag. This tag is generally available to provide consistency in usage.
+Produit une balise de fermeture FORM standard. Cette balise est généralement disponible pour assurer une cohérence d'utilisation.
 
-    {{ form_close() }}
+    {{ form_close () }}
 
-The above example would output as the following:
+L'exemple ci-dessus produirait :
 
     </form>
 
-## Passing attributes to the generated element
+## Passage d'attributs à l'élément généré
 
-You can pass additional attributes to the `Form::open()` method by passing an array of attribute names and values to be rendered on the final generated `<form>` element.
+Vous pouvez passer des attributs supplémentaires à la méthode `Form::open()` en passant un tableau de noms d'attributs et de valeurs à rendre sur l'élément `<form>` final généré.
 
-    <?= Form::open(array('id' => 'example', 'class' => 'something')) ?>
+    <?= Form::open(['id' => 'exemple', 'class' => 'quelque-chose']) ?>
         // ..
     <?= Form::close() ?>
 
-The above example would output the following:
+L'exemple ci-dessus produirait ce qui suit :
 
-    <form method="POST" action="" accept-charset="UTF-8" id="example" class="something">
-
+    <form method="POST" action="" accept-charset="UTF-8" id="exemple" class="quelque-chose">
+        // ..
     </form>

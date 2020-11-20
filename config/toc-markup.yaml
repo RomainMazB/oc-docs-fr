@@ -1,7 +1,7 @@
-Markup:
+Balisage:
   icon: "icon-code"
   pages:
-    markup/templating: "Templating"
+    markup/templating: "Moteur de template"
 
 Variables:
   icon: "icon-subscript"
@@ -13,7 +13,7 @@ Variables:
     markup/this-param: "this.param"
     markup/this-environment: "this.environment"
 
-Tags:
+Balises:
   icon: "icon-tags"
   itemClass: "code-item"
   pages:
@@ -30,7 +30,7 @@ Tags:
     markup/tag-for: "{% for %}"
     markup/tag-if: "{% if %}"
 
-Filters:
+Filtres:
   icon: "icon-quote-right"
   itemClass: "code-item"
   pages:
@@ -42,7 +42,7 @@ Filters:
     markup/filter-raw: "|raw"
     markup/filter-default: "|default"
 
-Functions:
+Fonctions:
   icon: "icon-eraser"
   itemClass: "code-item"
   pages:

@@ -1,17 +1,17 @@
 # {% verbatim %}
 
-The `{% verbatim %}` tag marks entire sections as being raw text that should not be parsed.
+La balise `{% verbatim %}` marque des sections entières comme étant du texte brut qui ne doit pas être analysé.
 
-    {% verbatim %}<p>Hello, {{ name }}</p>{% endverbatim %}
+     {% verbatim %} <p>Bonjour, {{ name }}</p> {% endverbatim %}
 
-The above will render in the browser exactly as:
+Ce qui précède sera rendu dans le navigateur exactement comme :
 
-    <p>Hello, {{ name }}</p>
+     <p>Bonjour, {{ name }}</p>
 
-For example, AngularJS uses the same templating syntax so you can decide which variables to use for each.
+Par exemple, AngularJS utilise la même syntaxe de template, ce qui vous permettra de décider quelles variables utiliser pour chacune.
 
-    <p>Hello {{ name }}, this is parsed by Twig</p>
+     <p>Bonjour {{ name }}, ceci est analysé par Twig</p>
 
-    {% verbatim %}
-        <p>Hello {{ name }}, this is parsed by AngularJS</p>
-    {% endverbatim %}
+     {% verbatim%}
+         <p>Bonjour {{ name }}, ceci est analysé par AngularJS</p>
+     {% endverbatim%}

@@ -1,12 +1,12 @@
 # {% if %}
 
-The `{% if %}` and `{% endif %}` tags will represent an expression and is comparable with the if statements of PHP. In the simplest form you can use it to test if an expression evaluates to `true`:
+Les balises `{% if %}` et `{% endif %}` représenteront une expression et sont comparables aux instructions if du PHP. Dans sa forme la plus simple, vous pouvez l'utiliser pour tester si une expression est évaluée à `true`:
 
     {% if online == false %}
-        <p>The website is in maintenance mode.</p>
+        <p>Le site Web est en mode maintenance.</p>
     {% endif %}
 
-You can also test if an array is not empty:
+Vous pouvez également tester si un tableau n'est pas vide :
 
     {% if users %}
         <ul>
@@ -16,34 +16,34 @@ You can also test if an array is not empty:
         </ul>
     {% endif %}
 
-> **Note**: If you want to test if the variable is defined, use `{% if users is defined %}` instead.
+> **Remarque** : Si vous voulez tester si la variable `users` est définie, utilisez `{% if users is defined %}` à la place.
 
-You can also use `not` to check for values that evaluate to `false`:
+Vous pouvez également utiliser `not` pour vérifier les valeurs évaluées à `false`:
 
     {% if not user.subscribed %}
-        <p>You are not subscribed to our mailing list.</p>
+        <p>Vous n'êtes pas abonné à notre liste de diffusion.</p>
     {% endif %}
 
-For multiple expressions `{% elseif %}` and `{% else %}` can be used:
+Pour plusieurs expressions, `{% elseif %}` et `{% else %}` peuvent être utilisés :
 
     {% if kenny.sick %}
-        Kenny is sick.
+        Kenny est malade.
     {% elseif kenny.dead %}
-        You killed Kenny! You bastard!!!
+        Tu as tué Kenny! Enfoiré!!!
     {% else %}
-        Kenny looks okay so far.
+        Kenny a l'air bien pour l'instant.
     {% endif %}
 
-## Expression rules
+## Les règles d'expression
 
-The rules to determine if an expression is true or false are the same as in PHP, here are the edge cases rules:
+Les règles pour déterminer si une expression est vraie ou fausse sont les mêmes qu'en PHP, voici les règles des cas marginaux:
 
-Value | Boolean evaluation
-------------- | -------------
-*empty string* | false
-*numeric zero* | false
-*whitespace-only string* | true
-*empty array* | false
-*null* | false
-*non-empty array* | true
-*object* | true
+| Valeur                    | Évaluation booléenne |
+| ------------------------- | -------------------- |
+| _chaîne vide_             | faux                 |
+| _zéro numérique_          | faux                 |
+| _caractères d'espacement_ | vrai                 |
+| _tableau vide_            | faux                 |
+| _null_                    | faux                 |
+| _tableau non vide_        | vrai                 |
+| _objet_                   | vrai                 |

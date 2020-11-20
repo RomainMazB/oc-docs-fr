@@ -1,24 +1,25 @@
 # {% styles %}
 
-The `{% styles %}` tag renders CSS links to stylesheet files injected by the application. The tag is commonly defined in the HEAD section of a page or layout:
+La balise `{% styles %}` rend les liens CSS vers les fichiers de feuilles de style injectés par l'application.
+La balise est généralement définie dans la section HEAD d'une page ou d'une maquette :
 
-    <head>
-        ...
-        {% styles %}
-    </head>
+     <head>
+         ...
+         {% styles %}
+     </head>
 
-> **Note**: This tag should appear once only in a given page cycle to prevent duplicated references.
+> **Remarque** : Cette balise ne doit apparaître qu'une seule fois dans un cycle de page donné pour éviter les références dupliquées.
 
-## Injecting styles
+## Injection des feuilles de style
 
-Links to StyleSheet files can be injected in PHP either by [components](../plugin/components#component-assets) or [pages programmatically](../cms/pages#injecting-assets).
+Les liens vers les fichiers des feuilles de style peuvent être injectés par du code PHP soit par des [composants](../plugin/components#component-assets) ou par des [pages](../cms/pages#injecting-assets).
 
     function onStart()
     {
         $this->addCss('assets/css/hello.css');
     }
 
-You can also inject raw markup to the `{% styles %}` tag by using the **styles** anonymous [placeholder](../cms/layouts#placeholders). Use the `{% put %}` tag in pages or layouts to add content to the placeholder:
+Vous pouvez également injecter un balisage brut dans la balise `{{% styles %}` en utilisant le [placeholder](../cms/layouts#placeholders) anonyme **styles**. Utilisez la balise `{% put %}` dans les pages ou les maquettes pour ajouter du contenu au placeholder :
 
     {% put styles %}
         <link href="/themes/demo/assets/css/page.css" rel="stylesheet" />

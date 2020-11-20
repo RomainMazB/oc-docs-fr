@@ -1,17 +1,17 @@
 # |page
 
-The `|page` filter creates a link to a page using a page file name, without an extension, as a parameter. For example, if there is the about.htm page you can use the following code to generate a link to it:
+Le filtre `|page` crée un lien vers une page en utilisant un nom de fichier de page sans extension comme paramètre. Par exemple, pour la page **about.htm**, vous pouvez utiliser le code suivant pour générer un lien vers celle-ci :
 
-    <a href="{{ 'about'|page }}">About Us</a>
+    <a href="{{ 'about'|page }}">À propos de nous</a>
 
-Remember that if you refer a page from a subdirectory you should specify the subdirectory name:
+N'oubliez pas que si vous faites référence à une page d'un sous-répertoire, vous devez spécifier le nom du sous-répertoire :
 
-    <a href="{{ 'contacts/about'|page }}">About Us</a>
+    <a href="{{ 'contacts/about'|page }}">À propos de nous</a>
 
-> **Note**: The [Themes documentation](../cms/themes#subdirectories) has more details on subdirectory usage.
+> **Remarque** : La [Documentation des thèmes](../cms/themes#subdirectories) contient plus de détails sur l'utilisation des sous-répertoires.
 
-To access the link to a certain page from the PHP section, you can use `$this->pageUrl('page-name-without-extension')`:
-    
+Pour accéder au lien d'une certaine page depuis la section du code PHP, vous pouvez utiliser `$this->pageUrl('nom_de_la_page_sans_extension')`:
+
     ==
     <?php
     function onStart() {
@@ -21,11 +21,11 @@ To access the link to a certain page from the PHP section, you can use `$this->p
     ==
     {{ newsPage }}
 
-You can create a link to the current page by filtering an empty string:
+Vous pouvez créer un lien vers la page en cours en filtrant une chaîne vide :
 
-    <a href="{{ ''|page }}">Refresh page</a>
-    
-To get the link to the current page in PHP, you can use `$this->pageUrl('')` with an empty string.
+    <a href="{{ ''|page }}">Actualiser la page</a>
+
+Pour obtenir le lien vers la page courante en PHP, vous pouvez utiliser `$this->pageUrl('')` avec une chaîne vide.
 
     ==
     <?php
@@ -37,55 +37,55 @@ To get the link to the current page in PHP, you can use `$this->pageUrl('')` wit
     {{ currentUrl }}
 
 <a name="reverse-routing"></a>
-## Reverse routing
+## Routage inversé
 
-When linking to a page that has URL parameters defined, the `|page` filter supports reverse routing by passing an array as the first argument.
+Lors d'un lien vers une page dont les paramètres URL sont définis, le filtre `|page` prend en charge le routage inversé en passant un tableau comme premier argument.
 
     url = "/blog/post/:post_id"
     ==
     [...]
 
-Given the above content is found in a CMS page file **post.htm** you can link to this page using:
+Étant donné que le contenu ci-dessus se trouve dans un fichier de page CMS **post.htm**, vous pouvez créer un lien vers cette page en utilisant :
 
     <a href="{{ 'post'|page({ post_id: 10 }) }}">
-        Blog post #10
+        Article de blog n° 10
     </a>
 
-If the website address is __http://octobercms.com__ the above example would output the following:
+Si l'adresse du site Web est **https://octobercms.fr**, l'exemple ci-dessus affichera ce qui suit :
 
-    <a href="http://octobercms.com/blog/post/10">
-        Blog post #10
+    <a href="https://octobercms.com/blog/post/10">
+        Article de blog n° 10
     </a>
 
 <a name="persistent-parameters"></a>
-## Persistent URL parameters
+## Paramètres d'URL persistants
 
-If a URL parameter is already presented in the environment, the `|page` filter will use it automatically.
+Si un paramètre d'URL est déjà présent dans l'environnement, le filtre `|page` l'utilisera automatiquement.
 
     url = "/blog/post/:post_id"
 
     url = "/blog/post/edit/:post_id"
 
-If there are two pages, **post.htm** and **post-edit.htm**, with the above URLs defined, you can link to either page without needing to define the `post_id` parameter.
+S'il y a deux pages, **post.htm** et **post-edit.htm**, avec les URLs définies ci-dessus, vous pouvez créer un lien vers l'une ou l'autre page sans avoir à définir le paramètre `post_id`.
 
     <a href="{{ 'post-edit'|page }}">
-        Edit this post
+        Modifier cet article
     </a>
 
-When the above markup appears on the **post.htm** page, it will output the following:
+Lorsque le balisage ci-dessus apparaît sur la page **post.htm**, il affiche les éléments suivants :
 
-    <a href="http://octobercms.com/blog/post/edit/10">
-        Edit this post
+    <a href="https://octobercms.com/blog/post/edit/10">
+        Modifier cet article
     </a>
 
-The `post_id` value of *10* is already known and has persisted across the environments. You can disable this functionality by passing the 2nd argument as `false`:
+La valeur `post_id` de **10** est déjà connue et est reconduite à travers les environnements. Vous pouvez désactiver cette fonctionnalité en passant le second argument comme `false` :
 
     <a href="{{ 'post'|page(false) }}">
-        Unknown blog post
+        Article de blog inconnu
     </a>
 
-Or by defining a different value:
+Ou en définissant une valeur différente :
 
     <a href="{{ 'post'|page({ post_id: 6 }) }}">
-        Blog post #6
+        Article du blog n° 6
     </a>

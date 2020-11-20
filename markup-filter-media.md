@@ -1,9 +1,9 @@
 # |media
 
-The `|media` filter returns an address relative to the public path of the [media manager library](../cms/mediamanager). The result is a URL to the media file specified in the filter parameter.
+Le filter `|media` renvoie une adresse relative au chemin public de la [bibliothèque du Gestionnaire des Médias](../cms/mediamanager). Le résultat est une URL vers le fichier multimédia spécifié dans le paramètre du filtre.
 
     <img src="{{ 'banner.jpg'|media }}" />
 
-If the media manager address is __http://cdn.octobercms.com__ the above example would output the following:
+Si l'adresse du Gestionnaire des Médias est **http://cdn.octobercms.com**, l'exemple ci-dessus produirait ce qui suit :
 
-    <img src="http://cdn.octobercms.com/banner.jpg" />
+    <img src="http://cdn.octobercms.fr/banner.jpg" />

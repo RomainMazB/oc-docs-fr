@@ -1,13 +1,13 @@
 # dump()
 
-The `dump()` function dumps information about a template variable. This is useful when debugging a template that does not behave as expected.
+La fonction `dump()` affiche les informations sur une variable de la vue (maquette, page, ...). Ceci est utile lors du débogage d'un modèle qui ne se comporte pas comme prévu.
 
-    {{ dump(user) }}
+     {{ dump(user) }}
 
-You can inspect several variables by passing them as additional arguments:
+Vous pouvez inspecter plusieurs variables en les passant comme arguments supplémentaires:
 
     {{ dump(user, categories) }}
 
-If you don't pass any value, all variables from the current context are dumped:
+Si vous ne transmettez aucune valeur, toutes les variables du contexte actuel seront affichées:
 
     {{ dump() }}

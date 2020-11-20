@@ -1,60 +1,72 @@
 # {% placeholder %}
 
-The `{% placeholder %}` tag will render a placeholder section which is generally [used inside Layouts](../cms/layouts#placeholders). This tag will return any placeholder contents that have been added using the `{% put %}` tag, or any default content that is defined (optional).
+La balise `{% placeholder %}` affichera un placeholder (une section réservée) qui est généralement [utilisé dans la maquette](../cms/layouts#placeholders).
+Cette balise renverra tout le contenu du placeholder qui a été ajouté à l'aide de la balise `{% put %}`, ou tout contenu défini par défaut (facultatif).
 
-    {% placeholder name %}
+    {% placeholder nom %}
 
-Content can then be injected into the placeholder in any subsequent page or partial.
+Le contenu peut ensuite être injecté dans le placeholder dans n'importe quelle page ou partiel.
 
-    {% put name %}
-        <p>Place this text in the name placeholder</p>
+    {% put nom %}
+        <p>Placez ce texte dans le placeholder "nom"</p>
     {% endput %}
 
 <a name="default-placeholder-content"></a>
-## Default placeholder content
+## Contenu par défaut du placeholder
 
-Placeholders can have default content that can be either replaced or complemented by a page. If the `{% put %}` tag for a placeholder with default content is not defined on a page, the default placeholder content is displayed. Example placeholder definition in the layout template:
+Les placeholders peuvent avoir un contenu par défaut qui peut être remplacé ou complété par une page.
+Si la balise `{% put %}` d'un placeholder avec un contenu par défaut n'est pas définie sur une page, le contenu du placeholder par défaut est affiché.
 
-    {% placeholder sidebar default %}
-        <p><a href="/contacts">Contact us</a></p>
+Exemple de définition d'un placeholder dans le modèle de la maquette :
+
+    {% placeholder zonelateral default %}
+        <p><a href="/contacts">Contactez-nous</a></p>
     {% endplaceholder %}
 
-The page can inject more content to the placeholder. The `{% default %}` tag specifies a place where the default placeholder content should be displayed. If the tag is not used the placeholder content is completely replaced.
+La page peut injecter plus de contenu dans le placeholder. La balise `{% default %}` spécifie un endroit où le contenu par défaut du placeholder doit être affiché.
+Si la balise n'est pas utilisée, le contenu du placeholder est complètement remplacé.
 
-    {% put sidebar %}
+    {% put zonelateral %}
         <p><a href="/services">Services</a></p>
         {% default %}
     {% endput %}
 
 <a name="checking-placeholder-exits"></a>
-## Checking a placeholder exists
+## Vérification de l'existence d'un placeholder
 
-In a layout template you can check if a placeholder content exists by using the `placeholder()` function. This lets you to generate different markup depending on whether the page provides a placeholder content. Example:
+Dans un modèle de maquette, vous pouvez vérifier si un contenu d'un placeholder existe en utilisant la fonction `placeholder()`.
+Cela vous permet de générer un balisage différent selon que la page fournit ou non un contenu de placeholder. Exemple :
 
-    {% if placeholder('sidemenu') %}
-        <!-- Markup for a page with a sidebar -->
+    {% if placeholder('menulateral') %}
+        <!-- Balisage pour une page avec une zone latérale -->
         <div class="row">
             <div class="col-md-3">
-                {% placeholder sidemenu %}
+                {% placeholder menulateral %}
             </div>
             <div class="col-md-9">
                 {% page %}
             </div>
         </div>
     {% else %}
-        <!-- Markup for a page without a sidebar -->
+        <!-- Balisage pour une page sans zone latérale -->
         {% page %}
     {% endif %}
 
 <a name="custom-placeholder-attributes"></a>
-## Custom attributes
+## Attributs personnalisés
 
-The `placeholder` tag accepts two optional attributes &mdash; `title` and `type`. The `title` attribute is not used by the CMS itself, but could be used by other plugins. The type attribute manages the placeholder type. There are two types supported at the moment &mdash; **text** and **html**. The content of text placeholders is escaped before it's displayed. The title and type attributes should be defined after the placeholder name and the `default` attribute, if it's presented. Example:
+La balise `placeholder` accepte deux attributs facultatifs, `title` et `type`.
+- L'attribut `title` n'est pas utilisé par le CMS lui-même, mais pourrait être utilisé par d'autres plugins.
+- L'attribut `type` gère le type du placeholder. Il existe deux types pris en charge pour le moment, **text** et **html**.
 
-    {% placeholder ordering title="Ordering information" type="text" %}
+Le contenu des placeholders de type texte est échappé avant d'être affiché.
+Les attributs `title` et `type` doivent être définis après le nom du placeholder et l'attribut `default`, s'il est présent.
+Exemple :
 
-Example of a placeholder with a default content, title and type attributes.
+    {% placeholder commande title="Informations de commande" type="text" %}
 
-    {% placeholder ordering default title="Ordering information" type="text" %}
-        There is no ordering information for this product.
+Exemple d'un placeholder avec un contenu par défaut et des attributs title et type.
+
+    {% placeholder commande default title="Informations de commande" type="text" %}
+        Il n'y a aucune information de commande pour ce produit.
     {% endplaceholder %}

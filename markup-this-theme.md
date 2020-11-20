@@ -1,21 +1,23 @@
 # this.theme
 
-You can access the current theme object via `this.theme` and it returns the object `Cms\Classes\Theme`, a reference to the [theme customization object](../themes/development#customization).
+Vous pouvez accéder à l'objet thème actuel via `this.theme`.
+Cette propriété renvoie l'objet `Cms\Classes\Theme`, une référence à l'[objet de personnalisation du thème](../themes/development#customization).
 
-## Properties
+## Propriétés
 
-`this.theme` will provide direct access to form field values, defined by any theme customization. It also has the following properties natively.
+`this.theme` fournira un accès direct aux valeurs des champs du formulaire définies par n'importe quelle personnalisation du thème.
+Il possède également les propriétés suivantes de manière native.
 
 ### id
 
-Converts the theme directory name to a CSS friendly identifier.
+Convertit le nom du répertoire du thème en un identifiant CSS convivial.
 
     <body class="theme-{{ this.theme.id }}">
 
-If the theme directory was **website** this would generate a class name of `theme-website`.
+Si le répertoire de thème était **siteweb**, cela générerait un nom de classe `theme-siteweb`.
 
 ### config
 
-An array containing all the theme configuration values found in the `theme.yaml` file.
+Un tableau contenant toutes les valeurs de configuration du thème trouvées dans le fichier `theme.yaml`.
 
     <meta name="description" content="{{ this.theme.config.description }}">

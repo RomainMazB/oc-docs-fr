@@ -1,21 +1,22 @@
 # this.layout
 
-You can access the current layout object via `this.layout` and it returns the object `Cms\Classes\Layout`.
+Vous pouvez accéder à l'objet représentant la maquette actuelle via `this.layout`
+Cette propriété renvoie l'objet `Cms\Classes\Layout`.
 
-## Properties
+## Propriétés
 
-`this.layout` has the following properties.
+`this.layout` a les propriétés suivantes :
 
 ### id
 
-Converts the layout file name and folder name to a CSS friendly identifier.
+Convertit le nom du fichier de la maquette et le nom du dossier en un identifiant CSS convivial.
 
     <body class="layout-{{ this.layout.id }}">
 
-If the layout file was **default.htm** this would generate a class name of `layout-default`.
+Si le fichier de la maquette était **default.htm**, cela générerait un nom de classe `layout-default`.
 
 ### description
 
-The layout description as defined by the configuration.
+La description de la maquette telle que définie par la configuration.
 
     <meta name="description" content="{{ this.layout.description }}">

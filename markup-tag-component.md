@@ -1,24 +1,24 @@
 # {% component %}
 
-The `{% component %}` tag will parse the default markup content for a [CMS component](../cms/components) and display it on the page. Not all components provide default markup, the documentation for the plugin will guide in the correct usage.
+La balise `{% component %}` analysera le contenu de balisage par défaut pour un [composant du CMS](../cms/components) et l'affichera sur la page. Tous les composants ne fournissent pas de balisage par défaut, la documentation du plugin vous guidera pour une utilisation correcte.
 
     {% component "blogPosts" %}
 
-This will render the component partial with a fixed name of **default.htm** and is essentially an alias for the following:
+Cela affichera le partiel du composant nommé **default.htm** et est essentiellement un alias dans l'exemple suivant :
 
     {% partial "blogPosts::default" %}
 
 <a name="variables"></a>
 ## Variables
 
-Some components support [passing variables](../cms/components#component-variables) at render time:
+Certains composants prennent en charge [le passage des variables](../cms/components#component-variables) au moment du rendu:
 
     {% component "blogPosts" postsPerPage="5" %}
 
 <a name="customizing-components"></a>
-## Customizing components
+## Personnalisation des composants
 
-In most cases the `{% component %}` tag is not needed and the markup is provided as a usage example for the component API. Components are intended to be customized, this can be done in two ways:
+Dans la plupart des cas, la balise `{% component %}` n'est pas nécessaire et le balisage est fourni comme exemple d'utilisation pour l'API du composant. Les composants sont destinés à être personnalisés, cela peut être fait de deux manières :
 
-1. [Moving default markup to a partial](../cms/components#moving-default-markup)
-1. [Overriding component partials](../cms/components#overriding-partials)
+1. [Déplacement du balisage par défaut vers un partiel](../cms/components#moving-default-markup)
+1. [Remplacement des partiels d'un composant](../cms/components#overriding-partials)

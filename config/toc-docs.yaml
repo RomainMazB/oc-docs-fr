@@ -1,4 +1,4 @@
-Setup:
+Configuration initiale:
   icon: "icon-wrench"
   pages:
     setup/installation: "Installation"
@@ -13,8 +13,8 @@ CMS:
     cms/layouts: "Maquettes"
     cms/content: "Blocs de contenus"
     cms/components: "Composants"
-#    cms/mediamanager: "Media manager"
-#    markup: "Markup guide@"
+    cms/mediamanager: "Gestionnaire des Médias"
+#    markup@: "Guide de balisage"
 
 AJAX:
   icon: "icon-bolt"
@@ -26,10 +26,10 @@ AJAX:
     ajax/javascript-api: "API JavaScript"
     ajax/extras: "Fonctionnalités supplémentaires"
 
-#Themes:
-#  icon: "icon-picture"
-#  pages:
-#    themes/development: "Developing themes"
+Thèmes:
+  icon: "icon-picture"
+  pages:
+    themes/development: "Développement des thèmes"
 
 #Plugins:
 #  icon: "icon-puzzle-piece"
@@ -59,16 +59,16 @@ AJAX:
 Base de données:
   icon: "icon-hdd"
   pages:
-#    database/basics: "Basic usage"
-#    database/structure: "Structure"
-#    database/query: "Queries"
-#    database/model: "Models"
-#    database/relations: "Relationships"
-#    database/attachments: "File attachments"
-#    database/collection: "Collections"
-#    database/mutators: "Mutators"
-#    database/serialization: "Serialization"
-#    database/traits: "Traits"
+    #    database/basics: "Basic usage"
+    #    database/structure: "Structure"
+    #    database/query: "Queries"
+    #    database/model: "Models"
+    #    database/relations: "Relationships"
+    #    database/attachments: "File attachments"
+    #    database/collection: "Collections"
+    #    database/mutators: "Mutators"
+    #    database/serialization: "Serialization"
+    #    database/traits: "Traits"
     database/behaviors: "Comportements"
 
 #Services:
@@ -97,7 +97,7 @@ Base de données:
 Console:
   icon: "icon-terminal"
   pages:
-#    console/commands: "Command list"
+    #    console/commands: "Command list"
     console/scaffolding: "Patrons"
 #    console/development: "Development"
 
