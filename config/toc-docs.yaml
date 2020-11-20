@@ -14,7 +14,7 @@ CMS:
     cms/content: "Blocs de contenus"
     cms/components: "Composants"
     cms/mediamanager: "Gestionnaire des Médias"
-#    markup@: "Guide de balisage"
+    markup@: "Guide de balisage"
 
 AJAX:
   icon: "icon-bolt"
