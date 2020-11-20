@@ -233,7 +233,7 @@ Les propriétés d'une page sont accessibles dans la [section de code PHP](../cm
 
     fonction onEnd ()
     {
-        $ this->page->title = 'Un titre différent de la page';
+        $this->page->title = 'Un titre différent de la page';
     }
 
 Ils sont également accessibles dans le balisage à l'aide de la variable [`this.page`](../markup/this-page).
