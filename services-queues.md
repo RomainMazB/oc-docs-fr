@@ -63,7 +63,7 @@ Sometimes you may wish to delay the execution of a queued job. For instance, you
 
 In this example, we're using the [Carbon](https://github.com/briannesbitt/Carbon) date library to specify the delay we wish to assign to the job. Alternatively, you may pass the number of seconds you wish to delay as an integer.
 
-> **Note:** The Amazon SQS service has a delay limit of 900 seconds (15 minutes).
+> **Remarque** : The Amazon SQS service has a delay limit of 900 seconds (15 minutes).
 
 #### Queues and models
 
@@ -122,7 +122,7 @@ You may also push a Closure onto the queue. This is very convenient for quick, s
         $job->delete();
     });
 
-> **Note:** Instead of making objects available to queued Closures via the `use` directive, consider passing primary keys and re-pulling the associated models from within your queue job. This often avoids unexpected serialization behavior.
+> **Remarque** : Instead of making objects available to queued Closures via the `use` directive, consider passing primary keys and re-pulling the associated models from within your queue job. This often avoids unexpected serialization behavior.
 
 When using Iron.io [push queues](#push-queues), you should take extra precaution queueing Closures. The end-point that receives your queue messages should check for a token to verify that the request is actually from Iron.io. For example, your push queue end-point should be something like: `https://example.com/queue/receive?token=SecretToken`. You may then check the value of the secret token in your application before marshalling the queue request.
 
@@ -196,7 +196,7 @@ The easiest way to restart your workers is to include the following command in y
 
 This command will instruct all queue workers to restart after they finish processing their current job.
 
-> **Note:** This command relies on the cache system to schedule the restart. By default, APCu does not work for CLI commands. If you are using APCu, add `apc.enable_cli=1` to your APCu configuration.
+> **Remarque** : This command relies on the cache system to schedule the restart. By default, APCu does not work for CLI commands. If you are using APCu, add `apc.enable_cli=1` to your APCu configuration.
 
 ### Coding for daemon queue workers
 

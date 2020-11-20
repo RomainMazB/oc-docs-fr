@@ -92,7 +92,7 @@ Vous pouvez émettre une [erreur AJAX](../services/error-log#ajax-exception) en 
         'questionsNeeded' => 2
     ]);
 
-> **Note**: Lorsque vous retourner ce type d'erreur, les [partiels seront mis à jours](../ajax/update-partials) comme habituellement.
+> **Remarque** : Lorsque vous retourner ce type d'erreur, les [partiels seront mis à jours](../ajax/update-partials) comme habituellement.
 
 <a name="before-handler"></a>
 ## Exécuter du code avant les gestionnaires

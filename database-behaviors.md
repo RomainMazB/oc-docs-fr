@@ -39,7 +39,7 @@ Vous pouvez aussi implémenter un comportement dynamiquement dans une classe.
         $model->addDynamicProperty('purgeable', []);
     });
 
-Les propriétés déclarées seront purgées lorsque le modèle sera sauvegardé, avant que les [évènements du modèle](#model-events)
+Les propriétés déclarées seront purgées lorsque le modèle sera sauvegardé, avant que les [évènements de la vue](#model-events)
 ne soient déclenchés, incluant la validation. Utilisez la méthode `getOriginalPurgeValue` pour retrouver une propriété
 qui as été purgée.
 

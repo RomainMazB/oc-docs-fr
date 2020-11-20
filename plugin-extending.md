@@ -51,7 +51,7 @@ The local equivalent requires the code be in context of the calling object.
 
     $this->fireEvent('blog.beforePost', ['first parameter', 'second parameter']);
 
-> **Note:** It is good practice to put the local event before the global event, so local events take priority.
+> **Remarque** : It is good practice to put the local event before the global event, so local events take priority.
 
 Once this event has been subscribed to, the parameters are available in the handler method. For example:
 
@@ -82,7 +82,7 @@ This will allow other plugins to inject HTML to this area by hooking the event a
         return '<a href="#">Sign in with Google!</a>';
     });
 
-> **Note**: The first parameter in the event handler will always be the calling object (the controller).
+> **Remarque** : The first parameter in the event handler will always be the calling object (the controller).
 
 The above example would output the following markup:
 
@@ -171,7 +171,7 @@ This example will modify the `backend.form.extendFields` global event of the `Ba
         }
     }
 
-> **Note:** When extending the form, you should check to see if `$formWidget->isNested === false` as the Repeater FormWidget includes nested Form widgets which can cause your changes to be made in unexpected places.
+> **Remarque** : When extending the form, you should check to see if `$formWidget->isNested === false` as the Repeater FormWidget includes nested Form widgets which can cause your changes to be made in unexpected places.
 
 If you need to extend backend form and in same time add support for translating those new fields you have to add fields before actual form is rendered. This can be done with `backend.form.extendFieldsBefore` event.
 ```

@@ -20,7 +20,7 @@
 
 The database query builder provides a convenient, fluent interface to creating and running database queries. It can be used to perform most database operations in your application, and works on all supported database systems.
 
-> **Note:** The query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
+> **Remarque** : The query builder uses PDO parameter binding to protect your application against SQL injection attacks. There is no need to clean strings being passed as bindings.
 
 <a name="retrieving-results"></a>
 ## Retrieving results
@@ -358,7 +358,7 @@ If the table has an auto-incrementing id, use the `insertGetId` method to insert
         ['email' => 'john@example.com', 'votes' => 0]
     );
 
-> **Note:** When using the PostgreSQL database driver, the insertGetId method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the sequence name as the second parameter to the `insertGetId` method.
+> **Remarque** : When using the PostgreSQL database driver, the insertGetId method expects the auto-incrementing column to be named `id`. If you would like to retrieve the ID from a different "sequence", you may pass the sequence name as the second parameter to the `insertGetId` method.
 
 <a name="updates"></a>
 ## Updates
@@ -444,4 +444,4 @@ If a query is stored in the cache, it will automatically be cleared when an inse
 
     Db::flushDuplicateCache();
 
-> **Note**: In-memory caching is disabled entirely when running via the command-line interface (CLI).
+> **Remarque** : In-memory caching is disabled entirely when running via the command-line interface (CLI).

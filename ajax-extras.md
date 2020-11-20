@@ -42,7 +42,7 @@ Dans la méthode PHP qui reçois la requête AJAX, vous devez émettre une [exce
         throw new ValidationException(['name' => 'Vous devez saisir un nom!']);
     }
 
-> **Note**: Vous pouvez aussi passer une instance du [service de validation](../services/validation) comme premier paramètre de l'exception.
+> **Remarque** : Vous pouvez aussi passer une instance du [service de validation](../services/validation) comme premier paramètre de l'exception.
 
 <a name="error-messages"></a>
 ### Afficher les messages d'erreurs

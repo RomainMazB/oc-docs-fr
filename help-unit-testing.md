@@ -10,7 +10,7 @@ Plugin unit tests can be performed by running `phpunit` in the base plugin direc
 
 ### Creating plugin tests
 
-Plugins can be tested by creating a file called `phpunit.xml` in the base directory with the following content, for example, in a file **/plugins/acme/blog/phpunit.xml**:
+Plugins can be tested by creating a file called `phpunit.xml` in the base directory with the following content, for example, in a file **/plugins/acme/blog/phpunit.xml** :
 
     <?xml version="1.0" encoding="UTF-8"?>
     <phpunit backupGlobals="false"
@@ -58,7 +58,7 @@ The test class should extend the base class `PluginTestCase` and this is a speci
     php artisan plugin:refresh Acme.Blog
     [php artisan plugin:refresh <dependency>, ...]
 
-> **Note:** If your plugin uses [configuration files](../plugin/settings#file-configuration), then you will need to run `System\Classes\PluginManager::instance()->registerAll(true);` in the `setUp` method of your tests. Below is an example of a base test case class that should be used if you need to test your plugin working with other plugins instead of in isolation.
+> **Remarque** : If your plugin uses [configuration files](../plugin/settings#file-configuration), then you will need to run `System\Classes\PluginManager::instance()->registerAll(true);` in the `setUp` method of your tests. Below is an example of a base test case class that should be used if you need to test your plugin working with other plugins instead of in isolation.
 
     use System\Classes\PluginManager;
 

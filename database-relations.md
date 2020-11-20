@@ -32,7 +32,7 @@
 
 Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. October makes managing and working with these relationships easy and supports several different types of relationships.
 
-> **Note:** If you are selecting specific columns in your query and want to load relationships as well, you need to make sure that the columns that contain the keying data (i.e. `id`, `foreign_key`, etc) are included in your select statement. Otherwise, October cannot connect the relations.
+> **Remarque** : If you are selecting specific columns in your query and want to load relationships as well, you need to make sure that the columns that contain the keying data (i.e. `id`, `foreign_key`, etc) are included in your select statement. Otherwise, October cannot connect the relations.
 
 <a name="defining-relationships"></a>
 ## Defining relationships
@@ -54,7 +54,7 @@ Accessing a relationship as a property is also possible:
 
     $user->posts;
 
-> **Note**: All relationship queries have [in-memory caching enabled](../database/query#in-memory-caching) by default. The `load($relation)` method won't force cache to flush. To reload the memory cache use the `reloadRelations()` or the `reload()` methods on the model object.
+> **Remarque** : All relationship queries have [in-memory caching enabled](../database/query#in-memory-caching) by default. The `load($relation)` method won't force cache to flush. To reload the memory cache use the `reloadRelations()` or the `reload()` methods on the model object.
 
 <a name="detailed-relationships"></a>
 ### Detailed definitions
@@ -76,7 +76,7 @@ Argument | Description
 **delete** | if set to true, the related model will be deleted if the primary model is deleted or relationship is destroyed, default: false.
 **count** | if set to true, the result contains a `count` column only, used for counting relations, default: false.
 
-Example filter using **order** and **conditions**:
+Example filter using **order** and **conditions** :
 
     public $belongsToMany = [
         'categories' => [
@@ -86,7 +86,7 @@ Example filter using **order** and **conditions**:
         ]
     ];
 
-Example filter using **scope**:
+Example filter using **scope** :
 
     class Post extends Model
     {
@@ -106,7 +106,7 @@ Example filter using **scope**:
         }
     }
 
-Example filter using **count**:
+Example filter using **count** :
 
     public $belongsToMany = [
         'users' => ['Backend\Models\User'],
@@ -988,7 +988,7 @@ The comment in the next example will not be added to the post unless the post is
     $post = new Post;
     $post->comments()->add($comment, $sessionKey);
 
-> **Note**: the `$post` object has not been saved but the relationship will be created if the saving happens.
+> **Remarque** : the `$post` object has not been saved but the relationship will be created if the saving happens.
 
 <a name="defer-unbinding"></a>
 ### Defer a relation unbinding
@@ -1040,7 +1040,7 @@ Destroys all bindings that have not been committed and are older than 1 day:
 
     October\Rain\Database\Models\DeferredBinding::cleanUp(1);
 
-> **Note:** October automatically destroys deferred bindings that are older than 5 days. It happens when a back-end user logs into the system.
+> **Remarque** : October automatically destroys deferred bindings that are older than 5 days. It happens when a back-end user logs into the system.
 
 <a name="disable-deferred-binding"></a>
 ### Disable Deferred Binding
@@ -1056,4 +1056,4 @@ Sometimes you might need to disable deferred binding entirely for a given model,
         return $result;
     }
 
-> **Note:** This will disable deferred binding entirely for any model's you apply this override to.
+> **Remarque** : This will disable deferred binding entirely for any model's you apply this override to.

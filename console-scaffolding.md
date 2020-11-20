@@ -33,7 +33,7 @@ paramètre détermine le nom de l'auteur et du plugin. Le second détermine le n
 ### Créer un modèle
 
 La commande `create:model` génères les fichiers nécessaires pour un nouveau modèle. Le premier paramètre détermine le
-nom de l'auteur et du plugin. Le second détermine le nom de la classe du modèle.
+nom de l'auteur et du plugin. Le second détermine le nom de la classe de la vue.
 
     php artisan create:model Acme.Blog Post
 

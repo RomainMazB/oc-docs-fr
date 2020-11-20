@@ -9,17 +9,18 @@
 - [Exemples d'utilisation](#usage-example)
 
 <a name="introduction"></a>
-
 ## Introduction
 
-October intègre un framework qui apporte une suite complète de fonctionnalités AJAX qui vous permet de charger des données depuis le serveur sans rafraîchissement de la page. La même libraire peut être utilisée depuis depuis un [theme](../cms/themes) et n'importe où dans le [panneau d'administration](../backend/controllers-ajax#ajax).
+October intègre un framework qui apporte une suite complète de fonctionnalités AJAX qui vous permet de charger des données depuis le serveur sans rafraîchissement de la page.
+La même libraire peut être utilisée depuis un [theme](../cms/themes) et n'importe où dans le [panneau d'administration](../backend/controllers-ajax#ajax).
 
-Le framework AJAX existe en deux versions, vous pouvez autant utiliser [L'API JavaScript](../ajax/javascript-api) out [l'API des attributs de données](../ajax/attributes-api). L'API des attributs de données ne nécessite aucune connaissance JavaScript pour utiliser AJAX avec OctoberCMS.
+Le framework AJAX existe en deux versions, vous pouvez autant utiliser [L'API JavaScript](../ajax/javascript-api) out [l'API des attributs de données](../ajax/attributes-api).
+L'API des attributs de données ne nécessite aucune connaissance JavaScript pour utiliser AJAX avec OctoberCMS.
 
 <a name="framework-script"></a>
-
 ## Intégrer le framework
-Le framework AJAX est optionnel dans votre [theme](../cms/themes), pour utiliser la librairie, vous devez l'intégrer en plaçant la syntaxe `{% framework %}` n'importe où dans votre [page](../cms/pages) ou [layout](../cms/layouts). Cela intègres la librairie JavaScript front-end. La librairie requiert jQuery, vous devez donc l'intégrer avant, par exemple :
+Le framework AJAX est optionnel dans votre [theme](../cms/themes), pour utiliser la librairie, vous devez l'intégrer en plaçant la syntaxe `{% framework %}` n'importe où dans votre [page](../cms/pages) ou [layout](../cms/layouts).
+Cela intègres la librairie JavaScript front-end. La librairie requiert jQuery, vous devez donc l'intégrer avant, par exemple :
 
     <script src="{{ 'assets/javascript/jquery.js'|theme }}"></script>
     
@@ -30,10 +31,11 @@ Le framework AJAX est optionnel dans votre [theme](../cms/themes), pour utiliser
     {% framework extras %}
 
 <a name="how-ajax-works"></a>
-
 ## Comment fonctionnent les requêtes AJAX
 
-Une page peut émettre une requête AJAX autant depuis L'API des attributs de données qu'en utilisant JavaScript. Chaque requête invoque un **écouteur d'événement** -- aussi appelé un [écouteur AJAX](../ajax/handlers) -- depuis le serveur et peut mettre à jour des éléments de la page en utilisant des partiels. Les requêtes AJAX fonctionnent à son plein potentiel lorsqu'il est utilisé dans un formulaire puis les données du formulaire sont automatiquement envoyé au serveur. Voici le fonctionnement d'une requête :
+Une page peut émettre une requête AJAX autant depuis L'API des attributs de données qu'en utilisant JavaScript.
+Chaque requête invoque un **écouteur d'événement** -- aussi appelé un [écouteur AJAX](../ajax/handlers) -- depuis le serveur et peut mettre à jour des éléments de la page en utilisant des partiels.
+Les requêtes AJAX fonctionnent à son plein potentiel lorsqu'il est utilisé dans un formulaire puis les données du formulaire sont automatiquement envoyé au serveur. Voici le fonctionnement d'une requête :
 
 1. Le navigateur client émet une requête AJAX en fournissant le nom de l'écouteur et d'éventuels autres paramètres optionnels.
 2. Le serveur retrouve [l'écouteur AJAX](../ajax/handlers) et l'exécute.
@@ -42,13 +44,13 @@ Une page peut émettre une requête AJAX autant depuis L'API des attributs de do
 5. Le serveur retourne la réponse, qui contient la syntaxe des partiels générés.
 6. Le framework du côté du client met à jour les éléments de la page avec les données des partiels reçu du serveur.
 
-> **Note**: Selon le contexte de la page, la vue d'[un partiel du CMS](../cms/partials) ou d'[un partiel back-end](../backend/views-partials) sera générée.
+> **Remarque** : Selon le contexte de la page, la vue d'[un partiel du CMS](../cms/partials) ou d'[un partiel back-end](../backend/views-partials) sera générée.
 
 <a name="usage-example"></a>
-
 ## Exemple d'utilisation
 
-Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour créer un formulaire utilisant AJAX. Le formulaire va émettre une requête AJAX vers l'écouteur **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe de la partiel **monpartiel**.
+Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour créer un formulaire utilisant AJAX.
+Le formulaire va émettre une requête AJAX vers l'écouteur **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe du partiel **monpartiel**.
 
     <!-- Formulaire utilisant AJAX -->
     
@@ -68,13 +70,13 @@ Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour c
 
     <div id="monDiv"></div>
 
-> **Note**: Les données `valeur1` et `valeur2` sont automatiquement envoyé avec la requête AJAX.
+> **Remarque** : Les données `valeur1` et `valeur2` sont automatiquement envoyé avec la requête AJAX.
 
 Le partiel **monpartiel** contiens la syntaxe qui lis le résultat de la variable `resultat`.
 
     Le résultat est {{ resultat }}
 
-La méthode de l'écouteur **onTest** accèdes au données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
+La méthode de l'écouteur **onTest** accèdes aux données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
 
     function onTest()
     
@@ -84,4 +86,5 @@ La méthode de l'écouteur **onTest** accèdes au données du formulaire à l'ai
     
     }
 
-L'exemple peut être lu ainsi: "Quand le formulaire est envoyé, émet une requête AJAX vers l'écouteur **onTest**. Quand l'écouteur as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".
+L'exemple peut être lu ainsi : "Quand le formulaire est envoyé, émet une requête AJAX vers l'écouteur **onTest**.
+Quand l'écouteur as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".

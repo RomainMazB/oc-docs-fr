@@ -43,7 +43,7 @@ Form behavior depends on form [field definitions](#form-fields) and a [model cla
         public $formConfig = 'form_config.yaml';
     }
 
-> **Note:** Very often the form and [list behavior](lists) are used together in a same controller.
+> **Remarque** : Very often the form and [list behavior](lists) are used together in a same controller.
 
 <a name="configuring-form"></a>
 ## Configuring the form behavior
@@ -210,7 +210,7 @@ Option | Description
 **cssClass** | assigns a CSS class to the tab container.
 **paneCssClass** | assigns a CSS class to an individual tab pane. Value is an array, key is tab index or label, value is the CSS class. It can also be specified as a string, in which case the value will be applied to all tabs.
 
-> **Note:** It is not recommended to use lazy loading on tabs with fields that are affected by triggers.
+> **Remarque** : It is not recommended to use lazy loading on tabs with fields that are affected by triggers.
 
     tabs:
         stretch: true
@@ -645,7 +645,7 @@ If the `availableColors` field in not defined in the YAML file, the colorpicker 
 
 `datatable` - renders an editable table of records, formatted as a grid. Cell content can be editable directly in the grid, allowing for the management of several rows and columns of information.
 
-> **NOTE:** In order to use this with a model, the field should be defined as a `jsonable` attribute, or as another attribute that can handle storing arrayed data.
+> **Remarque** : In order to use this with a model, the field should be defined as a `jsonable` attribute, or as another attribute that can handle storing arrayed data.
 
     data:
         type: datatable
@@ -808,13 +808,13 @@ Option | Description
 **imageWidth** | if using image type, the preview image will be displayed to this width, optional.
 **imageHeight** | if using image type, the preview image will be displayed to this height, optional.
 
-> **Note:** Unlike the [File Upload form widget](#widget-fileupload), the Media Finder form widget stores its data as a string representing the path to the image selected within the Media Library.
+> **Remarque** : Unlike the [File Upload form widget](#widget-fileupload), the Media Finder form widget stores its data as a string representing the path to the image selected within the Media Library.
 
 <a name="widget-nestedform"></a>
 ### Nested Form
 `nestedform` - renders a nested form as the contents of this field, returns data as an array of the fields contained.
 
-> **NOTE:** In order to use this with a model, the field should be defined as a `jsonable` attribute, or as another attribute that can handle storing arrayed data.
+> **Remarque** : In order to use this with a model, the field should be defined as a `jsonable` attribute, or as another attribute that can handle storing arrayed data.
 
     content:
         type: nestedform
@@ -995,7 +995,7 @@ Option | Description
 **icon** | defines an icon for the group, optional.
 **fields** | form fields belonging to the group, see [backend form fields](#form-fields).
 
-> **Note**: The group key is stored along with the saved data as the `_group` attribute.
+> **Remarque** : The group key is stored along with the saved data as the `_group` attribute.
 
 #### Repeater styles
 
@@ -1023,7 +1023,7 @@ The available toolbar buttons are:
 
     fullscreen, bold, italic, underline, strikeThrough, subscript, superscript, fontFamily, fontSize, |, color, emoticons, inlineStyle, paragraphStyle, |, paragraphFormat, align, formatOL, formatUL, outdent, indent, quote, insertHR, -, insertLink, insertImage, insertVideo, insertAudio, insertFile, insertTable, undo, redo, clearFormatting, selectAll, html
 
-> **Note**: `|` will insert a vertical separator line in the toolbar and `-` a horizontal one.
+> **Remarque** : `|` will insert a vertical separator line in the toolbar and `-` a horizontal one.
 
 <a name="widget-taglist"></a>
 ### Tag list

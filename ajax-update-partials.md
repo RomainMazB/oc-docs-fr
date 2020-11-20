@@ -10,13 +10,14 @@
 
 - [Passer des variables au partiel](#passing-variables)
 
-Lorsqu'un écouteur s'exécute, il peut préparer des partiels qui mettrons à jour la page. La mise à jour peut être demandé par la vue ou envoyer depuis le contrôleur ou composant et peut être dynamiquement généré avec des variables.
+Lorsqu'un écouteur s'exécute, il peut préparer des partiels qui mettrons à jour la page.
+La mise à jour peut être demandé par la vue ou envoyer depuis le contrôleur ou composant et peut être dynamiquement généré avec des variables.
 
 <a name="pulling-updates"></a>
-
 ## Demander une mise à jour depuis la vue
 
-Le navigateur client peut demander une mise à jour depuis le serveur lorsqu'il émet une requete AJAX, c'est ce que l'on appelera une *demande de mise à jour*. Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [l'écouteur](../ajax/handlers) `onConnexion`.
+Le navigateur client peut demander une mise à jour depuis le serveur lorsqu'il émet une requête AJAX, c'est ce que l'on appellera une *demande de mise à jour*.
+Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [l'écouteur](../ajax/handlers) `onConnexion`.
 
     <div id="monDiv">{% partial 'monutilisateur' %}</div>
 
@@ -45,16 +46,14 @@ L'[API JavaScript](../ajax/javascript-api) utilise l'option de configuration `up
     })
 
 <a name="update-definition"></a>
-
 ### Définition de la mise à jour
 
 La définition de ce qui doit être mis à jour utilise une syntaxe similaire à un objet JSON dans laquelle :
 
-- la partie gauche (la clé) est le  **nom du partiel**
-
+- la partie gauche (la clé) est le **nom du partiel**
 - la partie droite (la valeur) est l'**élément visé** à mettre à jour
 
-Ci dessous nous demandons à mettre à jour l'élément `#monDiv` avec le contenu du partiel **monpartiel**.
+Ci-dessous nous demandons à mettre à jour l'élément `#monDiv` avec le contenu du partiel **monpartiel**.
 
     monpartiel: '#monDiv'
 
@@ -71,24 +70,24 @@ L'élément visé sera toujours à droite puisqu'il peut aussi être sélectionn
     monpartiel: document.getElementById('monDiv')
 
 <a name="appending-prepending"></a>
-
 ### Ajouter du contenu au début ou à la fin
 
 Si le sélecteur est précédé du signe `@`, le contenu reçu du serveur sera ajouté avant le contenu existant de l'élément au lieu de le remplacer.
 
     'dossier/debut': '@#monDiv'
 
-Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveur sera ajouter après à la fin du contenu de l'élément.
+Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveur sera ajouté après à la fin du contenu de l'élément.
 
     'dossier/fin': '^#monDiv'
 
 <a name="pushing-updates"></a>
-
 ## Envoyer une mise à jour depuis le contrôleur ou composant
 
-De la même manière, les [écouteurs AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur. Pour envoyer une mise à jour, l'écouteur AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
+De la même manière, les [écouteurs AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur.
+Pour envoyer une mise à jour, l'écouteur AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
 
-L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la page avec le contenu du partiel **monpartiel**. L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
+L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la page avec le contenu du partiel **monpartiel**.
+L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
 
     function onConnexion()
     {
@@ -99,10 +98,9 @@ L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la p
         ];
     }
 
-> **Note:** Le premier caractère du nom de la clé doit être un `#` ou un `.` pour exécuter une mise à jour de contenu.
+> **Remarque** : Le premier caractère du nom de la clé doit être un `#` ou un `.` pour exécuter une mise à jour de contenu.
 
 <a name="passing-variables"></a>
-
 ## Passer des variables au partiel
 
 Selon le contexte d'exécution de [l'écouteur d'événement](../ajax/handlers), passer des variables au partiel de fait de façons différentes:

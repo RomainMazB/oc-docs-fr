@@ -38,7 +38,7 @@ List behavior depends on list [column definitions](#list-columns) and a [model c
         public $listConfig = 'list_config.yaml';
     }
 
-> **Note:** Very often the list and [form behavior](form) are used together in a same controller.
+> **Remarque** : Very often the list and [form behavior](form) are used together in a same controller.
 
 <a name="configuring-list"></a>
 ## Configuring the list behavior
@@ -232,7 +232,7 @@ You can also specify a custom number format, for example currency **$ 99.00**
         type: number
         format: $ %.2f
 
-> **Note:** Both `text` and `number` columns support the `format` property, this property follows the formatting rules of the [PHP sprintf() function](https://secure.php.net/manual/en/function.sprintf.php). Value must be a string.
+> **Remarque** : Both `text` and `number` columns support the `format` property, this property follows the formatting rules of the [PHP sprintf() function](https://secure.php.net/manual/en/function.sprintf.php). Value must be a string.
 
 <a name="column-switch"></a>
 ### Switch
@@ -252,7 +252,7 @@ You can also specify a custom number format, for example currency **$ 99.00**
         label: Date
         type: datetime
 
-You can also specify a custom date format, for example **Thursday 25th of December 1975 02:15:16 PM**:
+You can also specify a custom date format, for example **Thursday 25th of December 1975 02:15:16 PM** :
 
     created_at:
         label: Date
@@ -266,7 +266,7 @@ You may also wish to set `ignoreTimezone: true` to prevent a timezone conversion
         type: datetime
         ignoreTimezone: true
 
-> **Note:** the `ignoreTimezone` option also applies to other date and time related field types, including `date`, `time`, `timesince` and `timetense`.
+> **Remarque** : the `ignoreTimezone` option also applies to other date and time related field types, including `date`, `time`, `timesince` and `timetense`.
 
 <a name="column-date"></a>
 ### Date
@@ -330,7 +330,7 @@ To display a column that shows the number of related records, use the `useRelati
         relation: users
         useRelationCount: true
 
-> **Note:** Using the `relation` option on a column will load the value from the `select`ed column into the attribute specified by this column. It is recommended that you name the column displaying the relation data without conflicting with existing model attributes as demonstrated in the examples below:
+> **Remarque** : Using the `relation` option on a column will load the value from the `select`ed column into the attribute specified by this column. It is recommended that you name the column displaying the relation data without conflicting with existing model attributes as demonstrated in the examples below:
 
 **Best Practice:**
 
@@ -489,7 +489,7 @@ In the above example, the `city` scope will refresh when the `country` scope has
         }
     }
 
-> **Note:** Scope dependencies with `type: group` are only supported at this stage.
+> **Remarque** : Scope dependencies with `type: group` are only supported at this stage.
 
 <a name="scope-types"></a>
 ### Available scope types
@@ -620,7 +620,7 @@ You may also wish to set `ignoreTimezone: true` to prevent a timezone conversion
         conditions: created_at >= ':after' AND created_at <= ':before'
         ignoreTimezone: true
 
-> **Note:** the `ignoreTimezone` option also applies to the `date` filter type as well.
+> **Remarque** : the `ignoreTimezone` option also applies to the `date` filter type as well.
 
 <a name="filter-number"></a>
 ### Number
@@ -712,7 +712,7 @@ The behavior will invoke a `Lists` widget that also contains numerous views that
     # Custom view path
     customViewPath: $/acme/blog/controllers/reviews/list
 
-> **Note**: It is a good idea to use a sub-directory, for example `list`, to avoid conflicts.
+> **Remarque** : It is a good idea to use a sub-directory, for example `list`, to avoid conflicts.
 
 For example, to modify the list body row markup, create a file called `list/_list_body_row.htm` in your controller directory.
 

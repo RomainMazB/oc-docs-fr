@@ -17,7 +17,7 @@
 <a name="basic-usage"></a>
 ## Basic usage
 
->**Note:** For a list of all events available in OctoberCMS itself, see the [api documentation](https://octobercms.com/docs/api/translator/beforeresolve).
+> **Remarque** : For a list of all events available in OctoberCMS itself, see the [api documentation](https://octobercms.com/docs/api/translator/beforeresolve).
 
 The `Event` class provides a simple observer implementation, allowing you to subscribe and listen for events in your application. For example, you may listen for when a user signs in and update their last login date.
 
@@ -47,7 +47,7 @@ You may also pass a reference to any callable object or a [dedicated event class
 
     Event::listen('auth.login', [$this, 'LoginHandler']);
 
-> **Note**: The callable method can choose to specify all, some or none of the arguments. Either way the event will not throw any errors unless it specifies too many.
+> **Remarque** : The callable method can choose to specify all, some or none of the arguments. Either way the event will not throw any errors unless it specifies too many.
 
 <a name="event-registration"></a>
 ### Where to register listeners

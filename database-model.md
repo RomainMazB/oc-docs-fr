@@ -165,7 +165,7 @@ When attributes names are passed to the `$jsonable` property, the values will be
 
 When requesting data from the database the model will retrieve values primarily using the `get` or `first` methods, depending on whether you wish to [retrieve multiple models](#retrieving-multiple-models) or [retrieve a single model](#retrieving-single-models) respectively. Queries that derive from a Model return an instance of [October\Rain\Database\Builder](../api/october/rain/database/builder).
 
-> **Note**: All model queries have [in-memory caching enabled](../database/query#in-memory-caching) by default. While the cache should automatically invalidate itself most of the time, sometimes you will need to use the `$model->reload()` method to flush the cache for more complex use cases.
+> **Remarque** : All model queries have [in-memory caching enabled](../database/query#in-memory-caching) by default. While the cache should automatically invalidate itself most of the time, sometimes you will need to use the `$model->reload()` method to flush the cache for more complex use cases.
 
 <a name="retrieving-multiple-models"></a>
 ### Retrieving multiple models
@@ -193,7 +193,7 @@ The `all` method will return all of the results in the model's table. Since each
         ->take(10)
         ->get();
 
-> **Note:** Since models are query builders, you should familiarize yourself with all of the methods available on the [query builder](../database/query). You may use any of these methods in your model queries.
+> **Remarque** : Since models are query builders, you should familiarize yourself with all of the methods available on the [query builder](../database/query). You may use any of these methods in your model queries.
 
 <a name="returning-collections"></a>
 #### Collections
@@ -367,7 +367,7 @@ You may also run a delete query on a set of models. In this example, we will del
 
     $deletedRows = Flight::where('active', 0)->delete();
 
-> **Note**: It is important to mention that [model events](#model-events) will not fire when deleting records directly from a query.
+> **Remarque** : It is important to mention that [model events](#model-events) will not fire when deleting records directly from a query.
 
 <a name="query-scopes"></a>
 ## Query scopes
@@ -450,7 +450,7 @@ An example of using an event:
         $this->slug = Str::slug($this->name);
     }
 
-> **Note:** Relationships created with [deferred-binding](relations#deferred-binding) (i.e: file attachments) will not be available in the `afterSave` model event if they have not been committed yet. To access uncommitted bindings, use the `withDeferred($sessionKey)` method on the relation. Example: `$this->images->withDeferred(post('_session_key'))->get();`
+> **Remarque** : Relationships created with [deferred-binding](relations#deferred-binding) (i.e: file attachments) will not be available in the `afterSave` model event if they have not been committed yet. To access uncommitted bindings, use the `withDeferred($sessionKey)` method on the relation. Example: `$this->images->withDeferred(post('_session_key'))->get();`
 
 <a name="basic-usage"></a>
 ### Basic usage
@@ -511,7 +511,7 @@ This approach can also be used to bind to [local events](#events), the following
         });
     });
 
-> **Note:** Typically the best place to place code is within your plugin registration class `boot` method as this will be run on every request ensuring that the extensions you make to the model are available everywhere.
+> **Remarque** : Typically the best place to place code is within your plugin registration class `boot` method as this will be run on every request ensuring that the extensions you make to the model are available everywhere.
 
 Additionally, a few methods exist to extend protected model properties.
 

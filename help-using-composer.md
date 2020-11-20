@@ -26,7 +26,7 @@ If you plan on submitting pull requests to the October CMS project via GitHub, o
     "october/cms": "dev-develop",
     "laravel/framework": "5.5.*@dev",
 
-> **Note**: This is considered a bleeding edge copy of October and is only for the brave!
+> **Remarque** : This is considered a bleeding edge copy of October and is only for the brave!
 
 <a name="publishing-products"></a>
 ## Publishing Plugins or Themes
@@ -62,7 +62,7 @@ Plugin  | `october-plugin`
 Theme   | `october-theme`
 Module  | `october-module`
 
-> **Reminder**: Be sure to specify any dependencies in your composer file as you would using the  `$require` property found in the [plugin registration file](../plugin/registration#dependency-definitions)
+> **Reminder** : Be sure to specify any dependencies in your composer file as you would using the  `$require` property found in the [plugin registration file](../plugin/registration#dependency-definitions)
 
 <a name="package-descriptions"></a>
 ## Package Descriptions

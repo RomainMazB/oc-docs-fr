@@ -31,7 +31,7 @@ Relation behavior depends on [relation definitions](#relation-definitions). In o
         public $relationConfig = 'config_relation.yaml';
     }
 
-> **Note:** Very often the relation behavior is used together with the [form behavior](form).
+> **Remarque** : Very often the relation behavior is used together with the [form behavior](form).
 
 <a name="configuring-relation"></a>
 ## Configuring the relation behavior
@@ -168,7 +168,7 @@ For example, if a *User* belongs to many *Roles*, the target model is set as the
 <a name="belongs-to-many-pivot"></a>
 ### Belongs to many (with Pivot Data)
 
-> **Note:** Pivot data is not supported by [deferred bindings](../database/relations#deferred-binding) at this time, so the parent model should exist. If your relation behavior config has `deferredBinding: true`, the pivot data will **not** be available to use in the list configuration (ex.`pivot[attribute]`).
+> **Remarque** : Pivot data is not supported by [deferred bindings](../database/relations#deferred-binding) at this time, so the parent model should exist. If your relation behavior config has `deferredBinding: true`, the pivot data will **not** be available to use in the list configuration (ex.`pivot[attribute]`).
 
 1. Related records are displayed as a list (**view.list**).
 1. Clicking a record will display an update form (**pivot.form**).
@@ -274,7 +274,7 @@ Before relations can be managed on any page, the target model must first be init
     $post = Post::where('id', 7)->first();
     $this->initRelation($post);
 
-> **Note:** The [form behavior](forms) will automatically initialize the model on its create, update and preview actions.
+> **Remarque** : The [form behavior](forms) will automatically initialize the model on its create, update and preview actions.
 
 The relation manager can then be displayed for a specified relation definition by calling the `relationRender` method. For example, if you want to display the relation manager on the [Preview](forms#form-preview-view) page, the **preview.htm** view contents could look like this:
 
@@ -319,7 +319,7 @@ Provides an opportunity to manipulate the relation configuration. The following 
 ### Extending the view widget
 
 Provides an opportunity to manipulate the view widget.
-> **Note**: The view widget has not yet fully initialized, so not all public methods will work as expected! For more information read [How to remove a column](#remove-column).
+> **Remarque** : The view widget has not yet fully initialized, so not all public methods will work as expected! For more information read [How to remove a column](#remove-column).
 
 For example you might want to toggle showCheckboxes based on a property of your model.
 

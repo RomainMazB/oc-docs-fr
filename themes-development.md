@@ -6,12 +6,14 @@
 - [Personnalisation du thème](#customization)
 - [Dépendances du thème](#dependencies)
 
-Le répertoire du thème peut inclure les fichiers **theme.yaml**, **version.yaml** et **assets/images/theme-preview.png**. Ces fichiers sont facultatifs pour le développement local mais requis pour les thèmes publiés sur la Marketplace d'OctoberCMS.
+Le répertoire du thème peut inclure les fichiers **theme.yaml**, **version.yaml** et **assets/images/theme-preview.png**.
+Ces fichiers sont facultatifs pour le développement local mais requis pour les thèmes publiés sur la Marketplace d'OctoberCMS.
 
 <a name="theme-information"></a>
 ## Fichier d'informations du thème
 
-Le fichier d'informations du thème **theme.yaml** contient la description du thème, le nom de l'auteur, l'URL du site Web de l'auteur et d'autres informations. Le fichier doit être placé dans le répertoire racine du thème:
+Le fichier d'informations du thème **theme.yaml** contient la description du thème, le nom de l'auteur,
+l'URL du site Web de l'auteur et d'autres informations. Le fichier doit être placé dans le répertoire racine du thème :
 
     themes/
       demo/
@@ -67,7 +69,7 @@ Le fichier image **theme-preview.png** doit être placé dans le répertoire **a
           images/
             theme-preview.png    <=== Image d'aperçu du thème
 
-La largeur de l'image doit être d'au moins 600 pixels. Le rapport hauteur/largeur idéal est de 1.5, par exemple 600x400px.
+La largeur de l'image doit être d'au moins 600 pixels. Le rapport hauteur/largeur idéale est de 1.5, par exemple 600x400px.
 
 <a name="customization"></a>
 ## Personnalisation du thème
@@ -87,7 +89,8 @@ Ci-après un exemple de définition d'un champ de configuration pour le nom du s
                 comment: Le nom du site Web tel qu'il devrait apparaître sur le front-end
                 default: Mon site est incroyable!
 
-> **Remarque** : Si vous utilisez des champs imbriqués avec une syntaxe de tableau (`contact[nom]`, `contact[email]` etc.), vous devez ajouter le niveau supérieur au tableau `jsonable` de la vue `ThemeData` en utilisant le code suivant :
+> **Remarque** : Si vous utilisez des champs imbriqués avec une syntaxe de tableau (`contact[nom]`, `contact[email]` etc.),
+> vous devez ajouter le niveau supérieur au tableau `jsonable` de la vue `ThemeData` en utilisant le code suivant :
 
     \Cms\Models\ThemeData::extend(function ($model) {
         $model->addJsonable('contact');
@@ -108,7 +111,9 @@ La définition suivante va générer les champs du formulaire à partir du fichi
 <a name="combiner-vars"></a>
 ### Variables du combinateur
 
-Les ressources combinées à l'aide du [filtre et combinateur](../markup/filter-theme) `|theme` peuvent avoir des valeurs transmises aux filtres qui les prennent en charge, tels que le filtre LESS. Spécifiez simplement l'option `assetVar` lors de la définition du champ du formulaire, la valeur doit contenir le nom de la variable souhaité.
+Les ressources combinées à l'aide du [filtre et combinateur](../markup/filter-theme) `|theme` peuvent avoir des valeurs transmises aux filtres qui les prennent en charge,
+tels que le filtre LESS. Spécifiez simplement l'option `assetVar` lors de la définition du champ du formulaire,
+la valeur doit contenir le nom de la variable souhaité.
 
     form:
         fields:

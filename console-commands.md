@@ -64,7 +64,7 @@ When updating October, use the composer update command as normal before performi
 
 Composer is configured to look inside plugin directories for composer dependencies and these will be included in updates.
 
-> **Note:** To use composer with an October instance that has been installed using the [Wizard installation](../setup/installation#wizard-installation), simply copy the `tests/` directory and `composer.json` file from [GitHub](https://github.com/octobercms/october) into your October instance and then run `composer install`.
+> **Remarque** : To use composer with an October instance that has been installed using the [Wizard installation](../setup/installation#wizard-installation), simply copy the `tests/` directory and `composer.json` file from [GitHub](https://github.com/octobercms/october) into your October instance and then run `composer install`.
 
 <a name="maintenance-commands"></a>
 ## Setup & Maintenance
@@ -78,7 +78,7 @@ The `october:install` command will guide you through the process of setting up O
 
 You also may wish to inspect **config/app.php** and **config/cms.php** to change any additional configuration.
 
-> **Note:** You cannot run `october:install` after running `october:env`. `october:env` takes the existing configuration values and puts them in the `.env` file while replacing the original values with calls to `env()` within the configuration files. `october:install` cannot now replace those calls to `env()` within the configuration files as that would be overly complex to manage.
+> **Remarque** : You cannot run `october:install` after running `october:env`. `october:env` takes the existing configuration values and puts them in the `.env` file while replacing the original values with calls to `env()` within the configuration files. `october:install` cannot now replace those calls to `env()` within the configuration files as that would be overly complex to manage.
 
 <a name="console-update-command"></a>
 ### System update
@@ -87,7 +87,7 @@ The `october:update` command will request updates from the October gateway. It w
 
     php artisan october:update
 
-> **Note**: If you are [using composer](#console-install-composer), the core application files will not be downloaded and `composer update` should be called before running this command. **Additionally**: If you are using composer to manage all of your dependencies (as opposed to the marketplace) then use `october:up` to run the pending migrations instead of `october:update`.
+> **Remarque** : If you are [using composer](#console-install-composer), the core application files will not be downloaded and `composer update` should be called before running this command. **Additionally** : If you are using composer to manage all of your dependencies (as opposed to the marketplace) then use `october:up` to run the pending migrations instead of `october:update`.
 
 <a name="console-up-command"></a>
 ### Database migration
@@ -262,7 +262,7 @@ October includes a number of utility commands.
 php artisan october:mirror public
 ```
 
->**Note:** By default the symlinks created will be absolute symlinks, to create them as relative symlinks instead include the `--relative` option:
+> **Remarque** : By default the symlinks created will be absolute symlinks, to create them as relative symlinks instead include the `--relative` option:
 
 ```bash
 php artisan october:mirror public --relative

@@ -171,7 +171,7 @@ Le mode débogage utilise les fonctionnalités suivantes lorsqu’il est activé
 1. Les [assets combinées](../markup/filter-theme) ne sont pas minifiés par défaut.
 1. [Le mode sans échec](#safe-mode) est désactivé par défaut.
 
-> **Important**: Définissez toujours le paramètre `app.debug` pour les environnements de production sur `false`.
+> **Important** : Définissez toujours le paramètre `app.debug` pour les environnements de production sur `false`.
 
 <a name="safe-mode"></a>
 ### Mode sans échec
