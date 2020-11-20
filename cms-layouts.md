@@ -56,7 +56,7 @@ Les placeholders permettent aux pages d'injecter du contenu dans la maquette. Le
 
     <html>
         <head>
-            {% headholder head %}
+            {% placeholder head %}
         </head>
         ...
 
