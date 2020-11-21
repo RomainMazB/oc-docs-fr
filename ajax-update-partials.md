@@ -10,14 +10,14 @@
 
 - [Passer des variables au partiel](#passing-variables)
 
-Lorsqu'un écouteur s'exécute, il peut préparer des partiels qui mettrons à jour la page.
+Lorsqu'un gestionnaire s'exécute, il peut préparer des partiels qui mettrons à jour la page.
 La mise à jour peut être demandé par la vue ou envoyer depuis le contrôleur ou composant et peut être dynamiquement généré avec des variables.
 
 <a name="pulling-updates"></a>
 ## Demander une mise à jour depuis la vue
 
 Le navigateur client peut demander une mise à jour depuis le serveur lorsqu'il émet une requête AJAX, c'est ce que l'on appellera une *demande de mise à jour*.
-Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [l'écouteur](../ajax/handlers) `onConnexion`.
+Le code suivant génères le partiel **monutilisateur** à l'intérieur de l'élément `#monDiv` après avoir appelé [le gestionnaire](../ajax/handlers) `onConnexion`.
 
     <div id="monDiv">{% partial 'monutilisateur' %}</div>
 
@@ -83,11 +83,11 @@ Si le sélecteur est précédé du signe `^`, le contenu retourné par le serveu
 <a name="pushing-updates"></a>
 ## Envoyer une mise à jour depuis le contrôleur ou composant
 
-De la même manière, les [écouteurs AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur.
-Pour envoyer une mise à jour, l'écouteur AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
+De la même manière, les [gestionnaires AJAX](../ajax/handlers) peuvent *envoyer des mises à jour* au client directement depuis le serveur.
+Pour envoyer une mise à jour, le gestionnaire AJAX doit retourner un tableau dans lequel les clés sont les éléments HTML à mettre à jour (à l'aide d'un simple sélecteur CSS) et les valeurs sont les contenus à mettre à jour.
 
 L'exemple suivant mettra à jour un l'élément portant l'id **monDiv** sur la page avec le contenu du partiel **monpartiel**.
-L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
+le gestionnaire `onConnexion` appelle la méthode `renderPartial` pour générer le contenu d'un partiel en PHP.
 
     function onConnexion()
     {
@@ -103,7 +103,7 @@ L'écouteur `onConnexion` appelle la méthode `renderPartial` pour générer le 
 <a name="passing-variables"></a>
 ## Passer des variables au partiel
 
-Selon le contexte d'exécution de [l'écouteur d'événement](../ajax/handlers), passer des variables au partiel de fait de façons différentes:
+Selon le contexte d'exécution de [le gestionnaire d'événement](../ajax/handlers), passer des variables au partiel de fait de façons différentes:
 
 - Utilisez `$this[]` dans la  [section PHP](../cms/themes#php-section) d'une page ou d'un layout.
 

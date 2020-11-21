@@ -1,6 +1,6 @@
 # AJAX Event Handlers
 
-- [Écouteurs AJAX](#ajax-handlers)
+- [Gestionnaire AJAX](#ajax-handlers)
     - [Appeler un gestionnaire AJAX](#calling-handlers)
 - [Rediriger dans un gestionnaire AJAX](#redirects-in-handlers)
 - [Retourner des données depuis un gestionnaire AJAX](#returning-data-from-handlers)
@@ -8,7 +8,7 @@
 - [Exécuter du code avant les gestionnaires](#before-handler)
 
 <a name="ajax-handlers"></a>
-## Écouteurs AJAX
+## Gestionnaire AJAX
 
 Les gestionnaires AJAX sont des fonctions PHP qui peuvent être définies dans la [section PHP](../cms/themes#php-section) d'une page, d'un layout, ou dans un [composant](../cms/components). Le nom du gestionnaire doit suivre la syntaxe suivante: 'onQuelqueChose'. Tous les gestionnaires supportent la [mise à jour de partiels](../ajax/update-partials) en tant que requête AJAX.
 

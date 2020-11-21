@@ -34,12 +34,12 @@ Cela intègres la librairie JavaScript front-end. La librairie requiert jQuery, 
 ## Comment fonctionnent les requêtes AJAX
 
 Une page peut émettre une requête AJAX autant depuis L'API des attributs de données qu'en utilisant JavaScript.
-Chaque requête invoque un **écouteur d'événement** -- aussi appelé un [écouteur AJAX](../ajax/handlers) -- depuis le serveur et peut mettre à jour des éléments de la page en utilisant des partiels.
+Chaque requête invoque un **écouteur d'événement** -- aussi appelé un [gestionnaire AJAX](../ajax/handlers) -- depuis le serveur et peut mettre à jour des éléments de la page en utilisant des partiels.
 Les requêtes AJAX fonctionnent à son plein potentiel lorsqu'il est utilisé dans un formulaire puis les données du formulaire sont automatiquement envoyé au serveur. Voici le fonctionnement d'une requête :
 
-1. Le navigateur client émet une requête AJAX en fournissant le nom de l'écouteur et d'éventuels autres paramètres optionnels.
-2. Le serveur retrouve [l'écouteur AJAX](../ajax/handlers) et l'exécute.
-3. L'écouteur exécuté la logique nécessaire et met à jour l'environnement en insérant des variables de page.
+1. Le navigateur client émet une requête AJAX en fournissant le nom du gestionnaire et d'éventuels autres paramètres optionnels.
+2. Le serveur retrouve [le gestionnaire AJAX](../ajax/handlers) et l'exécute.
+3. le gestionnaire exécuté la logique nécessaire et met à jour l'environnement en insérant des variables de page.
 4. Le serveur [généres les partiels](../ajax/update-partials) requis par le client avec l'option `update`.
 5. Le serveur retourne la réponse, qui contient la syntaxe des partiels générés.
 6. Le framework du côté du client met à jour les éléments de la page avec les données des partiels reçu du serveur.
@@ -50,7 +50,7 @@ Les requêtes AJAX fonctionnent à son plein potentiel lorsqu'il est utilisé da
 ## Exemple d'utilisation
 
 Ci-dessous retrouvez un exemple utilisant l'API des attributs de données pour créer un formulaire utilisant AJAX.
-Le formulaire va émettre une requête AJAX vers l'écouteur **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe du partiel **monpartiel**.
+Le formulaire va émettre une requête AJAX vers le gestionnaire **onTest** et demander à ce que le conteneur du résultat soit mis à jour avec la syntaxe du partiel **monpartiel**.
 
     <!-- Formulaire utilisant AJAX -->
     
@@ -76,7 +76,7 @@ Le partiel **monpartiel** contiens la syntaxe qui lis le résultat de la variabl
 
     Le résultat est {{ resultat }}
 
-La méthode de l'écouteur **onTest** accèdes aux données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
+La méthode du gestionnaire **onTest** accèdes aux données du formulaire à l'aide de la [fonction d'aide](../services/helper#method-input) `input` et le résultat est passé à la variable de page `resultat`.
 
     function onTest()
     
@@ -86,5 +86,5 @@ La méthode de l'écouteur **onTest** accèdes aux données du formulaire à l'a
     
     }
 
-L'exemple peut être lu ainsi : "Quand le formulaire est envoyé, émet une requête AJAX vers l'écouteur **onTest**.
-Quand l'écouteur as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".
+L'exemple peut être lu ainsi : "Quand le formulaire est envoyé, émet une requête AJAX vers le gestionnaire **onTest**.
+Quand le gestionnaire as terminé, il génère le partiel **monpartiel** et injectes son contenu dans l'élément **#monDiv**".
