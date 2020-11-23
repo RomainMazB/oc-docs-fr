@@ -1,4 +1,4 @@
-# AJAX Event Handlers
+# Les gestionnaires d'évènement AJAX
 
 - [Gestionnaire AJAX](#ajax-handlers)
     - [Appeler un gestionnaire AJAX](#calling-handlers)
