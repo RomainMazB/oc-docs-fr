@@ -1,4 +1,4 @@
-# Backend Controllers & AJAX
+# Contrôleurs et AJAX
 
 - [Introduction](#introduction)
     - [Définition de la class du contrôleur](#class-definition)
