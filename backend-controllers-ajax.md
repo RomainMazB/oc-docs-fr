@@ -1,217 +1,245 @@
 # Backend Controllers & AJAX
 
 - [Introduction](#introduction)
-    - [Class definition](#class-definition)
-    - [Controller properties](#controller-properties)
-- [Actions, views and routing](#actions-views-routing)
-- [Passing data to views](#passing-data-to-views)
-- [Setting the navigation context](#navigation-context)
-- [Using AJAX handlers](#ajax)
-    - [Back-end AJAX handlers](#ajax-handlers)
-    - [Triggering AJAX requests](#triggering-ajax-requests)
-- [Controller middleware](#controller-middleware)
+    - [Définition de la class du contrôleur](#class-definition)
+    - [Propriétés du contrôleur](#controller-properties)
+- [Actions, vues et routage](#actions-views-routing)
+- [Passer des données aux vues](#passing-data-to-views)
+- [Enregistrer le contexte de navigation](#navigation-context)
+- [Utiliser un gestionnaire AJAX depuis le back-end](#ajax)
+    - [Les gestionnaires AJAX](#ajax-handlers)
+    - [Émettre des requêtes AJAX](#triggering-ajax-requests)
+- [Middleware du contrôleur](#controller-middleware)
 
 <a name="introduction"></a>
 ## Introduction
+Le back-end d'October implémente la structure MVC.
+Les contrôleurs gèrent les pages et intègres des fonctionnalités tels que l'affichage de listes et de formulaires.
+Cet article décrit comment développer des contrôleurs back-end et configurer des comportements.
 
-October back-end implements the MVC pattern. Controllers manage back-end pages and implement various features like forms and lists. This article describes how to develop back-end controllers and how to configure controller behaviors.
-
-Each controller is represented with a PHP script which resides in the the **/controllers** subdirectory of a Plugin directory. Controller views are `.htm` files that reside in the controller view directory. The controller view directory name matches the controller class name written in lowercase. The view directory can also contain controller configuration files. An example of a controller directory structure:
+Chaque contrôleur est représenté par un script PHP établi dans le sous-dossier `controllers` d'un dossier de plugin.
+Les vues d'un contrôleur sont des fichiers avec l'extension `.htm` contenu dans le dossier `views` du contrôleur.
+Ce dossier peut aussi contenir certains fichiers de configuration. Un exemple de la structure du dossier d'un contrôleur :
 
     plugins/
       acme/
         blog/
           controllers/
-            users/                <=== Controller view directory
-              _partial.htm        <=== Controller partial file
-              config_form.yaml    <=== Controller config file
-              index.htm           <=== Controller view file
-            Users.php             <=== Controller class
+            users/                <=== Dossier des vues du contrôleur
+              _partial.htm        <=== Fichier de partiel du contrôleur
+              config_form.yaml    <=== Fichier de configuration du contrôleur
+              index.htm           <=== Fichier d'une vue du contrôleur
+            Users.php             <=== Class du contrôleur
           Plugin.php
 
 <a name="class-definition"></a>
-### Class definition
+### Définition de la class du contrôleur
 
-Controller classes must extend the `\Backend\Classes\Controller` class. As any other plugin class, controllers should belong to the [plugin namespace](../plugin/registration#namespaces). The most basic representation of a Controller used inside a Plugin looks like this:
+La class d'un contrôleur doit étendre la class `\Backend\Classes\Controller`.
+
+Comme toutes les autres class du plugin, celle du contrôleur doit
+résider dans le même namespace que celui du [plugin](../plugin/registration#namespaces).
+La représentation la plus simple d'un contrôleur utilisé à l'intérieur d'un Plugin ressemble à ça : 
 
     namespace Acme\Blog\Controllers;
 
     class Posts extends \Backend\Classes\Controller {
 
-        public function index()    // <=== Action method
+        public function index()    // <=== Méthode d'une action
         {
 
         }
+        
     }
 
-Usually each controller implements functionality for working with a single type of data - like blog posts or categories. All back-end behaviors described below assume this convention.
+Habituellement, chaque contrôleur définis les fonctionnalités pour ne travailler qu'avec
+un seul type de données - comme les articles de blog ou les catégories.
+Tous les comportements décrits ci-dessous suivent cette convention.
 
 <a name="controller-properties"></a>
-### Controller properties
+### Propriétés du contrôleur
+La class de base d'un contrôleur back-end définie un certain nombre de propriétés
+qui permette de configurer l'apparence de la page et de gérer sa sécurité : 
 
-The back-end controller base class defines a number of properties that allow to configure the page appearance and manage the page security:
-
-Property | Description
+| Property | Description |
 ------------- | -------------
-**$fatalError** | allows to store a fatal exception generated in an action method in order to display it in the view.
-**$user** | contains a reference to the the back-end user object.
-**$suppressView** | allows to prevent the view display. Can be updated in the action method or in the controller constructor.
-**$params** | an array of the routed parameters.
-**$action** | a name of the action method being executed in the current request.
-**$publicActions** | defines an array of actions available without the back-end user authentication. Can be overridden in the class definition.
-**$requiredPermissions** | permissions required to view this page. Can be set in the class definition or in the controller constructor. See [users & permissions](users) for details.
-**$pageTitle** | sets the page title. Can be set in the action method.
-**$bodyClass** | body class property used for customizing the layout. Can be set in the controller constructor or action method.
-**$guarded** | controller specific methods which cannot be called as actions. Can be extended in the controller constructor.
-**$layout** | specify a custom layout for the controller views (see [layouts](#layouts) below).
+**$fatalError** | Permet de stocker une erreur fatale qui serais affichée dans la vue dans le cas où une erreur surviendrais lors d'une action. 
+**$user** | Contiens les informations sous forme d'objet de l'utilisateur actuellement connecté.
+**$suppressView** | Permet de prévenir l'affichage d'une vue. Peut être modifié depuis une action du contrôleur ou son constructeur.
+**$params** | Un tableau des paramètres du système de routage.
+**$action** | Le nom de la méthode de l'action en cours d'exécution.
+**$publicActions** | Défini un tableau des actions possibles par un utilisateur non-connecté. Peut être sur-écrit dans la définition de la class.
+**$requiredPermissions** | Autorisations requises pour voir cette page. Peut être configuré depuis la définition de class ou le constructeur. Voir [Utilisateurs et permissions](users) pour les détails.
+**$pageTitle** | Défini le titre de la page. Peut être renseigné depuis la méthode du contrôleur.
+**$bodyClass** | Class CSS appliquée sur la balise `body` utilisée pour modifier l'apparence de la page. Peut être modifié depuis une action du contrôleur ou son constructeur.
+**$guarded** | Défini un tableau des méthodes qui ne peuvent pas être appelées en tant qu'action. Peut être étendu depuis le constructeur.
+**$layout** | Défini un layout customisé à utiliser par les vues du contrôleur (voir [maquettes](#layouts) ci-dessous).
 
 <a name="actions-views-routing"></a>
-## Actions, views and routing
+## Actions, vues et routage
+Les méthodes publiques du contrôleur, appelée **actions** sont jumelées
+avec leur **fichiers de vue** qui représente la page correspondante à l'action. 
+Les fichiers de vue back-end utilise la syntaxe PHP.
+Exemple de contenu d'un fichier `index.htm` correspondant à la méthode de l'action **index** :
 
-Public controller methods, called **actions** are coupled to **view files** which represent the page corresponding the action. Back-end view files use PHP syntax. Example of the **index.htm** view file contents, corresponding to the **index** action method:
+    <h1>Bonjour le monde</h1>
 
-    <h1>Hello World</h1>
+L'URL de cette page est construite depuis le nom de l'auteur du plugin,
+le nom du plugin, le nom du contrôleur et enfin le nom de l'action :
 
-URL of this page is made up of the author name, plugin name, controller name and action name.
+    backend/[nom de l'auteur]/[nom du plugin]/[nom du contrôleur]/[nom de l'action]
 
-    backend/[author name]/[plugin name]/[controller name]/[action name]
+Ce qui résulte à l'adresse URL suivante :
 
-The above Controller results in the following:
-
-    http://example.com/backend/acme/blog/users/index
+    http://example.com/backend/acme/blog/utilisateurs/index
 
 <a name="passing-data-to-views"></a>
-## Passing data to views
+## Passer des données aux vues
 
-Use the controller's `$vars` property to pass any data directly to your view:
+Utiliser la propriété du contrôleur `$vars` pour passer des données directement à la vue :
 
-    $this->vars['myVariable'] = 'value';
+    $this->vars['maVariable'] = 'valeur';
 
-The variables passed with the `$vars` property can now be accessed directly in your view:
+Les variables passées avec la propriété `$vars` peuvent désormais être affichées directement dans la vue :
 
-    <p>The variable value is <?= $myVariable ?></p>
+    <p>La valeur de la variable maVariable est <?= $maVariable ?></p>
 
 <a name="navigation-context"></a>
-## Setting the navigation context
+## Enregistrer le contexte de navigation
+Les plugins peuvent enregistrer dans le backend des menus
+et sous-menus dans le [fichier d'enregistrement du plugin](../plugin/registration#navigation-menus).
 
-Plugins can register the back-end navigation menus and submenus in the [plugin registration file](../plugin/registration#navigation-menus). The navigation context determines what back-end menu and submenu are active for the current back-end page. You can set the navigation context with the `BackendMenu` class:
+Le contexte de navigation défini quel menu et sous-menu sont actifs pour la page actuelle.
+Vous pouvez le définir à l'aide de la class `BackendMenu` :
 
     BackendMenu::setContext('Acme.Blog', 'blog', 'categories');
 
-The first parameter specifies the author and plugin names. The second parameter sets the menu code. The optional third parameter specifies the submenu code. Usually you call the `BackendMenu::setContext` in the controller constructor.
+Le premier paramètre définir les noms de l'auteur et du plugin.
+Le second défini le code du menu.
+Et le troisième - optionnel - défini le code du sous-menu.
+Habituellement, vous appellerez la méthode `BackendMenu::setContext` depuis le constructeur du contrôleur.
 
     namespace Acme\Blog\Controllers;
 
     class Categories extends \Backend\Classes\Controller {
 
-    public function __construct()
-    {
-        parent::__construct();
+        public function __construct()
+        {
+            parent::__construct();
+    
+            BackendMenu::setContext('Acme.Blog', 'blog', 'categories');
+        }
 
-        BackendMenu::setContext('Acme.Blog', 'blog', 'categories');
-    }
+Vous pouvez définir le titre d'une page back-end avec la propriété `$pageTitle` du la class du contrôleur
+(A noter que les comportements natifs formulaire et liste peuvent le faire pour vous) :
 
-You can set the title of the back-end page with the `$pageTitle` property of the controller class (note that the form and list behaviors can do it for you):
-
-    $this->pageTitle = 'Blog categories';
+    $this->pageTitle = 'Catégories du blog';
 
 <a name="ajax"></a>
-## Using AJAX handlers
-
-The back-end AJAX framework uses the same [AJAX library](../ajax/introduction) as the front-end pages. The library is loaded automatically on the back-end pages.
+## Utiliser un gestionnaire AJAX depuis le back-end
+Le framework AJAX utilisé en back-end intègre la même [librairie AJAX](../ajax/introduction) que sur les pages front-end.
+La librairie est chargée automatiquement dans le back-end
 
 <a name="ajax-handlers"></a>
-### Back-end AJAX handlers
+### Les gestionnaires AJAX
+Les gestionnaires AJAX back-end peuvent être défini dans la class du contrôleur ou dans un les [widgets](widgets).
+Dans la class du contrôleur, les gestionnaires AJAX sont déifnis comme des méthodes publiques
+dont le nom est précédé de la chaîne de caractères `on`: **onCreerUnDevis**, **onCreerUneFacture**, etc.
 
-The back-end AJAX handlers can be defined in the controller class or [widgets](widgets). In the controller class the AJAX handlers are defined as public methods with the name starting with "on" string: **onCreateTemplate**, **onGetTemplateList**, etc.
+Les gestionnaires AJAX back-end peuvent retourner un tableau de données,
+émettre des erreurs ou rediriger vers une autre page (voir [Les gestionnaires d'évènement AJAX](../ajax/handlers)).
 
-Back-end AJAX handlers can return an array of data, throw an exception or redirect to another page (see [AJAX event handlers](../ajax/handlers)). You can use `$this->vars` to set variables and the controller's `makePartial` method to render a partial and return its contents as a part of the response data.
+Vous pouvez utiliser `$this->vars` pour définir des données
+et la méthode `makePartial` du contrôleur pour générer un partiel
+et retourner son contenu en tant que donnée de la réponse
 
-    public function onOpenTemplate()
+    public function onCreerUnDevis()
     {
-        if (Request::input('someVar') != 'someValue') {
-            throw new ApplicationException('Invalid value');
+        if (Request::input('uneVariable') != 'uneValeur') {
+            throw new ApplicationException('Valeur incorrecte');
         }
 
         $this->vars['foo'] = 'bar';
 
         return [
-            'partialContents' => $this->makePartial('some-partial')
+            'contenuPartiel' => $this->makePartial('un-partiel')
         ];
     }
 
 <a name="triggering-ajax-requests"></a>
-### Triggering AJAX requests
+### Émettre des requêtes AJAX
+Les requêtes AJAX peuvent être émises avec l'API des attributs de données ou l'API JavaScript
 
-The AJAX request can be triggered with the data attributes API or the JavaScript API. Please see the [front-end AJAX library](../ajax/introduction) for details. The following example shows how to trigger a request with a back-end button.
+Se référer à [la librairie AJAX](../ajax/introduction) pour les détails.
+L'exemple suivant montre comment émettre une requête avec un bouton dans le back-end.
 
     <button
         type="button"
-        data-request="onDoSomething"
+        data-request="onCreerUnDevis"
         class="btn btn-default">
-        Do something
+        Sauvegarder le devis
     </button>
 
-> **Remarque** : You can specifically target the AJAX handler of a widget using a prefix `widget::onName`. See the [widget AJAX handler article](../backend/widgets#generic-ajax-handlers) for more details.
+> **Remarque** : Vous pouvez viser précisément le gestionnaire AJAX d'un widget grâce au prefix `widget::onAction`.
+> Voir l'article sur les [gestionnaires AJAX des widgets](../backend/widgets#generic-ajax-handlers) pour plus de précisions.
 
 <a name="controller-middleware"></a>
-## Controller middleware
+## Middleware du contrôleur
+Vous pouvez définir un middleware dans vos contrôleurs back-end,
+ce qui vous fournis une mécanique simple pour effectuer des changements de la réponse HTTP à la requête.
+Par exemple, vous pourriez vouloir spécifier un header HTTP pour certaines actions dans votre contrôleur,
+ou rediriger l'utilisateur s'il ne répond pas à certains critères.
 
-You can define middleware in your Backend controllers, providing you with a convenient mechanism for making changes to the response of a HTTP request. For example, you may wish to specify a HTTP header for certain actions in your controller, or redirect users if they don't meet certain criteria.
+Les middlewares du contrôleur sont exécutés après que la requête ait été acceptée par October CMS mais avant qu'elle ne soit retournée au navigateur.
 
-Controller middleware is executed after the request is processed by October CMS, but before the response is sent to the browser.
+Pour définir un middleware dans votre contrôleur, vous pouvez le spécifier dans son constructeur en appelant la méthode `middleware()`.
 
-To define middleware for your controller, you may specify it in the `__construct()` method of your Backend controller by calling the `middleware()` method.
+    public function __construct()
+    {
+        parent::__construct();
+    
+        $this->middleware(function ($requete, $reponse) {
+            // Fonctionnalité du middleware
+        });
+    }
 
-```php
-public function __construct()
-{
-    parent::__construct();
+La méthode `middleware()` requiert un callback avec deux arguments,
+`$requete` fournissant les [informations de la requête](../services/request-input#request-information)
+et `$reponse` fournissant l'[objet de la réponse](../services/response-view#basic-responses).
+Le callback doit retourner l'objet `$reponse` avec vos modifications.
 
-    $this->middleware(function ($request, $response) {
-        // Middleware functionality
-    });
-}
-```
+Par exemple, pour ajouter un header `Header-test` à votre réponse, vous pourriez faire comme-ceci :
 
-The `middleware()` method requires a callback with two arguments, `$request` providing the [request information](../services/request-input#request-information) and `$response` providing the [response object](../services/response-view#basic-responses). The callback should return the `$response` object with your modifications.
+    public function __construct()
+    {
+        parent::__construct();
+    
+        $this->middleware(function ($requete, $reponse) {
+            $reponse->headers->set('Header-test', 'Test');
+            return $reponse;
+        });
+    }
 
-As an example, to add a `Test-Header` header to your response, you could do the following:
+Vous pouvez aussi contrôler quelle action utiliser votre middleware à l'aide des modificateurs `only()` et `except()`.
+Par exemple, pour restreindre le middleware à n'être utilisé
+que lorsque la méthode `index` est appelée, vous pourriez faire comme-ceci :
 
-```php
-public function __construct()
-{
-    parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
+    
+        $this->middleware(function ($requete, $reponse) {
+            // Fonctionnalité du middleware
+        })->only('index');
+    }
 
-    $this->middleware(function ($request, $response) {
-        $response->headers->set('Test-Header', 'Test');
-        return $response;
-    });
-}
-```
+Ou au contraire, vous pouvez définir que le middleware sera utilisé partout, sauf sur l'action index : 
 
-You can also control which actions will use your middleware by using the `only()` and `except()` modifiers. For example, to restrict the middleware to only run on the `index` action, you could do the following:
-
-```php
-public function __construct()
-{
-    parent::__construct();
-
-    $this->middleware(function ($request, $response) {
-        // Middleware functionality
-    })->only('index');
-}
-```
-
-Alternatively, to run the middleware on every action except the `index` action:
-
-```php
-public function __construct()
-{
-    parent::__construct();
-
-    $this->middleware(function ($request, $response) {
-        // Middleware functionality
-    })->except('index');
-}
-```
+    public function __construct()
+    {
+        parent::__construct();
+    
+        $this->middleware(function ($requete, $reponse) {
+            // Fonctionnalité du middleware
+        })->except('index');
+    }
