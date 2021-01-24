@@ -1,213 +1,229 @@
 # Database attachments
 
-- [File attachments](#file-attachments)
-    - [Creating new attachments](#creating-attachments)
-    - [Viewing attachments](#viewing-attachments)
-    - [Usage example](#attachments-usage-example)
-    - [Validation example](#attachments-validation-example)
-
+- [Fichiers joints](#file-attachments)
+    - [Joindre un nouveau fichier manuellement](#creating-attachments)
+    - [Afficher un fichier joint](#viewing-attachments)
+    - [Exemple d'utilisation](#attachments-usage-example)
+    - [Exemple de validation](#attachments-validation-example)
 
 <a name="file-attachments"></a>
-## File attachments
 
-Models can support file attachments using a subset of the [polymorphic relationship](../database/relations#polymorphic-relations). The `$attachOne` or `$attachMany` relations are designed for linking a file to a database record called "attachments". In almost all cases the `System\Models\File` model is used to safekeep this relationship where reference to the files are stored as records in the `system_files` table and have a polymorphic relation to the parent model.
+## Fichiers joints
 
-In the examples below the model has a single Avatar attachment model and many Photo attachment models.
+Les modèles supporte l'attachement de fichierbasé sur un système interne
+de [relation polymorphique](../database/relations#polymorphic-relations). Les relations `$attachOne` ou `$attachMany`
+sont conçus de façon à lié un fichier à un enregistrement en base de données appelé "attachement". Dans la plupart des
+cas le modèle `System\Models\File` est utilisé pour s'assurer de cette bonne liaison, la liaison de ce modèle stocke
+cette relation sur la table `system_files` avec une relation polymorphique.
 
-A single file attachment:
+Dans les exemples ci-dessous, le modèle sera lié à un fichier joint "avatar" et plusieurs photos.
+
+L'attachement d'un seul fichier joint :
 
     public $attachOne = [
         'avatar' => 'System\Models\File'
     ];
 
-Multiple file attachments:
+L'attachement de plusieurs fichiers dans une seule relation :
 
     public $attachMany = [
         'photos' => 'System\Models\File'
     ];
 
-Note: In the above examples, the key name used is identical to the file upload field name. When creating the polymorphic relationship between your model and the `System\Models\File` model, if you have a column that shares the same name as the file upload field name, this can cause unexpected results.
+> **Note** : Dans les exemples ci-dessus, le nom de la relation sera utilisé comme n'importe quel champs lors de l'utilisation du widget `fileupload` dans les formulaires.
+> Lors de la création d'une relation polymorphique avec entre votre modèle et le modèle `System\Models\File`,
+> si une autre colonne portant le même nom que la relation est présent sur la table de votre modèle, un résultat inattendu peut se produire.
 
-
-Protected attachments are uploaded to the application's **uploads/protected** directory which is not accessible for the direct access from the Web. A protected file attachment is defined by setting the *public* argument to `false`:
+Il est possible de créer des fichiers joints "protégés", ceux-ci seront chargés dans le dossier `uploads/protected` de
+votre application qui n'est pas accessible de façon publique depuis un navigateur. Un fichier protégé est créé lorsque
+l'argument `public` de la relation est défini comme `false`
 
     public $attachOne = [
         'avatar' => ['System\Models\File', 'public' => false]
     ];
 
 <a name="creating-attachments"></a>
-### Creating new attachments
 
-For singular attach relations (`$attachOne`), you may create an attachment directly via the model relationship, by setting its value using the `Input::file` method, which reads the file data from an input upload.
+### Joindre un nouveau fichier manuellement
+
+Pour une relation unique `$attachOne`, vous pouvez créer manuellement la jonction à l'aide du nom de la relation, Pour
+valeur, vous pouvez utiliser la méthode `Input::file`, qui sers à lire les données depuis un fichier envoyé via un
+formulaire.
 
     $model->avatar = Input::file('file_input');
 
-You may also pass a string to the `data` attribute that contains an absolute path to a local file.
+Vous pouvez aussi, si le fichier est déjà présent sur le serveur, lié directement le fichier en saisissant son chemin
+complet.
 
-    $model->avatar = '/path/to/somefile.jpg';
-    
-Sometimes it may also be useful to create a `File` instance directly from (raw) data:
+    $model->avatar = '/chemin/complet/vers/le/fichier.jpg';
 
-    $file = (new System\Models\File)->fromData('Some content', 'sometext.txt');
+Parfois il peut aussi être nécessaire de créer un modèle `File` directement depuis les données binaire.
 
-For multiple attach relations (`$attachMany`), you may use the `create` method on the relationship instead, notice the file object is associated to the `data` attribute. This approach can be used for singular relations too, if you prefer.
+    $fichier = (new System\Models\File)->fromData('Un fichier texte', 'mon-fichier-texte.txt');
 
-    $model->avatar()->create(['data' => Input::file('file_input')]);
+Pour les attachments multiples `$attachMany`, vous pouvez utiliser la fonction `create` sur la relation.
 
-Alternatively, you can prepare a File model before hand, then manually associate the relationship later. Notice the `is_public` attribute must be set explicitly using this approach.
+    $model->photos()->create(['data' => Input::file('file_input')]);
 
-    $file = new System\Models\File;
-    $file->data = Input::file('file_input');
-    $file->is_public = true;
-    $file->save();
+Il est aussi possible de préparer le modèle `File`, et de l'associer plus tard. Noté que dans ce cas,
+l'attribut `is_public` doit obligatoirement être renseigné.
 
-    $model->avatar()->add($file);
-    
-You can also add a file from a URL. To work this method, you need install cURL PHP Extension.
+    $fichier = new System\Models\File;
+    $fichier->data = Input::file('file_input');
+    $fichier->is_public = true;
+    $fichier->save();
 
-    $file = new System\Models\File;
-    $file->fromUrl('https://example.com/uploads/public/path/to/avatar.jpg');
+    $model->avatar()->add($fichier);
 
-    $user->avatar()->add($file);
-    
-Occasionally you may need to change a file name. You may do so by using second method parameter.
+Il est aussi possible de créer le fichier depuis une URL. Afin d'utiliser cette méthode, l'extension PHP cURL doit être
+installé sur la machine.
 
-    $file->fromUrl('https://example.com/uploads/public/path/to/avatar.jpg', 'somefilename.jpg');
-    
+    $fichier = new System\Models\File;
+    $fichier->fromUrl('https://example.com/uploads/chemin/public/du/fichier.jpg');
+
+    $utilisateur->avatar()->add($fichier);
+
+Vous pouvez aussi changer le nom du fichier téléchargé, en utilisant le second paramètre de la méthode.
+
+    $fichier->fromUrl('https://example.com/uploads/chemin/public/du/fichier.jpg', 'mon-avatar.jpg');
 
 <a name="viewing-attachments"></a>
-### Viewing attachments
+### Afficher un fichier joint
 
-The `getPath` method returns the full URL of an uploaded public file. The following code would print something like **example.com/uploads/public/path/to/avatar.jpg**
+La méthode `getPath` retourne l'URL complète d'un fichier public. L'exemple suivant afficher quelque-chose
+comme `exemple.com/uploads/public/chemin/du/fichier.jpg`
 
     echo $model->avatar->getPath();
 
-Returning multiple attachment file paths:
+Utilisation sur un attachement multiple à l'aide d'une boucle
 
     foreach ($model->photos as $photo) {
         echo $photo->getPath();
     }
 
-The `getLocalPath` method will return an absolute path of an uploaded file in the local filesystem.
+La méthode `getLocalPath` retourne le chemin absolu sur le système de fichier.
 
     echo $model->avatar->getLocalPath();
 
-To output the file contents directly, use the `output` method, this will include the necessary headers for downloading the file:
+Vous pouvez afficher directement le contenu du fichier, à l'aide de la méthode `output`. Cette méthode ajoutes les
+headers nécessaire au téléchargement de fichier.
 
     echo $model->avatar->output();
 
-You can resize an image with the `getThumb` method. The method takes 3 parameters - image width, image height and the options parameter. The following options are supported:
+Vous pouvez redimensionner les images directement à l'aide de la méthode `getThumb`. La méthode utilise 3 paramètres :
+largeur, hauteur et des options, les options suivantes sont possibles :
 
 Option | Description
 ------------- | -------------
-**mode** | auto, exact, portrait, landscape, crop, fit. Default: auto
-**quality** | 0 - 100. Default: 90
-**interlace** | boolean: false (default), true
-**extension** | auto, jpg, png, webp, gif. Default: jpg
+**mode** | auto, exact, portrait, landscape, crop, fit. Par défaut : auto
+**quality** | 0 - 100. Par défaut : 90
+**interlace** | booléen: false (default), true
+**extension** | auto, jpg, png, webp, gif. Par défaut : jpg
 
-The **width** and **height** parameters should be specified as a number or as the **auto** word for the automatic proportional scaling.
+Les paramètres de largeur et hauteur, respectivement `width` et `height` doivent être renseignés en tant que nombre ou avec la chaîne de caractères `auto` pour un redimensionnement automatique.
 
     echo $model->avatar->getThumb(100, 100, ['mode' => 'crop']);
 
-Display image on a page:
+Afficher une image sur une page :
 
-    <img src="{{ model.avatar.getThumb(100, 100, {'mode':'exact', 'quality': 80, 'extension': 'webp'}) }}" alt="Description Image" />
+    <img src="{{ model.avatar.getThumb(100, 100, {'mode':'exact', 'quality': 80, 'extension': 'webp'}) }}" alt="Description de l'image" />
 
-#### Viewing Modes
+#### Les différents modes de redimensionnement
 
-The `mode` option allows you to specify how the image should be resized. Here are the available modes:
+L'option `mode` permet de spécifier la façon doit être redimensionné. Voici les différentes valeurs possibles :
 
-* `auto` will automatically choose between `portrait` and `landscape` based on the image's orientation
-* `exact` will resize to the exact dimensions given, without preserving aspect ratio
-* `portrait` will resize to the given height and adapt the width to preserve aspect ratio
-* `landscape` will resize to the given width and adapt the height to preserve aspect ratio
-* `crop` will crop to the given dimensions after fitting as much of the image as possible inside those
-* `fit` will fit the image inside the given maximal dimensions, keeping the aspect ratio
+* `auto` choisis le mode `portrait` ou `landscape` selon l'orientation de la photo
+* `exact` redimensionne l'image à la largeur et hauteur précise défini en paramètre, sans tenir compte du ratio de la photo existante
+* `portrait` redimensionne à la hauteur et adapte la largeur pour ne pas déformer l'image
+* `landscape` redimensionne à la largeur et adapte la hauteur pour ne pas déformer l'image
+* `crop`  découpe l'image après avoir réduit au maximum l'image
+* `fit` intègre l'image dans les dimensions maximales données tout en préservant l'aspect de l'image
 
 <a name="attachments-usage-example"></a>
-### Usage example
+### Exemple d'utilisation
+Cette section montre des exemples d'utilisation complets du système de fichier-joint.
+Depuis la définition de la relation jusqu'à l'affichage d'une image téléverser sur une page.
 
-This section shows a full usage example of the model attachments feature - from defining the relation in a model to displaying the uploaded image on a page.
-
-Inside your model define a relationship to the `System\Models\File` class, for example:
+À l'intérieur d'un modèle, définissez la relation vers la classe, `System\Models\File` :
 
     class Post extends Model
     {
         public $attachOne = [
-            'featured_image' => 'System\Models\File'
+            'image_mise_en_avant' => 'System\Models\File'
         ];
     }
 
-Build a form for uploading a file:
+Créez un formulaire pour téléverser un fichier :
 
     <?= Form::open(['files' => true]) ?>
 
-        <input name="example_file" type="file">
+        <input name="fichier_joint" type="file">
 
         <button type="submit">Upload File</button>
 
     <?= Form::close() ?>
 
-Process the uploaded file on the server and attach it to a model:
+Procédez au téléversement du fichier sur le serveur et joignez-le au modèle :
 
-    // Find the Blog Post model
-    $post = Post::find(1);
+    // Trouve le modèle Article
+    $article = Article::find(1);
 
-    // Save the featured image of the Blog Post model
-    if (Input::hasFile('example_file')) {
-        $post->featured_image = Input::file('example_file');
+    // Sauvegarde l'image mise en avant du modèle Article
+    if (Input::hasFile('fichier_joint')) {
+        $article->image_mise_en_avant = Input::file('fichier_joint');
     }
 
-Alternatively, you can use [deferred binding](../database/relations#deferred-binding) to defer the relationship:
+Optionnellement, vous pouvez aussi utiliser [l'association différé](../database/relations#deferred-binding) pour différer la relation :
 
-    // Find the Blog Post model
-    $post = Post::find(1);
+    // Trouve le modèle Article
+    $article = Post::find(1);
 
-    // Look for the postback data 'example_file' in the HTML form above
-    $fileFromPost = Input::file('example_file');
+    // Cherche les données transmisent depuis le champs 'fichier_joint' du HTML précédent
+    $imageDeLArticle = Input::file('fichier_joint');
 
-    // If it exists, save it as the featured image with a deferred session key
-    if ($fileFromPost) {
-        $post->featured_image()->create(['data' => $fileFromPost], $sessionKey);
+    // S'il existe, sauvegarde l'association différé en utilisant une clé de session
+    if ($imageDeLArticle) {
+        $article->image_mise_en_avant()->create(['data' => $imageDeLArticle], $sessionKey);
     }
 
-Display the uploaded file on a page:
+Affichez l'image téléversée sur une page : 
 
-    // Find the Blog Post model again
-    $post = Post::find(1);
+    // Trouve le modèle Article
+    $article = Post::find(1);
 
-    // Look for the featured image address, otherwise use a default one
-    if ($post->featured_image) {
-        $featuredImage = $post->featured_image->getPath();
+    // Recherche une image mise en avant, sinon utilise une par défaut
+    if ($article->image_mise_en_avant) {
+        $imageMiseEnAvant = $article->image_mise_en_avant->getPath();
     }
     else {
-        $featuredImage = 'http://placehold.it/220x300';
+        $imageMiseEnAvant = 'http://placehold.it/220x300';
     }
 
-    <img src="<?= $featuredImage ?>" alt="Featured Image">
+    <img src="<?= $imageMiseEnAvant ?>" alt="Image mise en avant">
 
-If you need to access the owner of a file, you can use the `attachment` property of the `File` model:
+Si vous avez besoin de connaître le propriétaire d'un fichier, vous pouvez utiliser la propriété `attachment` du modèle `File` :
 
     public $morphTo = [
         'attachment' => []
     ];
-    
-Example:  
 
-    $user = $file->attachment;
-    
-For more information read the [polymorphic relationships](../database/relations#polymorphic-relations)
+Exemple :
+
+    $utilisateur = $fichier->attachment;
+
+Pour plus d'information, lisez la section sur les [relations polymorphiques](../database/relations#polymorphic-relations)
 
 <a name="attachments-validation-example"></a>
-### Validation example
 
-The example below uses [array validation](../services/validation#validating-arrays) to validate `$attachMany` relationships.
+### Exemple de validation
+
+L'exemple ci-dessous utiliser la [validation de tableau](../services/validation#validating-arrays) pour valider la relation `$attachMany`
 
     use October\Rain\Database\Traits\Validation;
     use System\Models\File;
     use Model;
     
-    class Gallery extends Model
+    class Galerie extends Model
     {
         use Validation;
 
@@ -219,8 +235,6 @@ The example below uses [array validation](../services/validation#validating-arra
             'photos'   => 'required',
             'photos.*' => 'image|max:1000|dimensions:min_width=100,min_height=100'
         ];
-    
-        /* some other code */
     }
 
-For more information on the `attribute.*` syntax used above, see [validating arrays](../services/validation#validating-arrays).
+Pour plus d'information sur la syntaxe `attribut.*` utilisée précédemment, lisez la section sur la [validation de tableau](../services/validation#validating-arrays).
