@@ -64,7 +64,7 @@ Base de données:
     #    database/query: "Queries"
     #    database/model: "Models"
     #    database/relations: "Relationships"
-        database/attachments: "Fichiers joints"
+    database/attachments: "Fichiers joints"
     #    database/collection: "Collections"
     #    database/mutators: "Mutators"
     #    database/serialization: "Serialization"
