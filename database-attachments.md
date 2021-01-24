@@ -1,4 +1,4 @@
-# Database attachments
+# Fichiers joints
 
 - [Fichiers joints](#file-attachments)
     - [Joindre un nouveau fichier manuellement](#creating-attachments)
@@ -10,7 +10,7 @@
 
 ## Fichiers joints
 
-Les modèles supporte l'attachement de fichierbasé sur un système interne
+Les modèles supporte l'attachement de fichier basé sur un système interne
 de [relation polymorphique](../database/relations#polymorphic-relations). Les relations `$attachOne` ou `$attachMany`
 sont conçus de façon à lié un fichier à un enregistrement en base de données appelé "attachement". Dans la plupart des
 cas le modèle `System\Models\File` est utilisé pour s'assurer de cette bonne liaison, la liaison de ce modèle stocke
