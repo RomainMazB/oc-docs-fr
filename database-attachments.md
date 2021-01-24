@@ -1,10 +1,10 @@
 # Fichiers joints
 
 - [Fichiers joints](#file-attachments)
-    - [Joindre un nouveau fichier manuellement](#creating-attachments)
-    - [Afficher un fichier joint](#viewing-attachments)
-    - [Exemple d'utilisation](#attachments-usage-example)
-    - [Exemple de validation](#attachments-validation-example)
+- [Joindre un nouveau fichier manuellement](#creating-attachments)
+- [Afficher un fichier joint](#viewing-attachments)
+- [Exemple d'utilisation](#attachments-usage-example)
+- [Exemple de validation](#attachments-validation-example)
 
 <a name="file-attachments"></a>
 
