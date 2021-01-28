@@ -1,14 +1,14 @@
 # Backend forms
 
 - [Introduction](#introduction)
-- [Configuring the form behavior](#configuring-form)
-    - [Create page](#form-create-page)
-    - [Update page](#form-update-page)
-    - [Preview page](#form-preview-page)
-- [Defining form fields](#form-fields)
-    - [Tab options](#form-tab-options)
-    - [Field options](#form-field-options)
-- [Available field types](#field-types)
+- [Configurer le comportement du formulaire](#configuring-form)
+    - [Créer une page](#form-create-page)
+    - [Mettre à jour une page](#form-update-page)
+    - [Aperçu de la page](#form-preview-page)
+- [Définition des champs du formulaire](#form-fields)
+    - [Options des onglets](#form-tab-options)
+    - [Options des champs](#form-field-options)
+- [Types de champs disponibles](#field-types)
 - [Form widgets](#form-widgets)
 - [Form views](#form-views)
     - [Create view](#form-create-view)
@@ -30,9 +30,15 @@
 <a name="introduction"></a>
 ## Introduction
 
-**Form behavior** is a controller modifier used for easily adding form functionality to a back-end page. The behavior provides three pages called Create, Update and Preview. The Preview page is a read-only version of the Update page. When you use the form behavior you don't need to define the `create`, `update` and `preview` actions in the controller - the behavior does it for you. However you should provide the corresponding view files.
+**Le comportement du formulaire** est un modificateur de contrôleur utilisé pour ajouter facilement des fonctionnalités de formulaire à une page back-end. 
+Le comportement fournit trois pages appelées Create, Update et Preview. 
+La page Preview est une version en lecture seule de la page Update. 
+Lorsque vous utilisez le comportement du formulaire, vous n'avez pas besoin de définir les actions  `create`, `update` et `preview` dans le contrôleur - le comportement le fait pour vous. 
+Cependant, vous devez fournir les fichiers de vue correspondants.
 
-Form behavior depends on form [field definitions](#form-fields) and a [model class](../database/model). In order to use the form behavior you should add it to the `$implement` property of the controller class. Also, the `$formConfig` class property should be defined and its value should refer to the YAML file used for configuring the behavior options.
+Le comportement du formulaire dépend de la forme [définitions des champs](#form-fields) et d'un [modèle de classe](../database/model). 
+Afin d'utiliser le comportement du formulaire, vous devez l'ajouter à la propriété `$implement` de la classe de contrôleur. 
+De plus, la propriété `$formConfig` de la classe doit être définie et sa valeur doit se référer au fichier YAML utilisé pour configurer les options de comportement.
 
     namespace Acme\Blog\Controllers;
 
@@ -43,16 +49,18 @@ Form behavior depends on form [field definitions](#form-fields) and a [model cla
         public $formConfig = 'form_config.yaml';
     }
 
-> **Remarque** : Very often the form and [list behavior](lists) are used together in a same controller.
+> **Remarque** : Très souvent, la formulaire et le [comportement de liste](lists) sont utilisés ensemble dans un même contrôleur.
 
 <a name="configuring-form"></a>
-## Configuring the form behavior
+## Configurer le comportement du formulaire
 
-The configuration file referred in the `$formConfig` property is defined in YAML format. The file should be placed into the controller's [views directory](controllers-views-ajax/#introduction). Below is an example of a typical form behavior configuration file:
+Le fichier de configuration mentionné dans la propriété  `$formConfig` est défini au format YAML.
+Le fichier doit être placé dans le [répertoire views](controllers-views-ajax/#introduction) du contrôleur.
+Voici un exemple de fichier de configuration du comportement d'un formulaire typique :
 
-    # ===================================
-    #  Form Behavior Config
-    # ===================================
+    # =============================================
+    #  Configuration du comportement du formulaire
+    # =============================================
 
     name: Blog Category
     form: $/acme/blog/models/post/fields.yaml
@@ -67,27 +75,28 @@ The configuration file referred in the `$formConfig` property is defined in YAML
     preview:
         title: View Blog Post
 
-The following fields are required in the form configuration file:
+Les champs suivants sont obligatoires dans le fichier de configuration du formulaire :
 
-Field | Description
+Champ | Description
 ------------- | -------------
-**name** | the name of the object being managed by this form.
-**form** | a configuration array or reference to a form field definition file, see [form fields](#form-fields).
-**modelClass** | a model class name, the form data is loaded and saved against this model.
+**name** | le nom de l'objet géré par ce formulaire
+**form** | un tableau de configuration ou une référence à un fichier de définition de champ de formulaire, voir [champs de formulaire](#form-fields)
+**modelClass** | un nom de classe modèle, les données du formulaire sont chargées et sauvegardées par rapport à ce modèle
 
-The configuration options listed below are optional. Define them if you want the form behavior to support the [Create](#form-create-page), [Update](#form-update-page) or [Preview](#form-preview-page) pages.
+Les options de configuration énumérées ci-dessous sont facultatives. 
+Définissez-les si vous souhaitez que le comportement du formulaire prenne en charge les pages [Create](#form-create-page), [Update](#form-update-page) or [Preview](#form-preview-page) pages.
 
 Option | Description
 ------------- | -------------
-**defaultRedirect** | used as a fallback redirection page when no specific redirect page is defined.
-**create** | a configuration array or reference to a config file for the Create page.
-**update** | a configuration array or reference to a config file for the Update page.
-**preview** | a configuration array or reference to a config file for the Preview page.
+**defaultRedirect** | utilisé comme page de redirection par défaut lorsqu'aucune page de redirection spécifique n'est définie
+**create** | un tableau de configuration ou une référence à un fichier de configuration pour la page Créer
+**update** | un tableau de configuration ou une référence à un fichier de configuration pour la page de mise à jour
+**preview** | un tableau de configuration ou une référence à un fichier de configuration pour la page d'aperçu
 
 <a name="form-create-page"></a>
-### Create page
+### Créer une page
 
-To support the Create page add the following configuration to the YAML file:
+Pour prendre en charge la page Créer, ajoutez la configuration suivante au fichier YAML :
 
     create:
         title: New Blog Post
@@ -95,20 +104,20 @@ To support the Create page add the following configuration to the YAML file:
         redirectClose: acme/blog/posts
         flashSave: Post has been created!
 
-The following configuration options are supported for the Create page:
+Les options de configuration suivantes sont prises en charge pour la page Créer :
 
 Option | Description
 ------------- | -------------
-**title** | a page title, can refer to a [localization string](../plugin/localization).
-**redirect** | redirection page when record is saved.
-**redirectClose** | redirection page when record is saved and the **close** post variable is sent with the request.
-**flashSave** | flash message to display when record is saved, can refer to a [localization string](../plugin/localization).
-**form** | overrides the default form fields definitions for the create page only.
+**title** | un titre de page, peut faire référence à une [chaîne de localisation](../plugin/localization)
+**redirect** | page de redirection lorsque l'enregistrement est sauvegardé
+**redirectClose** | page de redirection lorsque l'enregistrement est sauvegardé et que la variable postale **close** est envoyée avec la demande
+**flashSave** | message flash à afficher lorsque l'enregistrement est sauvegardé, peut se référer à une [chaîne de localisation](../plugin/localization)
+**form** | remplace les définitions des champs de formulaire par défaut pour la page de création uniquement
 
 <a name="form-update-page"></a>
-### Update page
+### Mettre à jour une page
 
-To support the Update page add the following configuration to the YAML file:
+Pour prendre en charge la page de mise à jour, ajoutez la configuration suivante au fichier YAML :
 
     update:
         title: Edit Blog Post
@@ -116,36 +125,41 @@ To support the Update page add the following configuration to the YAML file:
         flashSave: Post updated successfully!
         flashDelete: Post has been deleted.
 
-The following configuration options are supported for the Update page:
+Les options de configuration suivantes sont prises en charge pour la page de mise à jour :
 
 Option | Description
 ------------- | -------------
-**title** | a page title, can refer to a [localization string](../plugin/localization).
-**redirect** | redirection page when record is saved.
-**redirectClose** | redirection page when record is saved and **close** post variable is sent with the request.
-**flashSave** | flash message to display when record is saved, can refer to a [localization string](../plugin/localization).
-**flashDelete** | flash message to display when record is deleted, can refer to a [localization string](../plugin/localization).
-**form** | overrides the default form fields definitions for the update page only.
+**title** | un titre de page, peut faire référence à une [chaîne de localisation](../plugin/localization)
+**redirect** | page de redirection lorsque l'enregistrement est sauvegardé
+**redirectClose** | page de redirection lorsque l'enregistrement est sauvegardé et que la variable postale **close** est envoyée avec la demande
+**flashSave** | message flash à afficher lorsque l'enregistrement est sauvegardé, peut se référer à une [chaîne de localisation](../plugin/localization)
+**flashDelete** | message flash à afficher lorsque l'enregistrement est supprimé, peut faire référence à une [chaîne de localisation](../plugin/localization)
+**form** | remplace les définitions des champs de formulaire par défaut pour la page de mise à jour uniquement
 
 <a name="form-preview-page"></a>
-### Preview page
+### Aperçu de la page
 
-To support the Preview page add the following configuration to the YAML file:
+Pour prendre en charge la page de prévisualisation, ajoutez la configuration suivante au fichier YAML :
 
     preview:
         title: View Blog Post
 
-The following configuration options are supported for the Preview page:
+Les options de configuration suivantes sont prises en charge pour la page d'aperçu:
 
 Option  | Description
 ------------- | -------------
-**title** | a page title, can refer to a [localization string](../plugin/localization).
-**form** | overrides the default form fields definitions for the preview page only.
+**title** | un titre de page, peut faire référence à une [chaîne de localisation](../plugin/localization).
+**form** | remplace les définitions des champs de formulaire par défaut pour la page aperçu uniquement
 
 <a name="form-fields"></a>
-## Defining form fields
+## Définition des champs du formulaire
 
-Form fields are defined with the YAML file. The form fields configuration is used by the form behavior for creating the form controls and binding them to the model fields. The file is placed to a subdirectory of the **models** directory of a plugin. The subdirectory name matches the model class name written in lowercase. The file name doesn't matter, but **fields.yaml** and **form_fields.yaml** are common names. Example form fields file location:
+Les champs du formulaire sont définis avec le fichier YAML.
+La configuration des champs de formulaire est utilisée par le comportement du formulaire pour créer les contrôles de formulaire et les lier aux champs modèles. 
+Le fichier est placé dans un sous-répertoire du répertoire **models** d'un plugin. 
+Le nom du sous-répertoire correspond au nom de la classe du modèle écrit en minuscules.  
+Le nom du fichier n'a pas d'importance, mais **fields.yaml** et **form_fields.yaml** sont des noms communs.  
+Exemple d'emplacement de fichier des champs de formulaire :
 
     plugins/
       acme/
@@ -155,11 +169,12 @@ Form fields are defined with the YAML file. The form fields configuration is use
               fields.yaml    <=== Model form fields config file
             Post.php         <=== model class
 
-Fields can be placed in three areas, the **outside area**, **primary tabs** or **secondary tabs**. The next example shows the typical contents of a form fields definition file.
+Les champs peuvent être placés dans trois zones, la **zone extérieure**, les **onglets primaires** ou les **onglets secondaires**. 
+L'exemple suivant montre le contenu typique d'un fichier de définition des champs de formulaire.
 
-    # ===================================
-    #  Form Field Definitions
-    # ===================================
+    # =======================================
+    #  Définitions des champs du formulaire
+    # =======================================
 
     fields:
         blog_title:
@@ -181,7 +196,9 @@ Fields can be placed in three areas, the **outside area**, **primary tabs** or *
         fields:
             [...]
 
-Fields from related models can be rendered with the [Relation Widget](#widget-relation) or the [Relation Manager](relations#relationship-types). The exception is a OneToOne or morphOne related field, which must be defined as **relation[field]** and then can be specified as any other field of the model:
+Les champs des modèles liés peuvent être rendus avec le [Widget de relation](#widget-relation) ou le [Gestionnaire de relation](relations#relationship-types). 
+L'exception est un champ lié à OneToOne ou morphOne, qui doit être défini comme **relation[field]** 
+et peut ensuite être spécifié comme n'importe quel autre champ du modèle :
 
         user_name:
             label: User Name
@@ -197,20 +214,20 @@ Fields from related models can be rendered with the [Relation Widget](#widget-re
         [...]
 
 <a name="form-tab-options"></a>
-### Tab options
+### Options des onglets
 
-For each tab definition, namely `tabs` and `secondaryTabs`, you can specify these options:
+Pour chaque définition d'onglet, à savoir les  `tabs` et les `secondaryTabs`, vous pouvez spécifier les options suivantes :
 
 Option | Description
 ------------- | -------------
-**stretch** | specifies if this tab stretches to fit the parent height.
-**defaultTab** | the default tab to assign fields to. Default: Misc.
-**icons** | assign icons to tabs using tab names as the key.
-**lazy** | array of tabs to be loaded dynamically when clicked. Useful for tabs that contain large amounts of content.
-**cssClass** | assigns a CSS class to the tab container.
-**paneCssClass** | assigns a CSS class to an individual tab pane. Value is an array, key is tab index or label, value is the CSS class. It can also be specified as a string, in which case the value will be applied to all tabs.
+**stretch** | précise si cette languette s'étire pour s'adapter à la taille du parent
+**defaultTab** | l'onglet par défaut pour l'attribution des champs. Par défaut : Misc
+**icons** | attribuer des icônes aux onglets en utilisant les noms des onglets comme clé
+**lazy** | un tableau d'onglets à charger dynamiquement lorsqu'on clique dessus. Utile pour les onglets qui contiennent une grande quantité de contenu
+**cssClass** | assigne une classe CSS au conteneur de l'onglet
+**paneCssClass** | attribue une classe CSS à un onglet individuel. La valeur est un tableau, la clé est l'index ou le libellé de l'onglet, la valeur est la classe CSS. Elle peut également être spécifiée comme une chaîne de caractères, auquel cas la valeur sera appliquée à tous les onglets
 
-> **Remarque** : It is not recommended to use lazy loading on tabs with fields that are affected by triggers.
+> **Remarque** : Il n'est pas recommandé d'utiliser un chargement lazy sur les onglets dont les champs sont affectés par des déclencheurs
 
     tabs:
         stretch: true
@@ -237,41 +254,42 @@ Option | Description
                 tab: Groups
 
 <a name="form-field-options"></a>
-### Field options
+### Options des champs
 
-For each field you can specify these options (where applicable):
+Pour chaque champ, vous pouvez spécifier ces options (le cas échéant) :
 
 Option | Description
 ------------- | -------------
-**label** | a name when displaying the form field to the user.
-**type** | defines how this field should be rendered (see [Available fields types](#field-types) below). Default: text.
-**span** | aligns the form field to one side. Options: auto, left, right, storm, full. Default: full. The parameter `storm` allows you to display the form as a Bootstrap grid, using the `cssClass` property, for example, `cssClass: col-xs-4`.
-**size** | specifies a field size for fields that use it, for example, the textarea field. Options: tiny, small, large, huge, giant.
-**placeholder** | if the field supports a placeholder value.
-**comment** | places a descriptive comment below the field.
-**commentAbove** | places a comment above the field.
-**commentHtml** | allow HTML markup inside the comment. Options: true, false.
-**default** | specify the default value for the field. For `dropdown`, `checkboxlist`, `radio` and `balloon-selector` widgets, you may specify an option key here to have it selected by default.
-**defaultFrom** | takes the default value from the value of another field.
-**tab** | assigns the field to a tab.
-**cssClass** | assigns a CSS class to the field container.
-**readOnly** | prevents the field from being modified. Options: true, false.
-**disabled** | prevents the field from being modified and excludes it from the saved data. Options: true, false.
-**hidden** | hides the field from the view and excludes it from the saved data. Options: true, false.
-**stretch** | specifies if this field stretches to fit the parent height.
-**context** | specifies what context should be used when displaying the field. Context can also be passed by using an `@` symbol in the field name, for example, `name@update`.
-**dependsOn** | an array of other field names this field [depends on](#field-dependencies), when the other fields are modified, this field will update.
-**trigger** | specify conditions for this field using [trigger events](#field-trigger-events).
-**preset** | allows the field value to be initially set by the value of another field, converted using the [input preset converter](#field-input-preset).
-**required** | places a red asterisk next to the field label to indicate it is required (make sure to setup validation on the model as this is not enforced by the form controller).
-**attributes** | specify custom HTML attributes to add to the form field element.
-**containerAttributes** | specify custom HTML attributes to add to the form field container.
-**permissions** | the [permissions](users#users-and-permissions) that the current backend user must have in order for the field to be used. Supports either a string for a single permission or an array of permissions of which only one is needed to grant access.
+**label** | un nom lors de l'affichage du champ du formulaire à l'utilisateur.
+**type** | définit comment ce champ doit être rendu (voir [Types de champs disponibles](#field-types) ci-dessous). Default: text.
+**span** | aligne le champ du formulaire sur un côté. Options : auto, gauche, droite, tempête, plein. Valeur par défaut : full. Le paramètre "storm" permet d'afficher le formulaire sous forme de grille, en utilisant la propriété "cssClass", par exemple, "cssClass : col-xs-4"
+**size** | spécifie une taille de champ pour les champs qui l'utilisent, par exemple, le champ textarea. Options : tiny, small, large, huge, giant
+**placeholder** | si le champ supporte une valeur placeholder
+**comment** | place un commentaire descriptif sous le champ
+**commentAbove** | place un commentaire au-dessus du champ
+**commentHtml** | autoriser le balisage HTML à l'intérieur du commentaire. Options: true, false.
+**default** | spécifier la valeur par défaut du champ. Pour les widgets "drop-down", "checkboxlist", "radio" et "balloon-selector", vous pouvez spécifier ici une clé d'option pour qu'elle soit sélectionnée par défaut
+**defaultFrom** | prend la valeur par défaut de la valeur d'un autre champ
+**tab** | assigne le champ à un onglet
+**cssClass** | attribue une classe CSS au conteneur de champ
+**readOnly** | empêche la modification du champ. Options: true, false.
+**disabled** | empêche la modification du champ et l'exclut des données sauvegardées. Options: true, false.
+**hidden** | cache le champ de la vue et l'exclut des données sauvegardées. Options: true, false.
+**stretch** | précise si ce champ s'étend pour s'adapter à la taille du parent
+**context** | précise le contexte à utiliser pour l'affichage du champ. Le contexte peut également être transmis en utilisant un symbole "@ " dans le nom du champ, par exemple, " nom@mise à jour "
+**dependsOn** | un tableau de noms d'autres champs ce champ [dépend de](#field-dependencies), lorsque les autres champs sont modifiés, ce champ sera mis à jour
+**trigger** | spécifier les conditions pour ce champ en utilisant [événements déclencheurs](#field-trigger-events)
+**preset** | permet à la valeur du champ d'être initialement fixée par la valeur d'un autre champ, convertie à l'aide du [convertisseur de préréglage d'entrée](#field-input-preset)
+**required** | place un astérisque rouge à côté de l'étiquette du champ pour indiquer qu'il est obligatoire (veillez à configurer la validation sur le modèle car cela n'est pas appliqué par le contrôleur de formulaires)
+**attributes** | spécifier des attributs HTML personnalisés à ajouter à l'élément de champ de formulaire
+**containerAttributes** | spécifier des attributs HTML personnalisés à ajouter au conteneur de champs de formulaire
+**permissions** | les [permissions](users#users-and-permissions) que l'utilisateur backend actuel doit avoir pour que le champ soit utilisé. Prend en charge soit une chaîne pour une seule permission, soit un ensemble de permissions dont une seule est nécessaire pour accorder l'accès
 
 <a name="field-types"></a>
-## Available field types
+## Types de champs disponibles
 
-There are various native field types that can be used for the **type** setting. For more advanced form fields, a [form widget](#form-widgets) can be used instead.
+Il existe différents types de champs natifs qui peuvent être utilisés pour le paramètre **type**. Pour les champs de formulaire plus avancés, 
+un [widget de formulaire](#form-widgets) peut être utilisé à la place.
 
 <style>
     .collection-method-list {
@@ -285,36 +303,36 @@ There are various native field types that can be used for the **type** setting. 
 </style>
 
 <div class="content-list collection-method-list" markdown="1">
-- [Text](#field-text)
-- [Number](#field-number)
-- [Password](#field-password)
-- [Email](#field-email)
-- [Textarea](#field-textarea)
-- [Dropdown](#field-dropdown)
-- [Radio List](#field-radio)
-- [Balloon Selector](#field-balloon)
-- [Checkbox](#field-checkbox)
-- [Checkbox List](#field-checkboxlist)
-- [Switch](#field-switch)
+- [Texte](#field-text)
+- [Nombre](#field-number)
+- [Mot de passe](#field-password)
+- [E-mail](#field-email)
+- [Zone de texte multi-ligne](#field-textarea)
+- [Liste déroulante](#field-dropdown)
+- [Liste Radio](#field-radio)
+- [Sélecteur de ballons](#field-balloon)
+- [Case à cocher](#field-checkbox)
+- [Liste de Case à cocher](#field-checkboxlist)
+- [Passer à](#field-switch)
 - [Section](#field-section)
-- [Partial](#field-partial)
-- [Hint](#field-hint)
+- [Partiel](#field-partial)
+- [Indice](#field-hint)
 - [Widget](#field-widget)
 </div>
 
 <a name="field-text"></a>
-### Text
+### Texte
 
-`text` - renders a single line text box. This is the default type used if none is specified.
+`text` - rend une zone de texte d'une seule ligne. C'est le type utilisé par défaut si aucun n'est spécifié.
 
     blog_title:
         label: Blog Title
         type: text
 
 <a name="field-number"></a>
-### Number
+### Nombre
 
-`number` - renders a single line text box that takes numbers only.
+`number` - rend une boîte de texte d'une seule ligne qui ne prend que des chiffres.
 
     your_age:
         label: Your Age
@@ -323,8 +341,9 @@ There are various native field types that can be used for the **type** setting. 
         min: 1   # defaults to not present
         max: 100 # defaults to not present
 
-If you would like to validate this field server-side on save to ensure that it is numeric, please use the `$rules` property on your model, like so:
-
+Si vous souhaitez valider ce champ côté serveur lors de la sauvegarde pour vous assurer qu'il est numérique,
+ veuillez utiliser la propriété `$rules` de votre modèle, comme cela :
+ 
     /**
      * @var array Validation rules
      */
@@ -332,27 +351,27 @@ If you would like to validate this field server-side on save to ensure that it i
         'your_age' => 'numeric',
     ];
 
-For more information on model validation, please visit [the documentation page](https://octobercms.com/docs/services/validation#rule-numeric).
+Pour plus d'informations sur la validation des modèles, veuillez consulter [la page de documentation](https://octobercms.com/docs/services/validation#rule-numeric).
 
 <a name="field-password"></a>
-### Password
+### Mot de passe
 
-`password ` - renders a single line password field.
+`password ` - rend un champ de mot de passe d'une seule ligne.
 
     user_password:
         label: Password
         type: password
 
 <a name="field-email"></a>
-### Email
+### E-mail
 
-`email` - renders a single line text box with the type of `email`, triggering an email-specialised keyboard in mobile browsers.
+`email` - rend une boîte de texte d'une seule ligne avec le type `email`, déclenchant un clavier spécialisé dans le courrier électronique dans les navigateurs mobiles.
 
     user_email:
         label: Email Address
         type: email
 
-If you would like to validate this field on save to ensure that it is a properly-formatted email address, please use the `$rules` property on your model, like so:
+Si vous souhaitez valider ce champ lors de la sauvegarde pour vous assurer qu'il s'agit d'une adresse électronique correctement formatée, veuillez utiliser la propriété `$rules` de votre modèle, comme cela :
 
     /**
      * @var array Validation rules
@@ -361,12 +380,13 @@ If you would like to validate this field on save to ensure that it is a properly
         'user_email' => 'email',
     ];
 
-For more information on model validation, please visit [the documentation page](https://octobercms.com/docs/services/validation#rule-email).
+Pour plus d'informations sur la validation des modèles, veuillez consulter [la page de documentation](https://octobercms.com/docs/services/validation#rule-email)
 
 <a name="field-textarea"></a>
-### Textarea
+### Zone de texte multi-ligne
 
-`textarea` - renders a multiline text box. A size can also be specified with possible values: tiny, small, large, huge, giant.
+`textarea` - rend une zone de texte multiligne. 
+Une taille peut également être spécifiée avec des valeurs possibles: tiny, small, large, huge, giant
 
     blog_contents:
         label: Contents
@@ -374,9 +394,11 @@ For more information on model validation, please visit [the documentation page](
         size: large
 
 <a name="field-dropdown"></a>
-### Dropdown
+### Liste déroulante
 
-`dropdown` - renders a dropdown with specified options. There are 4 ways to provide the drop-down options. The first method defines `options` directly in the YAML file:
+`dropdown` - affiche un menu déroulant avec des options spécifiques.
+Il y a 4 façons de fournir les options de la liste déroulante.
+La première méthode définit les `options` directement dans le fichier YAML :
 
     status_type:
         label: Blog Post Status
@@ -387,20 +409,26 @@ For more information on model validation, please visit [the documentation page](
             published: Published
             archived: Archived
 
-The second method defines options with a method declared in the model's class. If the options element is omitted, the framework expects a method with the name `get*FieldName*Options` to be defined in the model. Using the example above, the model should have the `getStatusTypeOptions` method. The first argument of this method is the current value of this field and the second is the current data object for the entire form. This method should return an array of options in the format **key => label**.
+La deuxième méthode définit des options avec une méthode déclarée dans la classe du modèle. 
+Si l'élément options est omis, le cadre s'attend à ce qu'une méthode portant le nom `get*FieldName*Options` soit définie dans le modèle. 
+En utilisant l'exemple ci-dessus, le modèle devrait avoir la méthode `getStatusTypeOptions`. 
+Le premier argument de cette méthode est la valeur actuelle de ce champ et le second est l'objet de données actuel pour l'ensemble du formulaire. 
+Cette méthode doit retourner un tableau d'options au format **key => label**.
 
     status_type:
         label: Blog Post Status
         type: dropdown
 
-Supplying the dropdown options in the model class:
+Fournir les options du menu déroulant dans la classe modèle :
 
     public function getStatusTypeOptions($value, $formData)
     {
         return ['all' => 'All', ...];
     }
 
-The third global method `getDropdownOptions` can also be defined in the model, this will be used for all dropdown field types for the model. The first argument of this method is the field name, the second is the current value of the field, and the third is the current data object for the entire form. It should return an array of options in the format **key => label**.
+La troisième méthode globale `getDropdownOptions` peut également être définie dans le modèle, elle sera utilisée pour tous les types de champs déroulants du modèle. 
+Le premier argument de cette méthode est le nom du champ, le deuxième est la valeur actuelle du champ, et le troisième est l'objet de données actuel pour l'ensemble du formulaire.
+Elle doit renvoyer un tableau d'options au format  **key => label**.
 
     public function getDropdownOptions($fieldName, $value, $formData)
     {
@@ -412,35 +440,38 @@ The third global method `getDropdownOptions` can also be defined in the model, t
         }
     }
 
-The fourth method uses a specific method declared in the model's class. In the next example the `listStatuses` method should be defined in the model class. This method receives all the same arguments as the `getDropdownOptions` method, and should return an array of options in the format **key => label**.
+La quatrième méthode utilise une méthode spécifique déclarée dans la classe du modèle.  
+Dans l'exemple suivant, la méthode `listStatuses` doit être définie dans la classe du modèle.  
+Cette méthode reçoit les mêmes arguments que la méthode `getDropdownOptions`, et doit retourner un tableau d'options au format **key => label**.
 
     status:
         label: Blog Post Status
         type: dropdown
         options: listStatuses
 
-Supplying the dropdown options to the model class:
+Fournir les options du menu déroulant à la classe modèle :
 
     public function listStatuses($fieldName, $value, $formData)
     {
         return ['published' => 'Published', ...];
     }
 
-To define the behavior when there is no selection, you may specify an `emptyOption` value to include an empty option that can be reselected.
+Pour définir le comportement lorsqu'il n'y a pas de sélection, vous pouvez spécifier une valeur `emptyOption` pour inclure une option vide qui peut être resélectionnée.
 
     status:
         label: Blog Post Status
         type: dropdown
         emptyOption: -- no status --
 
-Alternatively you may use the `placeholder` option to use a "one-way" empty option that cannot be reselected.
+Vous pouvez également utiliser l'option `placeholder` pour utiliser une option vide "à sens unique" qui ne peut pas être resélectionnée.
 
     status:
         label: Blog Post Status
         type: dropdown
         placeholder: -- select a status --
 
-By default the dropdown has a searching feature, allowing quick selection of a value. This can be disabled by setting the `showSearch` option to `false`.
+Par défaut, la liste déroulante comporte une fonction de recherche, permettant de sélectionner rapidement une valeur. 
+Cette fonction peut être désactivée en réglant l'option `showSearch` sur `false`.
 
     status:
         label: Blog Post Status
@@ -448,9 +479,9 @@ By default the dropdown has a searching feature, allowing quick selection of a v
         showSearch: false
 
 <a name="field-radio"></a>
-### Radio List
+### Liste Radio
 
-`radio` - renders a list of radio options, where only one item can be selected at a time.
+`radio` - rend une liste d'options radio, où un seul élément peut être sélectionné à la fois.
 
     security_level:
         label: Access Level
@@ -461,7 +492,7 @@ By default the dropdown has a searching feature, allowing quick selection of a v
             registered: Registered only
             guests: Guests only
 
-Radio lists can also support a secondary description.
+Les listes de radio peuvent également soutenir une description secondaire.
 
     security_level:
         label: Access Level
@@ -471,7 +502,9 @@ Radio lists can also support a secondary description.
             registered: [Registered only, Only logged in member will be able to access this page.]
             guests: [Guests only, Only guest users will be able to access this page.]
 
-Radio lists support three ways of defining the options, exactly like the [dropdown field type](#field-dropdown). For radio lists the method could return either the simple array: **key => value** or an array of arrays for providing the descriptions: **key => [label, description]**. Options can be displayed inline with each other instead of in separate rows by specifying `cssClass: 'inline-options'` on the radio field config.
+Les listes de radio proposent trois façons de définir les options, exactement comme le [type de champ déroulant](#field-dropdown).
+Pour les listes radio, la méthode peut retourner soit le tableau simple : **key => value** ou un tableau de tableaux pour fournir les descriptions : **key => [label, description]**. 
+Les options peuvent être affichées en ligne les unes avec les autres au lieu de lignes séparées en spécifiant `cssClass: 'inline-options'` dans la configuration du champ radio.
 
 <a name="field-balloon"></a>
 ### Balloon Selector
