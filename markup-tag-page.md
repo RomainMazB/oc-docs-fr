@@ -1,6 +1,6 @@
 # {% page %}
 
-La balise `{% page %}` rend le contenu d'une [page](../cms/pages) dans un modèle de maquette.
+La balise `{% page %}` affiche le contenu d'une [page](../cms/pages) dans un modèle de maquette.
 
 Voir [layouts](../cms/layouts#introduction) pour un exemple de base.
 
@@ -16,6 +16,7 @@ Un modèle de page peut à la fois injecter du contenu dans les placeholders et 
          <body>
              {% page %}
              ...
+
 Avec pour contenu de la page :
 
      description = "Exemple d'une page"
